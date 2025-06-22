@@ -1,0 +1,7 @@
+{
+  "type": "object",
+  "properties": {
+    "status": { "type": "string" },
+    "print": { "type": "string" }
+  }
+}
