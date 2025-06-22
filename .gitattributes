@@ -1,0 +1,38 @@
+# --- Textdateien: Einheitliches LF-Zeilenende ---
+*.py     text eol=lf
+*.js     text eol=lf
+*.ts     text eol=lf
+*.json   text eol=lf
+*.yaml   text eol=lf
+*.yml    text eol=lf
+*.md     text eol=lf
+*.txt    text eol=lf
+*.csv    text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.ini    text eol=lf
+
+# --- SVG-Dateien ---
+*.svg    text eol=lf
+
+# Alternativ, wenn du maschinell generierte SVGs hast:
+# *.svg binary
+
+# --- Binärdateien: nie konvertieren, nie diffen ---
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.pdf    binary
+*.mp4    binary
+*.mov    binary
+*.zip    binary
+*.exe    binary
+
+# --- Visuelle Tools (optional für dich) ---
+*.vsdx   binary
+*.vssx   binary
+*.vdx    binary
+*.vss    binary
+*.vst    binary
