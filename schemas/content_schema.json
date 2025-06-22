@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "lang": { "type": "string" },
+    "audience": { "type": "string", "enum": ["POP", "SCI", "INT"] },
+    "version": { "type": "string" },
+    "main": { "type" : "string"},
+    "status": { "type" : "string"}
+  }
+}

@@ -1,0 +1,280 @@
+core/__init__.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/__pycache__/__init__.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/__pycache__/content_filter_parser.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/__pycache__/project_paths.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/__pycache__/schema_registry.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/__pycache__/undo_manager.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/content_filter_parser.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/project_paths.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/schema_registry.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+core/undo_manager.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+main.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/__pycache__/content_model.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/__pycache__/metadata_model.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/__pycache__/node_model.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/__pycache__/tree_data.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/content_model.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/metadata_model.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/node_model.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+models/tree_data.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/beispielbaum.json:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/add_child.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/add_sibling.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/delete.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/new.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/open.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/redo.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/rename.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/save.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/icons/undo.svg:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+resources/memetik.json:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+schemas/chapter_meta.json:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+schemas/content_schema.json:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+specs/Content-Bereichs-Umgestaltung.md:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+specs/Specification_20250619_1.md:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+specs/todo_spezifikation_contentPanel.md:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+static/build_markdown_report.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+static/generate_file_meta.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+static/projektübersicht.md:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+static/static.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+static/static_data.txt:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/__pycache__/content_panel_view.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/__pycache__/main_window.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/__pycache__/node_editor_panel.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/__pycache__/tree_view.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/content_panel_view.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/main_window.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/node_editor_panel.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+ui/tree_view.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/__pycache__/content_editor_widget.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/__pycache__/content_panel_stack.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/__pycache__/metadata_widget.cpython-311.pyc:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/content_editor_widget.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/content_list_widget.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/content_panel_stack.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/content_panel_view.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''
+widgets/metadata_widget.py:
+  comment: ''
+  include: 1
+  purpose: ''
+  status: ''

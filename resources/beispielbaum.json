@@ -1,0 +1,78 @@
+{
+  "id": "root",
+  "title": "Beispielstruktur",
+  "contents": [],
+  "children": [
+    {
+      "id": "kap1",
+      "title": "Kapitel 1",
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Einleitung",
+          "data": {
+            "text": "Dies ist die Einleitung zu Kapitel 1."
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "lang": "DE",
+            "audience": "POP",
+            "version": "1.0",
+            "modified": "2025-06-19T10:37:13",
+            "main": "",
+            "status": ""
+          }
+        },
+        {
+          "content_type": "text",
+          "title": "Fazit",
+          "data": {
+            "text": "Das war das Wichtigste aus Kapitel 1."
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "lang": "DE",
+            "audience": "SCI",
+            "version": "1.0",
+            "modified": "2025-06-19T10:37:13",
+            "main": "",
+            "status": ""
+          }
+        }
+      ],
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      }
+    },
+    {
+      "title": "2",
+      "id": "30d4be25-4c65-4217-bc8b-aa45ead48f57",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": ""
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "modified": "2025-06-19T10:37:14",
+            "main": "",
+            "lang": "",
+            "audience": "",
+            "version": "",
+            "status": ""
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {}
+}
