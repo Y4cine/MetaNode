@@ -1,0 +1,48 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg-info/
+*.log
+
+# Bytecode caches (PEP 3147)
+__pycache__/
+*.pyc
+
+# === Virtual environments ===
+.venv/
+venv/
+env/
+ENV/
+.build/
+
+# === OS junk ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Qt Designer artifacts ===
+*.ui
+*.qrc
+
+# === IDEs ===
+.vscode/
+.idea/
+*.swp
+
+# === Output / builds / backup ===
+dist/
+build/
+*.bak
+*.tmp
+
+# === Test artifacts ===
+.coverage
+.tox/
+.nox/
+
+# === Custom folders ===
+Archive/
