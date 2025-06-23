@@ -72,7 +72,11 @@ MetaNode is organized into clear subfolders:
 - `resources/` – Icons, examples, and saved trees  
 - `specs/` – Project specs, todos, and internal documentation
 
+<<<<<<< HEAD
 📄 For a detailed architectural breakdown, see [`static/2_Project_Structure.md`](static/2_Project_Structure.md)
+=======
+📄 For a detailed architectural breakdown, see [`specs/2_Project_Structure.md`](specs/2_Project_Structure.md)
+>>>>>>> 9ba9aa741af34dc34bed1dadef7750397297a7ee
 
 
 ## 📜 License
