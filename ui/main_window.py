@@ -59,7 +59,7 @@ class MainWindow(QMainWindow):
         self._init_toolbar()
 
         # Initiales Beispiel laden
-        self.model.load_from_file("beispielbaum.json")
+        self.model.load_from_file("memetik.json")
         self.tree_area.load_model(self.model)
 
         # Shortcuts

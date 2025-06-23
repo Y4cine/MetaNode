@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QSplitter, QHBoxLayout
 from PyQt5.QtCore import Qt
 from typing import List
 
-from ui.content_panel_view import ContentPanelView
+from widgets.single_content_panel import SingleContentPanel
 from models.content_model import Content
 
 
@@ -19,14 +19,16 @@ class ContentPanelStack(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.splitter)
 
-        self.panel_views: List[ContentPanelView] = []
+        self.panel_views: List[SingleContentPanel] = []
         self._last_contents: list[Content] = []
         self.add_panel()  # initial ein Panel
 
     def add_panel(self, filter_text: str = ""):
-        panel = ContentPanelView(self.meta_schema, self.content_schema, filter_text)
+        panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text)
         panel.request_add_panel.connect(self.add_panel)
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
+
+
         self.panel_views.append(panel)
         self.splitter.addWidget(panel)
         # Falls bereits ein Node geladen wurde, Daten sofort setzen:
@@ -35,7 +37,7 @@ class ContentPanelStack(QWidget):
         if self._last_contents:
             panel.set_contents(self._last_contents)
 
-    def remove_panel(self, panel: ContentPanelView):
+    def remove_panel(self, panel: SingleContentPanel):
         if panel in self.panel_views and len(self.panel_views) > 1:
             self.panel_views.remove(panel)
             self.splitter.widget(self.splitter.indexOf(panel)).deleteLater()

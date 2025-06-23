@@ -62,8 +62,8 @@
       "id": "f2806adf-0e1d-497a-8ad1-1b7dcfeaa81a",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": "1"
+        "print": "1",
+        "status": ""
       },
       "contents": [
         {
@@ -84,9 +84,9 @@
         },
         {
           "content_type": "text",
-          "title": "Neuer Inhalt",
+          "title": "fff",
           "data": {
-            "text": ""
+            "text": "ffff"
           },
           "renderer": "text_blocks",
           "metadata": {
