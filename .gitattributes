@@ -12,6 +12,7 @@
 *.css    text eol=lf
 *.ini    text eol=lf
 
+
 # --- SVG-Dateien ---
 *.svg    text eol=lf
 

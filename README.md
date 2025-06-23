@@ -60,18 +60,20 @@ pip install PyQt5
 python main.py
 ```
 
-## 📁 File Overview
+## 📁 Project Structure
 
-| File                    | Purpose                          |
-|-------------------------|----------------------------------|
-| `main.py`               | Entry point                      |
-| `ui_main_window.py`     | Window layout, loading/saving    |
-| `tree_data.py`          | Tree model with undo support     |
-| `node_model.py`         | Node structure (metadata + content) |
-| `content_model.py`      | Content structure + metadata     |
-| `content_editor_widget.py` | Editor for a single content     |
-| `content_panel_stack.py`   | Manages horizontal panels       |
-| `content_filter_parser.py` | Simple `AND/OR/NOT` logic       |
+MetaNode is organized into clear subfolders:
+
+- `models/` – Data classes for nodes, contents, metadata, and tree logic  
+- `ui/` – Main window and layout modules for tree, editor, and panels  
+- `widgets/` – Modular editor widgets for content and metadata  
+- `core/` – Filtering, schema registry, undo, and path utilities  
+- `schemas/` – JSON Schemas for metadata structure  
+- `resources/` – Icons, examples, and saved trees  
+- `specs/` – Project specs, todos, and internal documentation
+
+📄 For a detailed architectural breakdown, see [`static/2_Project_Structure.md`](static/2_Project_Structure.md)
+
 
 ## 📜 License
 
