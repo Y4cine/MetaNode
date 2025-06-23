@@ -29,36 +29,131 @@ UI:
 - Der Editor des contents wird mittels renderers definiert.
 - Das Layout der Splitter und die Panels werden mit ihren Filtern in den Metadaten des Dokuments gespeichert. Dies könnte vielleicht ein unsichtbarer Knoten um Baum sein (Am Anfang oder am Ende)
 
-... more to follow.
+---
+
+## 📐 Spezifikation: Rechter Panel (Stand: 2025-06-23)
+
+### Ziel
+
+Der rechte Panel stellt die Details des aktuell gewählten Knotens dar und ist auf komfortable parallele Bearbeitung von Inhalten ausgerichtet. Er soll Editorfokus bieten, aber auch Metadatenstruktur sichtbar und bearbeitbar machen.
+
+---
+
+### 1. **Grundstruktur**
+
+Der rechte Panel (`RightPanel`) ist durch einen **vertikalen Splitter** in zwei Hauptbereiche geteilt:
+
+#### 1.1. **NodeMetadataPanel**
+
+* Zeigt die **Metadaten des Knotens** als TreeView
+* Struktur:
+
+  * Root: Knotentitel oder "Node"
+  * Child-Nodes: Felder wie `title`, `status`, `preferred_renderer`, ...
+  * Spalten:
+
+    * `ActualValue` (editierbar)
+    * `DefaultValue` (editierbar)
+  * Quelle der Default-Werte:
+
+    * Primär aus dem Schema
+    * Überschreibbar im Knotenfeld `default_metadata`
+* Optional: Freie Felder werden ebenfalls angezeigt (aber z. B. grau markiert)
+
+#### 1.2. **ContentsPanel**
+
+* Enthält einen **horizontalen Splitter**, der mehrere `SingleContentPanels` nebeneinander ermöglicht
+* Jeder `SingleContentPanel` ist vertikal gegliedert:
+
+---
+
+### 2. **SingleContentPanel**
+
+Aufbau (vertikaler Splitter, von oben nach unten):
+
+#### 2.1. **Filterbereich**
+
+* `QLineEdit` mit Textfilter (z. B. `lang = "DE" AND audience = "POP"`)
+* Filter wirkt auf alle Contents
+* Parser ist boolesch mit AND/OR/NOT
+
+#### 2.2. **ContentMetadataPanel**
+
+* TreeView mit allen gefilterten Contents
+* Struktur:
+
+  * Root: „Content1“, „Content2“, ...
+  * Child-Nodes: Metadaten-Felder
+  * Spalten:
+
+    * `ActualValue` (editierbar)
+    * `DefaultValue` (aus Schema oder DefaultMetadata)
+  * Optional: Visualisierung der Herkunft (Schema, Default, explizit gesetzt)
+
+#### 2.3. **Editorbereich**
+
+* Weitere vertikale Aufteilung:
+
+  * Renderer-Auswahl (Dropdown)
+  * Titel-Eingabefeld
+  * Editor-Widget (abhängig vom Renderer)
+* Inhalt und Metadaten werden beim Wechsel gespeichert
+
+---
+
+### 3. **Vererbung und Default-Werte**
+
+* Schema-Default ist **immer vorhanden**, wenn im Schema definiert
+* Knoten können mit `default_metadata` bestimmte Felder überschreiben
+* Contents erben diese Defaults, **wenn sie das Feld leer lassen**
+* Beim Anzeigen im TreeView wird unterschieden:
+
+  * explizit gesetzter Wert
+  * vererbter Wert aus `default_metadata`
+  * Fallback auf Schema-Default
+
+---
+
+### 4. **Speicherlogik (für Layout)**
+
+* Die Position und Größe der Splitter sowie die Anzahl und Filter der ContentPanels sollen gespeichert werden.
+* Dafür wird ein **unsichtbarer Systemknoten** im Dokument verwendet, z. B. `id = _layout`.
+* Dieser enthält Konfiguration wie:
+
+```json
+{
+  "splitter_sizes": [200, 600],
+  "panels": [
+    {"filter": "lang = 'DE'", "selected": 0},
+    {"filter": "audience = 'POP'", "selected": 1}
+  ]
+}
+```
+
+---
+
+### 5. **GUI-Verhalten**
+
+* Bei Auswahl eines neuen Knotens:
+
+  * NodeMetadataPanel lädt Knotendaten
+  * ContentsPanel lädt Contents
+  * Erste Content-Zeile wird automatisch selektiert
+* Filter aktualisieren TreeView und Auswahl
+* Editor wird bei Wechsel aktualisiert
+* Buttons zum Hinzufügen/Schließen von Panels sind vorhanden
+
+---
+
+
 
 ## Todos
-[ ] Metadata-Panel überarbeiten  
-[ ] Rechten Panel überarbeiten  
+[x] Metadata-Panel überarbeiten  
+[x] Rechten Panel überarbeiten  
 [ ] Renderer implementieren  
 [ ] Icons überarbeiten - selbst zeichnen  
 
 ---
-
-### Metadata-Panel überarbeiten  23.06.2025
-Vorschlag:
-- Die Metadaten kommen in ein TreeView (Beim Node gibt es nur Root, dann die Metadaten als Nodes)
-- Bei den Contents, sind die Contents die Nodes auf der Ebene unter Root, die Metadata sind dann Nodes des jeweiligen Content.
-- Der Treeview hat mehrere Spalten: actual_value, default_value
-- Die Metadata nach Schema sollen als erste im Tree stehen, die zusätzlichen darunter
-
-### Rechten Panel überarbeiten 23.06.2025
-Ziel ist es komfortabel schreiben zu können. Metadaten sind wichtig, aber erst nachträglich.  
-Der gerenderte Bereich sollte möglichst groß.  
-Und apropos Renderer: Knoten sollten ein "prefered_renderer" als Metadata haben. Diese Eigenschaft sollte sich an die Kind-Knoten vererben, aber muss editierbar bleiben - bei den Knoten und bei den Contents.  
-
-Das bringt uns zu den Splittern.
-Der erste ist vertikal und trennt Knoten-Metadata vom Contents-Panel.
-Im Single-Content-Panel sollte oben der Filter-Input sein, darunter das Metadata-Widget. Im Metadata-Widget werden nur die Ergebnisse des Filters gezeigt, dann die Metadata wie bereits oben für den Knoten beschrieben.
-Unter dem Metadata-Bereich kommt:
-- ein vertikaler Splitter
-- Renderer-Pulldown (redundant im Metadata-Bereich)
-- Titel (redundant im Metadata-Bereich)
-- Gerenderter Editor
 
 ---
 
@@ -950,7 +1045,7 @@ class MainWindow(QMainWindow):
         self._init_toolbar()
 
         # Initiales Beispiel laden
-        self.model.load_from_file("beispielbaum.json")
+        self.model.load_from_file("memetik.json")
         self.tree_area.load_model(self.model)
 
         # Shortcuts
@@ -1130,7 +1225,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QSplitter
 from PyQt5.QtCore import Qt
 from typing import Optional
 
-from widgets.metadata_widget import MetadataEditor
+from widgets.node_metadata_panel import NodeMetadataPanel
 from widgets.content_panel_stack import ContentPanelStack
 from models.node_model import Node
 from models.content_model import Content
@@ -1142,12 +1237,13 @@ class NodeEditorPanel(QWidget):
         self.meta_schema = meta_schema
         self.content_schema = content_schema
 
-        self.meta_editor = MetadataEditor()
+        self.meta_panel = NodeMetadataPanel()
         self.content_stack = ContentPanelStack(meta_schema, content_schema)
 
         self.splitter = QSplitter(Qt.Vertical)
-        self.splitter.addWidget(self._build_metadata_widget())
+        self.splitter.addWidget(self.meta_panel)
         self.splitter.addWidget(self.content_stack)
+
         self.splitter.setSizes([200, 600])
 
         layout = QVBoxLayout(self)
@@ -1156,17 +1252,10 @@ class NodeEditorPanel(QWidget):
 
         self._node: Optional[Node] = None
 
-    def _build_metadata_widget(self):
-        wrapper = QWidget()
-        layout = QVBoxLayout(wrapper)
-        layout.addWidget(QLabel("Knoten-Metadaten"))
-        layout.addWidget(self.meta_editor)
-        return wrapper
-
     def load_node(self, node: Optional[Node]):
         self._node = node
         if node:
-            self.meta_editor.load_metadata(node.metadata)
+            self.meta_panel.set_metadata(node.metadata)
 
             if not node.contents:
                 dummy = Content({
@@ -1181,7 +1270,8 @@ class NodeEditorPanel(QWidget):
             self.content_stack.set_contents_for_all(node.contents)
 
     def update_and_return_node(self) -> Node:
-        self._node.metadata = self.meta_editor.get_metadata()
+        # Metadaten aus TreeView holen
+        self._node.metadata = self.meta_panel.get_metadata()
 
         contents = []
         for c in self.content_stack.panel_views[0]._all_contents:
@@ -1722,7 +1812,7 @@ from PyQt5.QtWidgets import QWidget, QSplitter, QHBoxLayout
 from PyQt5.QtCore import Qt
 from typing import List
 
-from ui.content_panel_view import ContentPanelView
+from widgets.single_content_panel import SingleContentPanel
 from models.content_model import Content
 
 
@@ -1739,14 +1829,16 @@ class ContentPanelStack(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.splitter)
 
-        self.panel_views: List[ContentPanelView] = []
+        self.panel_views: List[SingleContentPanel] = []
         self._last_contents: list[Content] = []
         self.add_panel()  # initial ein Panel
 
     def add_panel(self, filter_text: str = ""):
-        panel = ContentPanelView(self.meta_schema, self.content_schema, filter_text)
+        panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text)
         panel.request_add_panel.connect(self.add_panel)
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
+
+
         self.panel_views.append(panel)
         self.splitter.addWidget(panel)
         # Falls bereits ein Node geladen wurde, Daten sofort setzen:
@@ -1755,7 +1847,7 @@ class ContentPanelStack(QWidget):
         if self._last_contents:
             panel.set_contents(self._last_contents)
 
-    def remove_panel(self, panel: ContentPanelView):
+    def remove_panel(self, panel: SingleContentPanel):
         if panel in self.panel_views and len(self.panel_views) > 1:
             self.panel_views.remove(panel)
             self.splitter.widget(self.splitter.indexOf(panel)).deleteLater()

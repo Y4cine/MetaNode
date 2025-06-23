@@ -816,7 +816,7 @@ class MainWindow(QMainWindow):
         self._init_toolbar()
 
         # Initiales Beispiel laden
-        self.model.load_from_file("beispielbaum.json")
+        self.model.load_from_file("memetik.json")
         self.tree_area.load_model(self.model)
 
         # Shortcuts
@@ -996,7 +996,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QSplitter
 from PyQt5.QtCore import Qt
 from typing import Optional
 
-from widgets.metadata_widget import MetadataEditor
+from widgets.node_metadata_panel import NodeMetadataPanel
 from widgets.content_panel_stack import ContentPanelStack
 from models.node_model import Node
 from models.content_model import Content
@@ -1008,12 +1008,13 @@ class NodeEditorPanel(QWidget):
         self.meta_schema = meta_schema
         self.content_schema = content_schema
 
-        self.meta_editor = MetadataEditor()
+        self.meta_panel = NodeMetadataPanel()
         self.content_stack = ContentPanelStack(meta_schema, content_schema)
 
         self.splitter = QSplitter(Qt.Vertical)
-        self.splitter.addWidget(self._build_metadata_widget())
+        self.splitter.addWidget(self.meta_panel)
         self.splitter.addWidget(self.content_stack)
+
         self.splitter.setSizes([200, 600])
 
         layout = QVBoxLayout(self)
@@ -1022,17 +1023,10 @@ class NodeEditorPanel(QWidget):
 
         self._node: Optional[Node] = None
 
-    def _build_metadata_widget(self):
-        wrapper = QWidget()
-        layout = QVBoxLayout(wrapper)
-        layout.addWidget(QLabel("Knoten-Metadaten"))
-        layout.addWidget(self.meta_editor)
-        return wrapper
-
     def load_node(self, node: Optional[Node]):
         self._node = node
         if node:
-            self.meta_editor.load_metadata(node.metadata)
+            self.meta_panel.set_metadata(node.metadata)
 
             if not node.contents:
                 dummy = Content({
@@ -1047,7 +1041,8 @@ class NodeEditorPanel(QWidget):
             self.content_stack.set_contents_for_all(node.contents)
 
     def update_and_return_node(self) -> Node:
-        self._node.metadata = self.meta_editor.get_metadata()
+        # Metadaten aus TreeView holen
+        self._node.metadata = self.meta_panel.get_metadata()
 
         contents = []
         for c in self.content_stack.panel_views[0]._all_contents:
@@ -1588,7 +1583,7 @@ from PyQt5.QtWidgets import QWidget, QSplitter, QHBoxLayout
 from PyQt5.QtCore import Qt
 from typing import List
 
-from ui.content_panel_view import ContentPanelView
+from widgets.single_content_panel import SingleContentPanel
 from models.content_model import Content
 
 
@@ -1605,14 +1600,16 @@ class ContentPanelStack(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.splitter)
 
-        self.panel_views: List[ContentPanelView] = []
+        self.panel_views: List[SingleContentPanel] = []
         self._last_contents: list[Content] = []
         self.add_panel()  # initial ein Panel
 
     def add_panel(self, filter_text: str = ""):
-        panel = ContentPanelView(self.meta_schema, self.content_schema, filter_text)
+        panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text)
         panel.request_add_panel.connect(self.add_panel)
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
+
+
         self.panel_views.append(panel)
         self.splitter.addWidget(panel)
         # Falls bereits ein Node geladen wurde, Daten sofort setzen:
@@ -1621,7 +1618,7 @@ class ContentPanelStack(QWidget):
         if self._last_contents:
             panel.set_contents(self._last_contents)
 
-    def remove_panel(self, panel: ContentPanelView):
+    def remove_panel(self, panel: SingleContentPanel):
         if panel in self.panel_views and len(self.panel_views) > 1:
             self.panel_views.remove(panel)
             self.splitter.widget(self.splitter.indexOf(panel)).deleteLater()

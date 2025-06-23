@@ -16,6 +16,8 @@ MetaNode brings structure into this mess:
 
 Whether you're documenting software, writing educational materials, or mapping a fictional world — MetaNode helps you **manage versions without redundancy**.
 
+![UI](resources/UI_20250623.PNG)
+
 ## 🔧 Key Features
 
 - **Tree-based Node Editor**
@@ -74,3 +76,9 @@ python main.py
 ## 📜 License
 
 MetaNode is released under the [MIT License](LICENSE).
+
+## 🧾 Disclaimer and Origin
+
+MetaNode was born out of necessity. As a process engineer, I write specifications for various stakeholders — clients, mechanical, electrical, and software teams. I also work on a book about memetics that requires multilingual, multi-level content. Managing all these versions in Access became too painful.
+
+So I switched to Python and PyQt. ChatGPT (4o) — codename "Kai" — was my sparring partner throughout. Many architectural decisions emerged from these dialogues. Thanks to OpenAI for creating such a brilliant tool. What a time to build.

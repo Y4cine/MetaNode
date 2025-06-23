@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.last_node_id = None
 
-        self.setWindowTitle("Tree Editor")
+        self.setWindowTitle("MetaNode")
         self.resize(1200, 800)
 
         self.model = TreeDataModel()
