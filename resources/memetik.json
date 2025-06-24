@@ -129,8 +129,8 @@
           "id": "2b5a4bc7-e302-489a-8802-3391a6cf2304",
           "children": [],
           "metadata": {
-            "status": "",
-            "print": ""
+            "print": "",
+            "status": ""
           },
           "contents": [
             {
@@ -173,8 +173,8 @@
       "id": "cc5bbaf3-b29d-41e0-b209-1790c5c30260",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -199,6 +199,26 @@
       "title": "Fallstudien",
       "id": "dd4b313d-c4ce-4cba-a95f-b3bbbf9116bf",
       "children": [
+        {
+          "title": "Recherche",
+          "id": "3da7d536-e05f-4768-a0eb-e1abd66b2035",
+          "children": [],
+          "metadata": {
+            "status": "",
+            "print": "0"
+          },
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Deepseek",
+              "data": {
+                "text": "Deepseek"
+              },
+              "renderer": "text_blocks",
+              "metadata": {}
+            }
+          ]
+        },
         {
           "title": "Dialoge",
           "id": "397ec834-4283-42e0-913a-a63160b43e91",
@@ -235,8 +255,8 @@
               "id": "9afb5663-8024-46f9-a754-8c7f86871223",
               "children": [],
               "metadata": {
-                "status": "",
-                "print": ""
+                "print": "",
+                "status": ""
               },
               "contents": [
                 {
@@ -254,6 +274,46 @@
                     "status": "",
                     "modified": "2025-06-19T08:56:59"
                   }
+                }
+              ]
+            },
+            {
+              "title": "Islam",
+              "id": "8d3e95cd-116d-4afc-924e-1636bbc41a5d",
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": ""
+              },
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Neuer Inhalt",
+                  "data": {
+                    "text": ""
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {}
+                }
+              ]
+            },
+            {
+              "title": "Shinto",
+              "id": "a50769fe-b33c-4ff8-9da1-5b29e429e7a2",
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": ""
+              },
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Neuer Inhalt",
+                  "data": {
+                    "text": ""
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {}
                 }
               ]
             },
@@ -344,8 +404,8 @@
                 }
               ],
               "metadata": {
-                "status": "",
-                "print": "1"
+                "print": "1",
+                "status": ""
               },
               "contents": [
                 {
@@ -389,11 +449,31 @@
               }
             }
           ]
+        },
+        {
+          "title": "Verschwörungstherorien",
+          "id": "76e16782-45c4-4e8d-a386-c72dd5ed6cbe",
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": ""
+          },
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Neuer Inhalt",
+              "data": {
+                "text": ""
+              },
+              "renderer": "text_blocks",
+              "metadata": {}
+            }
+          ]
         }
       ],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {

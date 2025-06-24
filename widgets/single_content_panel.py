@@ -9,6 +9,7 @@ from typing import List
 from models.content_model import Content
 from widgets.content_metadata_panel import ContentMetadataPanel
 from core.content_filter_parser import ContentFilterParser
+from widgets.content_editor_factory import create_content_editor
 
 
 class SingleContentPanel(QWidget):
@@ -21,7 +22,7 @@ class SingleContentPanel(QWidget):
         self.content_schema = content_schema
         self._all_contents: List[Content] = []
         self._current_content = None  # aktuell bearbeiteter Content
-
+        self.content_editor = None  # Dynamischer Editor
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -59,26 +60,23 @@ class SingleContentPanel(QWidget):
 
         # Editorbereich
         self.editor_area = QWidget()
-        editor_layout = QVBoxLayout(self.editor_area)
-        editor_layout.setContentsMargins(0, 0, 0, 0)
-
-        # Formularzeile: Renderer + Titel
-        form_row = QFormLayout()
-        self.renderer_combo = QComboBox()
-        self.renderer_combo.addItems(
-            ["text_blocks", "markdown", "html"])  # später dynamisch
-        self.title_input = QLineEdit()
-        form_row.addRow("Renderer:", self.renderer_combo)
-        form_row.addRow("Titel:", self.title_input)
-        editor_layout.addLayout(form_row)
-
-        # Editorfeld
-        self.text_edit = QTextEdit()
-        editor_layout.addWidget(self.text_edit)
-
+        self.editor_layout = QVBoxLayout(self.editor_area)
+        self.editor_layout.setContentsMargins(0, 0, 0, 0)
         self.splitter.addWidget(self.editor_area)
 
         self.splitter.setSizes([150, 400])
+
+    def _set_content_editor(self, content_dict):
+        # Entferne alten Editor
+        if self.content_editor:
+            self.editor_layout.removeWidget(self.content_editor)
+            self.content_editor.deleteLater()
+            self.content_editor = None
+        renderer = content_dict.get("renderer", "text_blocks")
+        self.content_editor = create_content_editor(renderer, parent=self.editor_area)
+        self.editor_layout.addWidget(self.content_editor)
+        self.content_editor.set_content(content_dict)
+        self.content_editor.content_edited.connect(self._write_back_current)
 
     def set_contents(self, contents: List[Content]):
         """Übergibt die vollständige Content-Liste an dieses Panel"""
@@ -93,24 +91,13 @@ class SingleContentPanel(QWidget):
         if matching:
             first = matching[0]
             self._current_content = first
-            self.title_input.setText(first.title)
-            self.renderer_combo.setCurrentText(first.renderer or "")
-            self.text_edit.setPlainText(first.data.get("text", ""))
+            self._set_content_editor(first.__dict__)
         else:
             self._current_content = None
-            self.title_input.clear()
-            self.renderer_combo.setCurrentIndex(0)
-            self.text_edit.clear()
-
-        # Wähle erstes passendes Element aus
-        if contents:
-            first = contents[0]
-            self._current_content = first  # Setze aktuellen Inhalt
-            self.title_input.setText(first.title)
-            self.renderer_combo.setCurrentText(first.renderer or "text_blocks")
-            self.text_edit.setPlainText(first.data.get("text", ""))
+            self._set_content_editor({"title": "", "renderer": "text_blocks", "data": {}})
 
     def on_tree_item_clicked(self, item: QTreeWidgetItem, column: int):
+        self._write_back_current()  # Änderungen vor Auswahlwechsel speichern
         # Nur Top-Level-Nodes (Content-Nodes) abfangen
         parent = item.parent()
         if not parent:  # Nur reagieren, wenn Kind-Node (Feld) angeklickt wurde
@@ -121,24 +108,20 @@ class SingleContentPanel(QWidget):
         if index < 0 or index >= len(self._all_contents):
             return
 
-        # Vorherigen Inhalt speichern
-        self._write_back_current()
-
         # Neuen Inhalt laden
         selected = self._all_contents[index]
         self._current_content = selected
 
-        self.title_input.setText(selected.title)
-        self.renderer_combo.setCurrentText(selected.renderer or "")
-        self.text_edit.setPlainText(selected.data.get("text", ""))
+        self._set_content_editor(selected.__dict__)
 
     def _write_back_current(self):
-        if not self._current_content:
+        if not self._current_content or not self.content_editor:
             return
-
-        self._current_content.title = self.title_input.text()
-        self._current_content.renderer = self.renderer_combo.currentText()
-        self._current_content.data["text"] = self.text_edit.toPlainText()
+        content_dict = self.content_editor.get_content()
+        self._current_content.title = content_dict.get("title", "")
+        self._current_content.renderer = content_dict.get("renderer", self._current_content.renderer)
+        if hasattr(self._current_content, "data") and "data" in content_dict:
+            self._current_content.data.update(content_dict["data"])
 
         # ⇨ Aktualisiere TreeView (falls noch sichtbar)
         index = self._all_contents.index(self._current_content)
@@ -158,4 +141,5 @@ class SingleContentPanel(QWidget):
                         1, text[:40] + "..." if len(text) > 40 else text)
 
     def apply_filter(self):
+        self._write_back_current()  # Änderungen vor Filterwechsel speichern
         self.set_contents(self._all_contents)
