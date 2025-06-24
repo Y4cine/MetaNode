@@ -122,9 +122,12 @@ class SingleContentPanel(QWidget):
         self._current_content.renderer = content_dict.get("renderer", self._current_content.renderer)
         if hasattr(self._current_content, "data") and "data" in content_dict:
             self._current_content.data.update(content_dict["data"])
-
-        # ⇨ Aktualisiere TreeView (falls noch sichtbar)
+        # Metadaten übernehmen
         index = self._all_contents.index(self._current_content)
+        metadata = self.metadata_panel.get_metadata_for_index(index)
+        if hasattr(self._current_content, "metadata") and hasattr(self._current_content.metadata, "data"):
+            self._current_content.metadata.data.update(metadata)
+        # ⇨ Aktualisiere TreeView (falls noch sichtbar)
         root_item = self.metadata_panel.tree.topLevelItem(index)
         if root_item:
             for i in range(root_item.childCount()):
@@ -135,10 +138,8 @@ class SingleContentPanel(QWidget):
                 elif key == "renderer":
                     child.setText(1, self._current_content.renderer)
                 elif key == "text":
-                    # Optional: wenn du Inhalt anzeigen willst
                     text = self._current_content.data.get("text", "")
-                    child.setText(
-                        1, text[:40] + "..." if len(text) > 40 else text)
+                    child.setText(1, text[:40] + "..." if len(text) > 40 else text)
 
     def apply_filter(self):
         self._write_back_current()  # Änderungen vor Filterwechsel speichern

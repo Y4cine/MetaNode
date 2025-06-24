@@ -44,3 +44,16 @@ class ContentMetadataPanel(QWidget):
                 top.addChild(child)
 
             self.tree.expandItem(top)
+
+    def get_metadata_for_index(self, index: int) -> dict:
+        """Liefert die aktuellen Metadaten für den Content an Position index als Dict zurück."""
+        top = self.tree.topLevelItem(index)
+        if not top:
+            return {}
+        metadata = {}
+        for i in range(top.childCount()):
+            child = top.child(i)
+            key = child.text(0)
+            value = child.text(1)
+            metadata[key] = value
+        return metadata
