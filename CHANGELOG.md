@@ -4,6 +4,11 @@
 - Fixed write back bug, contents where lost after editing.
 - Renderer encapsulates dynamic editor panels, they raise their own edited events, pass them to the editor panel, which in turn ensures that the data are written back.
 - Implemented writing content metadata back
+- Implemented managing contents (cut, copy, paste, new, delete, rename) with buttons
+- Implemented managing metadata fields (cut, copy, paste, new, delete, rename) with context menü.
+
+
+
 
 ### Added
 - Right panel refactored into split layout with separate NodeMetadataPanel and multi-panel content area

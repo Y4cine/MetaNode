@@ -71,3 +71,12 @@ class NodeEditorPanel(QWidget):
             def can_undo(self): return False
             def can_redo(self): return False
         return Dummy()
+
+    def get_all_content_panels(self):
+        """Gibt alle aktiven SingleContentPanel-Instanzen im ContentPanelStack zurück."""
+        if hasattr(self.content_stack, 'get_all_content_panels'):
+            return self.content_stack.get_all_content_panels()
+        # Fallback: Versuche, auf panel_views zuzugreifen
+        if hasattr(self.content_stack, 'panel_views'):
+            return self.content_stack.panel_views
+        return []

@@ -4,6 +4,7 @@ from typing import List
 
 from widgets.single_content_panel import SingleContentPanel
 from models.content_model import Content
+from utils.ratios import calculate_ratios
 
 
 class ContentPanelStack(QWidget):
@@ -46,3 +47,56 @@ class ContentPanelStack(QWidget):
         self._last_contents = contents
         for panel in self.panel_views:
             panel.set_contents(contents)
+
+    def clear_panels(self):
+        """Entfernt alle Panels aus dem Stack."""
+        while self.panel_views:
+            panel = self.panel_views.pop()
+            self.splitter.widget(self.splitter.indexOf(panel)).deleteLater()
+
+    def ensure_panel_count(self, count: int):
+        """Stellt sicher, dass genau 'count' Panels existieren (fügt hinzu oder entfernt)."""
+        current = len(self.panel_views)
+        if current < count:
+            for _ in range(count - current):
+                self.add_panel()
+        elif current > count:
+            for _ in range(current - count):
+                self.remove_panel(self.panel_views[-1])
+
+    def get_all_content_panels(self):
+        """Gibt alle SingleContentPanel-Instanzen zurück."""
+        return self.panel_views
+
+    def remove_panels_after(self, idx: int):
+        """Entfernt alle Panels nach dem Index idx (inklusive idx+1 bis Ende)."""
+        while len(self.panel_views) > idx + 1:
+            self.remove_panel(self.panel_views[-1])
+
+    def _collect_splitter_ratios(self):
+        """Gibt die Ratios (Verhältnisse) der Panel-Breiten im Splitter zurück, sodass sum(ratios) == 1."""
+        count = self.splitter.count()
+        print(f"DEBUG: splitter.count={count}, len(panel_views)={len(self.panel_views)}")
+        sizes = []
+        for i in range(count):
+            w = self.splitter.widget(i)
+            width = w.width() if w else -1
+            print(f"  Panel {i}: widget={w}, width={width}")
+            sizes.append(width)
+        total = sum(sizes)
+        print(f"  sizes={sizes}, total={total}")
+        ratios = calculate_ratios(sizes)
+        print(f"  ratios={ratios}, sum={sum(ratios)}")
+        return ratios
+
+    def _restore_splitter_ratios(self, ratios):
+        """Setzt die Panel-Breiten anhand der Ratios (Verhältnisse) im Splitter."""
+        count = self.splitter.count()
+        if count == 0 or not ratios:
+            return
+        total = self.splitter.size().width()
+        sizes = [int(r * total) for r in ratios[:-1]]
+        # Letztes Panel bekommt den Rest, damit sum(sizes) == total
+        last_size = total - sum(sizes)
+        sizes.append(max(30, last_size))  # Mindestbreite 30px
+        self.splitter.setSizes(sizes)

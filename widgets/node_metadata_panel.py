@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (
-    QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout
+    QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog
 )
 from PyQt5.QtCore import Qt
 from models.metadata_model import Metadata
@@ -20,6 +20,10 @@ class NodeMetadataPanel(QWidget):
         layout.addWidget(self.tree)
 
         self._metadata: Metadata = None
+        self._metadata_clipboard = None  # Für Copy/Cut/Paste von Feldern
+
+        self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tree.customContextMenuRequested.connect(self._show_context_menu)
 
     def set_metadata(self, metadata: Metadata):
         """Lädt die Metadaten in die Ansicht"""
@@ -56,3 +60,64 @@ class NodeMetadataPanel(QWidget):
             val = item.text(1).strip()
             new_data[key] = val
         return Metadata(new_data, self._metadata.schema if self._metadata else {})
+
+    def _show_context_menu(self, pos):
+        item = self.tree.itemAt(pos)
+        if not item:
+            return  # Nur auf Feldern
+        menu = QMenu(self)
+        action_add = QAction("Feld hinzufügen", self)
+        action_rename = QAction("Feld umbenennen", self)
+        action_delete = QAction("Feld löschen", self)
+        action_copy = QAction("Feld kopieren", self)
+        action_cut = QAction("Feld ausschneiden", self)
+        action_paste = QAction("Feld einfügen", self)
+        menu.addAction(action_add)
+        menu.addAction(action_rename)
+        menu.addAction(action_delete)
+        menu.addSeparator()
+        menu.addAction(action_copy)
+        menu.addAction(action_cut)
+        menu.addAction(action_paste)
+        action_add.triggered.connect(lambda: self.add_metadata_field(item))
+        action_rename.triggered.connect(lambda: self.rename_metadata_field(item))
+        action_delete.triggered.connect(lambda: self.delete_metadata_field(item))
+        action_copy.triggered.connect(lambda: self.copy_metadata_field(item))
+        action_cut.triggered.connect(lambda: self.cut_metadata_field(item))
+        action_paste.triggered.connect(lambda: self.paste_metadata_field(item))
+        menu.exec_(self.tree.viewport().mapToGlobal(pos))
+
+    def add_metadata_field(self, item):
+        key, ok = QInputDialog.getText(self, "Feld hinzufügen", "Name des neuen Felds:")
+        if ok and key:
+            value, ok2 = QInputDialog.getText(self, "Feld hinzufügen", f"Wert für '{key}':")
+            if ok2:
+                new_child = QTreeWidgetItem([key, value, ""])
+                new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+                self.tree.addTopLevelItem(new_child)
+
+    def rename_metadata_field(self, item):
+        key = item.text(0)
+        new_key, ok = QInputDialog.getText(self, "Feld umbenennen", "Neuer Name:", text=key)
+        if ok and new_key and new_key != key:
+            item.setText(0, new_key)
+
+    def delete_metadata_field(self, item):
+        idx = self.tree.indexOfTopLevelItem(item)
+        if idx >= 0:
+            self.tree.takeTopLevelItem(idx)
+
+    def copy_metadata_field(self, item):
+        self._metadata_clipboard = (item.text(0), item.text(1))
+
+    def cut_metadata_field(self, item):
+        self.copy_metadata_field(item)
+        self.delete_metadata_field(item)
+
+    def paste_metadata_field(self, item):
+        if not self._metadata_clipboard:
+            return
+        key, value = self._metadata_clipboard
+        new_child = QTreeWidgetItem([key, value, ""])
+        new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+        self.tree.addTopLevelItem(new_child)
