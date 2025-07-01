@@ -12,6 +12,7 @@ class ContentPanelStack(QWidget):
         super().__init__(parent)
         self.meta_schema = meta_schema
         self.content_schema = content_schema
+        self.global_filters = []  # Globale Filterliste für alle Panels
 
         self.splitter = QSplitter()
         self.splitter.setOrientation(Qt.Horizontal)
@@ -28,7 +29,8 @@ class ContentPanelStack(QWidget):
         panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text)
         panel.request_add_panel.connect(self.add_panel)
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
-
+        # Synchronisierung: Wenn ein gültiger Filter ausgewählt/eingegeben wird, global updaten
+        panel.filter_selected.connect(self._on_panel_filter_selected)
 
         self.panel_views.append(panel)
         self.splitter.addWidget(panel)
@@ -100,3 +102,24 @@ class ContentPanelStack(QWidget):
         last_size = total - sum(sizes)
         sizes.append(max(30, last_size))  # Mindestbreite 30px
         self.splitter.setSizes(sizes)
+
+    def set_global_filters(self, filters: list):
+        """Setzt die globale Filterliste und synchronisiert alle Panels."""
+        self.global_filters = filters
+        self.update_all_filter_dropdowns()
+
+    def get_global_filters(self) -> list:
+        """Gibt die globale Filterliste zurück."""
+        return self.global_filters
+
+    def update_all_filter_dropdowns(self):
+        """Aktualisiert die Filter-Dropdowns in allen Panels mit der globalen Filterliste."""
+        for panel in self.panel_views:
+            if hasattr(panel, 'update_filter_list'):
+                panel.update_filter_list(self.global_filters)
+
+    def _on_panel_filter_selected(self, filter_str):
+        """Fügt einen neuen gültigen Filter zur globalen Liste hinzu und synchronisiert alle Dropdowns."""
+        if filter_str and filter_str not in self.global_filters:
+            self.global_filters.append(filter_str)
+            self.update_all_filter_dropdowns()

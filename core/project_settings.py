@@ -29,6 +29,24 @@ def set_settings(tree_data, settings_dict):
     node['settings'] = settings_dict
 
 
+def get_global_filters(tree_data):
+    """
+    Gibt die globale Filterliste aus dem Settings-Knoten zurück.
+    Falls nicht vorhanden, wird eine leere Liste zurückgegeben.
+    """
+    settings = get_settings(tree_data)
+    return settings.get('global_filters', [])
+
+
+def set_global_filters(tree_data, filter_list):
+    """
+    Setzt die globale Filterliste im Settings-Knoten.
+    """
+    settings = get_settings(tree_data)
+    settings['global_filters'] = filter_list
+    set_settings(tree_data, settings)
+
+
 def restore_layout_from_settings(settings, right_area, main_window):
     """
     Stellt das Layout (Panels, Splitter, Filter) anhand der Settings wieder her.
@@ -81,4 +99,4 @@ def restore_layout_from_settings(settings, right_area, main_window):
         if key in filters and idx < len(panels):
             panel = panels[idx]
             if hasattr(panel, 'filter_input'):
-                panel.filter_input.setText(filters[key])
+                panel.filter_input.setEditText(filters[key])

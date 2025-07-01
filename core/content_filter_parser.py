@@ -2,6 +2,17 @@ import re
 from models.content_model import Content
 
 
+def is_valid_filter(filter_str):
+    """Returns True if the filter string is non-empty and can be parsed without error."""
+    if not filter_str or not filter_str.strip():
+        return False
+    try:
+        ContentFilterParser(filter_str)
+        return True
+    except Exception:
+        return False
+
+
 class ContentFilterParser:
     def __init__(self, filter_text: str):
         self.filter_text = filter_text.strip()

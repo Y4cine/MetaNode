@@ -43,7 +43,7 @@
           "content_type": "text",
           "title": "Fazit",
           "data": {
-            "text": "Das war das Wichtigste aus Kapitel 1."
+            "text": "SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI "
           },
           "renderer": "text_blocks",
           "metadata": {
@@ -94,36 +94,37 @@
       "settings": {
         "splitters": {
           "main": [
-            0.10859251449657353,
-            0.8914074855034264
+            0.06230769230769231,
+            0.9376923076923077
           ],
           "right_panel": [
-            0.37167199148029817,
-            0.6283280085197018
+            0.18421052631578946,
+            0.8157894736842105
           ],
           "content_panels": [
-            0.3319452706722189,
-            0.16478286734086853,
-            0.5032718619869125
+            0.3333333333333333,
+            0.3333333333333333,
+            0.3333333333333333
           ],
           "panel0_splitter": [
-            0.19615384615384615,
-            0.8038461538461539
+            0.19460500963391136,
+            0.8053949903660886
           ],
           "panel1_splitter": [
-            0.0,
-            1.0
+            0.14836223506743737,
+            0.8516377649325626
           ],
           "panel2_splitter": [
-            1.0,
-            0.0
+            0.6184971098265896,
+            0.3815028901734104
           ]
         },
         "filters": {
-          "panel0": "",
-          "panel1": "",
+          "panel0": "audience=\"POP\"",
+          "panel1": "audience=\"SCI\"",
           "panel2": ""
-        }
+        },
+        "global_filters": []
       },
       "children": []
     }

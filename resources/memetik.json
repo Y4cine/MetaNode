@@ -220,8 +220,8 @@
         }
       ],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -539,8 +539,8 @@
               "id": "b5d1680d-cff6-42c5-a038-98d3ce1355cd",
               "children": [],
               "metadata": {
-                "print": "",
-                "status": ""
+                "status": "",
+                "print": ""
               },
               "contents": [
                 {
@@ -565,8 +565,8 @@
               "id": "f5174f71-e45e-4e70-9e61-7d9db03dff85",
               "children": [],
               "metadata": {
-                "print": "",
-                "status": ""
+                "status": "",
+                "print": ""
               },
               "contents": [
                 {
@@ -700,8 +700,8 @@
               "id": "e4edde63-c9bc-473d-b311-e8f923bfa4eb",
               "children": [],
               "metadata": {
-                "print": "",
-                "status": ""
+                "status": "",
+                "print": ""
               },
               "contents": [
                 {
@@ -720,8 +720,8 @@
               "id": "83070a3d-bc74-4db0-bdab-abbc04327b23",
               "children": [],
               "metadata": {
-                "print": "",
-                "status": ""
+                "status": "",
+                "print": ""
               },
               "contents": [
                 {
@@ -754,8 +754,8 @@
         }
       ],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "",
+        "print": ""
       },
       "contents": [
         {
@@ -777,41 +777,83 @@
       ]
     },
     {
+      "title": "Essays",
+      "id": "e69b837f-6a05-4e90-b0db-c8c9c4756c18",
+      "children": [
+        {
+          "title": "Meme eine neue Lebensform",
+          "id": "3ebae2f8-5c73-43ed-840c-1159932fb565",
+          "children": [],
+          "metadata": {
+            "status": "",
+            "print": ""
+          },
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Neuer Inhalt",
+              "data": {
+                "text": ""
+              },
+              "renderer": "text_blocks",
+              "metadata": {}
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": ""
+          },
+          "renderer": "text_blocks",
+          "metadata": {}
+        }
+      ]
+    },
+    {
       "id": "_settings",
       "settings": {
         "splitters": {
           "main": [
-            0.21454928835002635,
-            0.7854507116499736
+            0.18521665250637212,
+            0.8147833474936279
           ],
           "right_panel": [
-            0.0979765708200213,
-            0.9020234291799787
+            0.1481994459833795,
+            0.8518005540166205
           ],
           "content_panels": [
-            0.4888888888888889,
-            0.5111111111111111
+            0.4748427672955975,
+            0.5251572327044025
           ],
           "panel0_splitter": [
-            0.18146718146718147,
-            0.8185328185328186
+            0.1798165137614679,
+            0.8201834862385321
           ],
           "panel1_splitter": [
-            0.18146718146718147,
-            0.8185328185328186
+            0.27339449541284405,
+            0.726605504587156
           ]
         },
         "filters": {
           "panel0": "lang=\"DE\"",
           "panel1": ""
-        }
+        },
+        "global_filters": []
       },
       "children": []
     }
   ],
   "metadata": {
-    "print": "",
-    "status": ""
+    "status": "",
+    "print": ""
   },
   "contents": [
     {

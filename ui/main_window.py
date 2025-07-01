@@ -19,9 +19,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.last_node_id = None
-
-        print("\n==================== MainWindow Konstruktor ====================\n")
-
+        # print("\n==================== MainWindow Konstruktor ====================\n")
         self.setWindowTitle("MetaNode")
         self.resize(1200, 800)
 
@@ -94,7 +92,7 @@ class MainWindow(QMainWindow):
                 if key in settings['filters'] and idx < len(panels):
                     panel = panels[idx]
                     if hasattr(panel, 'filter_input'):
-                        panel.filter_input.setText(settings['filters'][key])
+                        panel.filter_input.setEditText(settings['filters'][key])
 
         # Shortcuts
         undo_shortcut = QShortcut(QKeySequence("Ctrl+Z"), self)
@@ -103,7 +101,7 @@ class MainWindow(QMainWindow):
         redo_shortcut = QShortcut(QKeySequence("Ctrl+Y"), self)
         redo_shortcut.activated.connect(self.do_combined_redo)
 
-        print("\n==================== Nach Konstruktor: Initiales Beispiel geladen ====================\n")
+        # print("\n==================== Nach Konstruktor: Initiales Beispiel geladen ====================\n")
 
     # ----------------------------
     # Menüleiste und Toolbar
@@ -176,7 +174,7 @@ class MainWindow(QMainWindow):
         self.right_area.load_node(None)  # ← leert das rechte Panel
 
     def open_file(self):
-        print("\n==================== LADEN: open_file ====================\n")
+        # print("\n==================== LADEN: open_file ====================\n")
         path, _ = QFileDialog.getOpenFileName(
             self, "Datei öffnen", "", "JSON-Dateien (*.json)")
         if path:
@@ -185,6 +183,9 @@ class MainWindow(QMainWindow):
             # Settings auslesen
             tree_data = self.model.to_dict()
             settings = get_settings(tree_data)
+            # Globale Filterliste aus Settings laden
+            if 'global_filters' in settings and hasattr(self.right_area, 'content_stack') and hasattr(self.right_area.content_stack, 'set_global_filters'):
+                self.right_area.content_stack.set_global_filters(settings['global_filters'])
             # Settings-Knoten im Modell explizit überschreiben (alte Settings entfernen)
             set_settings(tree_data, settings)
             self.model.load_from_dict(tree_data)
@@ -201,10 +202,10 @@ class MainWindow(QMainWindow):
                 self.right_area.load_node(node_obj)
             else:
                 self.right_area.load_node(None)
-        print("\n==================== ENDE open_file ====================\n")
+        # print("\n==================== ENDE open_file ====================\n")
 
     def save_file(self):
-        print("\n==================== SPEICHERN: save_file ====================\n")
+        # print("\n==================== SPEICHERN: save_file ====================\n")
         # Änderungen aus GUI ins Modell übernehmen
         if self.right_area._node is not None:
             node_wrapper = self.model.find_node(self.right_area._node.id)
@@ -226,7 +227,10 @@ class MainWindow(QMainWindow):
         settings['splitters'] = splitters
         # Filter sammeln
         settings['filters'] = self._collect_filters()
-        print("\n--- Settings to save ---\n", settings, "\n------------------------\n")
+        # Globale Filterliste speichern
+        if hasattr(self.right_area, 'content_stack') and hasattr(self.right_area.content_stack, 'get_global_filters'):
+            settings['global_filters'] = self.right_area.content_stack.get_global_filters()
+        # print("\n--- Settings to save ---\n", settings, "\n------------------------\n")
         set_settings(tree_data, settings)
         # Modell mit neuen Settings neu laden, damit sie beim Speichern im JSON landen
         self.model.load_from_dict(tree_data)
@@ -357,5 +361,54 @@ class MainWindow(QMainWindow):
         if hasattr(self.right_area, 'get_all_content_panels'):
             for idx, panel in enumerate(self.right_area.get_all_content_panels()):
                 if hasattr(panel, 'filter_input'):
-                    filters[f"panel{idx}"] = panel.filter_input.text()
+                    filters[f"panel{idx}"] = panel.filter_input.currentText()
         return filters
+
+    def _collect_splitter_sizes(self, widget, prefix="main"):
+        """Rekursiv alle Splitter und deren tatsächlichen Widget-Größen als Verhältnis sammeln (mit Debug)."""
+        from PyQt5.QtWidgets import QSplitter
+        from PyQt5.QtCore import Qt
+        splitters = {}
+        if isinstance(widget, QSplitter):
+            if widget.orientation() == Qt.Horizontal:
+                sizes = [widget.widget(i).width() for i in range(widget.count())]
+            else:
+                sizes = [widget.widget(i).height() for i in range(widget.count())]
+            # print(f"DEBUG Sammeln Splitter {prefix}: widget-sizes={sizes}, sum={sum(sizes)}")
+            # Debug: Zeige die enthaltenen Widgets und deren Typen
+            # for i in range(widget.count()):
+            #     w = widget.widget(i)
+            #     print(f"  Splitter {prefix} Widget {i}: {type(w)}, visible={w.isVisible()}, size={w.size()}")
+            ratios = calculate_ratios(sizes)
+            splitters[prefix] = ratios
+        if hasattr(widget, 'children'):
+            for i, child in enumerate(widget.children()):
+                if isinstance(child, QSplitter):
+                    name = f"{prefix}_splitter{i}"
+                    splitters.update(self._collect_splitter_sizes(child, name))
+                elif hasattr(child, 'children'):
+                    splitters.update(self._collect_splitter_sizes(child, f"{prefix}_child{i}"))
+        return splitters
+
+    def debug_panel_splitter_ratios(self):
+        """Gibt die Ratios und Breiten der SingleContentPanels im Haupt-Panel-Splitter aus."""
+        if hasattr(self.right_area, 'content_stack'):
+            splitter = self.right_area.content_stack.splitter
+            count = splitter.count()
+            sizes = [splitter.widget(i).width() for i in range(count)]
+            ratios = calculate_ratios(sizes)
+            # print("\n==== DEBUG: SingleContentPanels Splitter ====")
+            for i in range(count):
+                w = splitter.widget(i)
+                # print(f"  Panel {i}: {type(w)}, width={w.width()}, visible={w.isVisible()}")
+            # print(f"  sizes={sizes}")
+            # print(f"  ratios={ratios}, sum={sum(ratios)}")
+            # print("===========================================\n")
+        else:
+            pass
+            # print("[WARN] Kein content_stack mit Splitter gefunden!")
+
+    # WICHTIG: Trennung der Filter-Listen in den Settings
+    # 'filters': Panel-spezifische Filterzuordnung, z.B. {'panel0': 'lang="DE"', ...}
+    # 'global_filters': Sammlung aller gültigen Filter für die Dropdown-Auswahl in allen Panels
+    # Diese Listen dürfen nicht verwechselt oder überschrieben werden!
