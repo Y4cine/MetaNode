@@ -2,6 +2,17 @@ import re
 from models.content_model import Content
 
 
+def is_valid_filter(filter_str):
+    """Returns True if the filter string is non-empty and can be parsed without error."""
+    if not filter_str or not filter_str.strip():
+        return False
+    try:
+        ContentFilterParser(filter_str)
+        return True
+    except Exception:
+        return False
+
+
 class ContentFilterParser:
     def __init__(self, filter_text: str):
         self.filter_text = filter_text.strip()
@@ -43,10 +54,12 @@ class ContentFilterParser:
             elif op == "AND":
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(lambda c, l=left, r=right: l(c) and r(c))
+                stack.append(lambda c, left_func=left,
+                             r=right: left_func(c) and r(c))
             elif op == "OR":
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(lambda c, l=left, r=right: l(c) or r(c))
+                stack.append(lambda c, left_func=left,
+                             r=right: left_func(c) or r(c))
 
         return stack[-1] if stack else lambda c: True

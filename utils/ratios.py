@@ -1,6 +1,7 @@
 def calculate_ratios(sizes):
     """Berechnet Ratios aus einer Liste von Größen, sodass sum(ratios) == 1 (bis auf Floating-Point-Genauigkeit).
-    Gibt eine leere Liste zurück, wenn keine sinnvollen Verhältnisse berechnet werden können (z.B. nur Nullen oder leere Eingabe).
+    Gibt eine leere Liste zurück, wenn keine sinnvollen Verhältnisse berechnet werden können
+    (z.B. nur Nullen oder leere Eingabe).
     """
     total = sum(sizes)
     n = len(sizes)

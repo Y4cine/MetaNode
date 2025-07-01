@@ -1,15 +1,14 @@
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QLineEdit, QLabel, QPushButton, QSplitter,
-    QComboBox, QTextEdit, QFormLayout, QGroupBox,
-    QTreeWidgetItem, QToolBar, QAction
+    QLabel, QPushButton, QSplitter,
+    QComboBox, QTreeWidgetItem, QToolBar, QAction
 )
 from PyQt5.QtCore import Qt, pyqtSignal, QSize
 from PyQt5.QtGui import QIcon
 from typing import List
 from models.content_model import Content
 from widgets.content_metadata_panel import ContentMetadataPanel
-from core.content_filter_parser import ContentFilterParser
+from core.content_filter_parser import ContentFilterParser, is_valid_filter
 from widgets.content_editor_factory import create_content_editor
 from core.project_paths import get_path
 
@@ -17,6 +16,7 @@ from core.project_paths import get_path
 class SingleContentPanel(QWidget):
     request_add_panel = pyqtSignal()
     request_close_panel = pyqtSignal()
+    filter_selected = pyqtSignal(str)  # Signal für Filterauswahl/-eingabe
 
     def __init__(self, meta_schema, content_schema, filter_text="", parent=None):
         super().__init__(parent)
@@ -62,11 +62,15 @@ class SingleContentPanel(QWidget):
 
         # --- obere Button- und Filterzeile ---
         top_row = QHBoxLayout()
-        self.filter_input = QLineEdit(filter_text)
+        self.filter_input = QComboBox()
+        self.filter_input.setEditable(True)
+        self.filter_input.setInsertPolicy(QComboBox.NoInsert)
+        self.filter_input.setEditText(filter_text)
         self.filter_input.setPlaceholderText(
             "z.B. lang = 'DE' AND audience = 'POP'")
-        self.filter_input.textChanged.connect(self.apply_filter)
-
+        self.filter_input.lineEdit().editingFinished.connect(self.on_filter_edit_finished)
+        self.filter_input.currentIndexChanged.connect(lambda _: self.on_filter_edit_finished())
+        self.filter_input.editTextChanged.connect(lambda _: self.apply_filter())
         top_row.addWidget(QLabel("Filter:"))
         top_row.addWidget(self.filter_input)
 
@@ -126,7 +130,7 @@ class SingleContentPanel(QWidget):
         self._all_contents = contents
 
         # Filter anwenden
-        parser = ContentFilterParser(self.filter_input.text())
+        parser = ContentFilterParser(self.filter_input.currentText())
         matching = [c for c in contents if parser.match(c)]
 
         self.metadata_panel.set_contents(matching)
@@ -186,6 +190,21 @@ class SingleContentPanel(QWidget):
                     text = self._current_content.data.get("text", "")
                     child.setText(
                         1, text[:40] + "..." if len(text) > 40 else text)
+
+    def on_filter_edit_finished(self):
+        filter_str = self.filter_input.currentText().strip()
+        if is_valid_filter(filter_str):
+            self.filter_selected.emit(filter_str)
+        self.apply_filter()
+
+    def update_filter_list(self, filter_list):
+        """Aktualisiert die Dropdown-Liste der Filter."""
+        current = self.filter_input.currentText()
+        self.filter_input.blockSignals(True)
+        self.filter_input.clear()
+        self.filter_input.addItems(filter_list)
+        self.filter_input.setEditText(current)
+        self.filter_input.blockSignals(False)
 
     def apply_filter(self):
         self._write_back_current()  # Änderungen vor Filterwechsel speichern
