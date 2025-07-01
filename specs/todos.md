@@ -11,8 +11,12 @@
 
 [ ] Split und Merge - vertikal zu Knoten, horizontal zu Contents. Das löst das Attachment Problem. Erfordert die Auswahl mehrerer Contents.
 [ ] Drag and Drop nach Außen von Knoten und Contents. (Akzeptiert Files aus Explorer, Selektionen, usw.). Kontext-Menü: Import/Export.
+<<<<<<< HEAD
 [ ] Save Tree state (expanded nodes)
 [ ] Save selected item
+=======
+
+>>>>>>> 3e89cb5c484986955e5996142c4cfc2597bbb3bc
 ## Bugs
 [ ] New Content --> "AttributeError: 'QComboBox' object has no attribute 'text'"
 
