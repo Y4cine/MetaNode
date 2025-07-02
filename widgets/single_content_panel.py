@@ -1,3 +1,11 @@
+
+# -*- coding: utf-8 -*-
+"""single_content_panel.py
+
+This module defines the SingleContentPanel class for displaying and editing a single content item.
+
+"""
+
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QSplitter,

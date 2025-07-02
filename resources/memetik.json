@@ -11,8 +11,8 @@
           "id": "14e08f03-2201-405f-a8ef-e8f3819cf995",
           "children": [],
           "metadata": {
-            "status": "",
             "print": "",
+            "status": "",
             "test": "ddd"
           },
           "contents": [
@@ -51,21 +51,6 @@
             },
             {
               "content_type": "text",
-              "title": "EN2",
-              "data": {
-                "text": "EN2"
-              },
-              "renderer": "text_blocks",
-              "metadata": {
-                "audience": "",
-                "lang": "EN",
-                "main": "",
-                "status": "",
-                "version": ""
-              }
-            },
-            {
-              "content_type": "text",
               "title": "DE2",
               "data": {
                 "text": "DE2"
@@ -74,32 +59,6 @@
               "metadata": {
                 "audience": "",
                 "lang": "DE",
-                "main": "",
-                "status": "",
-                "version": ""
-              }
-            },
-            {
-              "content_type": "text",
-              "title": "DE3",
-              "data": {
-                "text": "DE3"
-              },
-              "renderer": "text_blocks",
-              "metadata": {
-                "lang": "DE"
-              }
-            },
-            {
-              "content_type": "text",
-              "title": "en6",
-              "data": {
-                "text": "en6"
-              },
-              "renderer": "text_blocks",
-              "metadata": {
-                "lang": "EN",
-                "audience": "",
                 "main": "",
                 "status": "",
                 "version": ""
@@ -852,8 +811,8 @@
     }
   ],
   "metadata": {
-    "status": "",
-    "print": ""
+    "print": "",
+    "status": ""
   },
   "contents": [
     {

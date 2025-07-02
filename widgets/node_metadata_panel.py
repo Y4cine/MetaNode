@@ -1,3 +1,11 @@
+
+# -*- coding: utf-8 -*-
+"""node_metadata_panel.py
+
+This module defines the NodeMetadataPanel class for displaying and editing metadata fields for a specific node.
+
+"""
+
 from PyQt5.QtWidgets import (
     QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog
 )

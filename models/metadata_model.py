@@ -1,4 +1,8 @@
 # metadata_model.py
+# -*- coding: utf-8 -*-
+"""metadata_model.py
+This module defines the Metadata class for managing metadata with optional schema validation.
+"""
 
 from typing import Any, Dict, Optional
 

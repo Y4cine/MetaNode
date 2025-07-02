@@ -1,3 +1,10 @@
+
+# -*- coding: utf-8 -*-
+"""node_tree.py
+This module defines the NodeTree class for displaying and managing a tree structure of nodes
+with features like drag-and-drop, context menus, and search functionality.
+"""
+
 from PyQt5.QtWidgets import (
     QTreeWidget, QTreeWidgetItem, QMenu, QInputDialog,
     QVBoxLayout, QLineEdit, QCheckBox, QWidget

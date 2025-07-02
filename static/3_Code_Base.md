@@ -1,25 +1,49 @@
-**main.py:**
+**CHANGELOG.md:**
 
-import sys
-from PyQt5.QtWidgets import QApplication
-from ui.main_window import MainWindow
+## [Unreleased]
+
+### 01.07.2025
+- Saved filter status with file. Filters are now in ComboBoxes.
+
+### 25.06.2025
+- Refactored UI layout persistence: All relevant QSplitter ratios (main, right panel, content panels, and per-panel splitters) are now saved and restored explicitly using unique keys.
+- Removed recursive splitter detection to prevent layout inconsistencies and ensure robust, workflow-safe restoration.
+- Cleaned up all debug output for production readiness.
+- The layout is now reliably restored for any panel configuration, supporting complex nested structures.
+
+### 23.06.2025
+- Implemented the renderer Factory
+- Fixed write back bug, contents where lost after editing.
+- Renderer encapsulates dynamic editor panels, they raise their own edited events, pass them to the editor panel, which in turn ensures that the data are written back.
+- Implemented writing content metadata back
+- Implemented managing contents (cut, copy, paste, new, delete, rename) with buttons
+- Implemented managing metadata fields (cut, copy, paste, new, delete, rename) with context menü.
 
 
-def main():
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
 
 
-if __name__ == "__main__":
-    main()
+### Added
+- Right panel refactored into split layout with separate NodeMetadataPanel and multi-panel content area
+- Introduced `SingleContentPanel` with filter, metadata tree, and renderer-based editor
+- Implemented `ContentMetadataPanel` showing content metadata in editable tree view
+- Synchronized editor ↔ metadata view with content selection and updates
 ---
 
 **core/content_filter_parser.py:**
 
 import re
 from models.content_model import Content
+
+
+def is_valid_filter(filter_str):
+    """Returns True if the filter string is non-empty and can be parsed without error."""
+    if not filter_str or not filter_str.strip():
+        return False
+    try:
+        ContentFilterParser(filter_str)
+        return True
+    except Exception:
+        return False
 
 
 class ContentFilterParser:
@@ -63,11 +87,13 @@ class ContentFilterParser:
             elif op == "AND":
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(lambda c, l=left, r=right: l(c) and r(c))
+                stack.append(lambda c, left_func=left,
+                             r=right: left_func(c) and r(c))
             elif op == "OR":
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(lambda c, l=left, r=right: l(c) or r(c))
+                stack.append(lambda c, left_func=left,
+                             r=right: left_func(c) or r(c))
 
         return stack[-1] if stack else lambda c: True
 ---
@@ -115,6 +141,113 @@ def get_path(folder: str, filename: str = None, create: bool = False) -> Path:
 def file_exists(folder: str, filename: str) -> bool:
     """Prüft, ob Datei existiert."""
     return get_path(folder, filename).exists()
+---
+
+**core/project_settings.py:**
+
+# core/project_settings.py
+from PyQt5.QtCore import QTimer
+
+
+def get_settings_node(tree_data):
+    """
+    Sucht den Settings-Knoten (id == '_settings') im Baum.
+    Legt ihn an, falls er nicht existiert.
+    Gibt das Settings-Node-Dict zurück.
+    """
+    for node in tree_data.get('children', []):
+        if node.get('id') == '_settings':
+            return node
+    # Falls nicht vorhanden, anlegen
+    settings_node = {'id': '_settings', 'settings': {}}
+    tree_data.setdefault('children', []).append(settings_node)
+    return settings_node
+
+
+def get_settings(tree_data):
+    """Gibt das settings-Dict aus dem Settings-Knoten zurück."""
+    node = get_settings_node(tree_data)
+    return node.get('settings', {})
+
+
+def set_settings(tree_data, settings_dict):
+    """Setzt das settings-Dict im Settings-Knoten."""
+    node = get_settings_node(tree_data)
+    node['settings'] = settings_dict
+
+
+def get_global_filters(tree_data):
+    """
+    Gibt die globale Filterliste aus dem Settings-Knoten zurück.
+    Falls nicht vorhanden, wird eine leere Liste zurückgegeben.
+    """
+    settings = get_settings(tree_data)
+    return settings.get('global_filters', [])
+
+
+def set_global_filters(tree_data, filter_list):
+    """
+    Setzt die globale Filterliste im Settings-Knoten.
+    """
+    settings = get_settings(tree_data)
+    settings['global_filters'] = filter_list
+    set_settings(tree_data, settings)
+
+
+def restore_layout_from_settings(settings, right_area, main_window):
+    """
+    Stellt das Layout (Panels, Splitter, Filter) anhand der Settings wieder her.
+    - Entfernt alle bestehenden ContentPanels
+    - Erzeugt für jeden Filter-Eintrag ein Panel (auch für leere Filter)
+    - Setzt Splitter-Größen (erst nach Panel-Erzeugung und Event-Loop!)
+    - Trägt Filtertexte ein
+    - Entfernt überzählige Panels
+    """
+    # Panels zurücksetzen
+    if hasattr(right_area.content_stack, 'clear_panels'):
+        right_area.content_stack.clear_panels()
+    # Panels gemäß Filter-Settings anlegen
+    filters = settings.get('filters', {})
+    num_panels = len(filters)
+    if hasattr(right_area.content_stack, 'ensure_panel_count'):
+        right_area.content_stack.ensure_panel_count(num_panels)
+    panels = right_area.get_all_content_panels() if hasattr(
+        right_area, 'get_all_content_panels') else []
+    # Überzählige Panels entfernen (Leichen)
+    if hasattr(right_area.content_stack, 'remove_panels_after'):
+        right_area.content_stack.remove_panels_after(num_panels - 1)
+    # Splitter wiederherstellen (nach Panel-Erzeugung und Event-Loop!)
+    splitters = settings.get('splitters', {})
+
+    def set_splitters():
+        for key, sizes in splitters.items():
+            if hasattr(main_window, '_restore_splitter_sizes'):
+                main_window._restore_splitter_sizes(
+                    main_window.centralWidget(), key, sizes)
+        # Debug-Ausgabe für Splittergrößen
+        from PyQt5.QtWidgets import QSplitter
+
+        def print_splitter_sizes(widget, key):
+            if isinstance(widget, QSplitter):
+                print(f"DEBUG Splitter {key} sizes:", widget.sizes(), "sum:",
+                      sum(widget.sizes()), "width:", widget.size().width())
+            if hasattr(widget, 'children'):
+                for i, child in enumerate(widget.children()):
+                    if isinstance(child, QSplitter):
+                        name = f"{key}_splitter{i}"
+                        print_splitter_sizes(child, name)
+                    elif hasattr(child, 'children'):
+                        print_splitter_sizes(child, f"{key}_child{i}")
+
+        print_splitter_sizes(main_window.centralWidget(), "main")
+    QTimer.singleShot(0, set_splitters)
+    # Filtertexte setzen
+    for idx in range(num_panels):
+        key = f"panel{idx}"
+        if key in filters and idx < len(panels):
+            panel = panels[idx]
+            if hasattr(panel, 'filter_input'):
+                panel.filter_input.setEditText(filters[key])
 ---
 
 **core/schema_registry.py:**
@@ -186,6 +319,89 @@ class UndoManager:
     def reset(self):
         self.stack.clear()
         self.index = -1
+---
+
+**gitignore:**
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg-info/
+*.log
+
+# Bytecode caches (PEP 3147)
+__pycache__/
+*.pyc
+
+# === Virtual environments ===
+.venv/
+venv/
+env/
+ENV/
+.build/
+
+# === OS junk ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Qt Designer artifacts ===
+*.ui
+*.qrc
+
+# === IDEs ===
+.vscode/
+.idea/
+*.swp
+
+# === Output / builds / backup ===
+dist/
+build/
+*.bak
+*.tmp
+
+# === Test artifacts ===
+.coverage
+.tox/
+.nox/
+
+# === Custom folders ===
+Archive/
+---
+
+**LICENSE:**
+
+MIT License
+
+Copyright (c) 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+---
+
+**main.py:**
+
+import sys
+from PyQt5.QtWidgets import QApplication
+from ui.main_window import MainWindow
+
+
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
 ---
 
 **models/content_model.py:**
@@ -445,86 +661,95 @@ class TreeDataModel:
             self.mark_dirty()
 ---
 
-**resources/beispielbaum.json:**
+**README.md:**
 
-{
-  "id": "root",
-  "title": "Beispielstruktur",
-  "contents": [],
-  "children": [
-    {
-      "id": "kap1",
-      "title": "Kapitel 1",
-      "contents": [
-        {
-          "content_type": "text",
-          "title": "Einleitung",
-          "data": {
-            "text": "Dies ist die Einleitung zu Kapitel 1."
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "lang": "DE",
-            "audience": "POP",
-            "version": "1.0",
-            "modified": "2025-06-19T10:37:13",
-            "main": "",
-            "status": ""
-          }
-        },
-        {
-          "content_type": "text",
-          "title": "Fazit",
-          "data": {
-            "text": "Das war das Wichtigste aus Kapitel 1."
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "lang": "DE",
-            "audience": "SCI",
-            "version": "1.0",
-            "modified": "2025-06-19T10:37:13",
-            "main": "",
-            "status": ""
-          }
-        }
-      ],
-      "children": [],
-      "metadata": {
-        "status": "",
-        "print": ""
-      }
-    },
-    {
-      "title": "2",
-      "id": "30d4be25-4c65-4217-bc8b-aa45ead48f57",
-      "children": [],
-      "metadata": {
-        "status": "",
-        "print": ""
-      },
-      "contents": [
-        {
-          "content_type": "text",
-          "title": "Neuer Inhalt",
-          "data": {
-            "text": ""
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "modified": "2025-06-19T10:37:14",
-            "main": "",
-            "lang": "",
-            "audience": "",
-            "version": "",
-            "status": ""
-          }
-        }
-      ]
-    }
-  ],
-  "metadata": {}
-}---
+# MetaNode
+
+**MetaNode** is a modular, schema-driven editor for hierarchical structures (trees), where each node can contain multiple content variants — for different languages, audiences, or purposes.
+
+> 🛠️ **Work in Progress**  
+> MetaNode is under active development. Expect rapid improvements and breaking changes.
+
+## 🧠 Why MetaNode?
+
+Writing complex content for **multiple target groups** or **in several languages** often leads to chaos — duplicated files, endless folders, or tangled markup.  
+MetaNode brings structure into this mess:
+
+- Each **node** holds its own **metadata** and a list of **contents**
+- Each **content** is versioned by metadata (e.g. `lang`, `audience`, `version`)
+- Multiple **edit panels** let you filter, view and edit in parallel
+
+Whether you're documenting software, writing educational materials, or mapping a fictional world — MetaNode helps you **manage versions without redundancy**.
+
+![UI](resources/UI_20250623.PNG)
+
+## 🔧 Key Features
+
+- **Tree-based Node Editor**
+  - Add, rename, move, delete nodes
+  - Search with optional deep-search
+  - Full drag-and-drop with undo support
+
+- **Multi-Content Architecture**
+  - Each node can hold multiple contents (text, image, HTML, etc.)
+  - Each content has structured metadata (e.g. language, audience, version)
+
+- **Filterable, Multi-Panel Editing**
+  - Define content filters (e.g. `lang = "DE" AND audience = "POP"`)
+  - Open several filtered views side-by-side
+  - Each panel shows a table of matches + live editor
+
+- **Extensible Renderers**
+  - New content types and renderers can be added
+  - Current default: `text_blocks` for plain/structured text
+
+- **Schema-Based Validation**
+  - Node and content metadata are driven by JSON Schema
+  - UI adapts to the defined fields
+
+- **Undo/Redo**
+  - Tree and content changes are tracked separately
+  - Keyboard shortcuts: `Ctrl+Z`, `Ctrl+Y`
+
+## 📦 Example Use Cases
+
+- Multilingual documentation with audience-specific content
+- Educational books with POP/SCI/INT tracks
+- World-building tools (chapters, notes, internal lore)
+- Legal or technical documents with layered annotations
+
+## 🚀 Getting Started
+
+```bash
+pip install PyQt5
+python main.py
+```
+
+## 📁 Project Structure
+
+MetaNode is organized into clear subfolders:
+
+- `models/` – Data classes for nodes, contents, metadata, and tree logic  
+- `ui/` – Main window and layout modules for tree, editor, and panels  
+- `widgets/` – Modular editor widgets for content and metadata  
+- `core/` – Filtering, schema registry, undo, and path utilities  
+- `schemas/` – JSON Schemas for metadata structure  
+- `resources/` – Icons, examples, and saved trees  
+- `specs/` – Project specs, todos, and internal documentation
+
+📄 For a detailed architectural breakdown, see [`static/2_Project_Structure.md`](static/2_Project_Structure.md)
+
+
+## 📜 License
+
+MetaNode is released under the [MIT License](LICENSE).
+
+## 🧾 Disclaimer and Origin
+
+MetaNode was born out of necessity. As a process engineer, I write specifications for various stakeholders — clients, mechanical, electrical, and software teams. I also work on a book about memetics that requires multilingual, multi-level content. Managing all these versions in Access became too painful.
+
+So I switched to Python and PyQt. ChatGPT (4o) — codename "Kai" — was my sparring partner throughout. Many architectural decisions emerged from these dialogues. Thanks to OpenAI for creating such a brilliant tool. What a time to build.
+---
 
 **schemas/chapter_meta.json:**
 
@@ -550,6 +775,193 @@ class TreeDataModel:
   }
 }
 ---
+
+**specs/Specs_20250622.md:**
+
+Wir schreiben einen Editor, der erlaubt 
+- ein Dokument als Hierarchie zu bearbeiten, ein Baum
+- jeder Knoten im Baum hat
+  - beliebig viele Contents (nicht Tree Children)
+  - Metadaten nach einem Schema und zusätzliche freie
+- Jeder Content eines Knotens hat
+  - Metadaten nach einem Schema und zusätzliche freie
+  - In den Metadaten ist auch ein Wert für Renderer angegeben, so dass unterschiedliche Contents eingefügt werden können.
+- Mögliche Renderer: Text, Markdown, HTML, Bilder im base64-Format, Tabellen, etc.
+
+Mögliche Applikationen:
+- Bücher speichern für unterschiedliche Leser-Gruppen (z.B. Wissenschaftler, technische interessierte, Schüler) und in unterschiedlichen Sprachen
+- Funktionale Spezifikation schreiben für unterschiedliche Leser-Gruppen (Kunden, unterschiedliche Abteilungen in der Wertschöpfungskette - Elektriker, Mechaniker, Projektierer, Inbetriebnehmer, usw.), in unterschiedlichen Sprachen
+- Versionskontrolle über Teile der Dokumente.
+
+Serialisierung:
+- Die Dokumente werden als JSON-Dateien gespeichert
+- Die Schemas für die Metadaten werden als JSON-Dateien gespeichert
+
+UI:
+- Das Programm öffnet immer nur eine Datei
+- Das Fenster hat einen horizontalen Splitter, mit links den Treeview für den Knotenbaum und rechts alle Daten für den ausgewählten Knoten.
+- der rechte Panel ist durch 2 vertikale Splitter in 2 Teile aufteilt.
+1. Die Metadaten des Knotens
+2. Der Contentsbereich
+- Der Contents-Bereich hat als Basis nur einen Single-Content-Bereich. Per Knopfdruck können mehr solche Bereiche hinzugefügt, um die parallele Bearbeitung von Contents zu ermöglichen. Splitter teilen diesen Bereich auf, die Panels sind nebeneinander.
+- Ein single-content-panel wird vertical in 2 Bereiche durch einen Splitter geteilt. Oben befindet sich der Filter, die Ergebnisse und die Metadaten, unten der Editor selbst.
+- Der Editor des contents wird mittels renderers definiert.
+- Das Layout der Splitter und die Panels werden mit ihren Filtern in den Metadaten des Dokuments gespeichert. Dies könnte vielleicht ein unsichtbarer Knoten um Baum sein (Am Anfang oder am Ende)
+
+---
+
+## 📐 Spezifikation: Rechter Panel (Stand: 2025-06-23)
+
+### Ziel
+
+Der rechte Panel stellt die Details des aktuell gewählten Knotens dar und ist auf komfortable parallele Bearbeitung von Inhalten ausgerichtet. Er soll Editorfokus bieten, aber auch Metadatenstruktur sichtbar und bearbeitbar machen.
+
+---
+
+### 1. **Grundstruktur**
+
+Der rechte Panel (`RightPanel`) ist durch einen **vertikalen Splitter** in zwei Hauptbereiche geteilt:
+
+#### 1.1. **NodeMetadataPanel**
+
+* Zeigt die **Metadaten des Knotens** als TreeView
+* Struktur:
+
+  * Root: Knotentitel oder "Node"
+  * Child-Nodes: Felder wie `title`, `status`, `preferred_renderer`, ...
+  * Spalten:
+
+    * `ActualValue` (editierbar)
+    * `DefaultValue` (editierbar)
+  * Quelle der Default-Werte:
+
+    * Primär aus dem Schema
+    * Überschreibbar im Knotenfeld `default_metadata`
+* Optional: Freie Felder werden ebenfalls angezeigt (aber z. B. grau markiert)
+
+#### 1.2. **ContentsPanel**
+
+* Enthält einen **horizontalen Splitter**, der mehrere `SingleContentPanels` nebeneinander ermöglicht
+* Jeder `SingleContentPanel` ist vertikal gegliedert:
+
+---
+
+### 2. **SingleContentPanel**
+
+Aufbau (vertikaler Splitter, von oben nach unten):
+
+#### 2.1. **Filterbereich**
+
+* `QLineEdit` mit Textfilter (z. B. `lang = "DE" AND audience = "POP"`)
+* Filter wirkt auf alle Contents
+* Parser ist boolesch mit AND/OR/NOT
+
+#### 2.2. **ContentMetadataPanel**
+
+* TreeView mit allen gefilterten Contents
+* Struktur:
+
+  * Root: „Content1“, „Content2“, ...
+  * Child-Nodes: Metadaten-Felder
+  * Spalten:
+
+    * `ActualValue` (editierbar)
+    * `DefaultValue` (aus Schema oder DefaultMetadata)
+  * Optional: Visualisierung der Herkunft (Schema, Default, explizit gesetzt)
+
+#### 2.3. **Editorbereich**
+
+* Weitere vertikale Aufteilung:
+
+  * Renderer-Auswahl (Dropdown)
+  * Titel-Eingabefeld
+  * Editor-Widget (abhängig vom Renderer)
+* Inhalt und Metadaten werden beim Wechsel gespeichert
+
+---
+
+### 3. **Vererbung und Default-Werte**
+
+* Schema-Default ist **immer vorhanden**, wenn im Schema definiert
+* Knoten können mit `default_metadata` bestimmte Felder überschreiben
+* Contents erben diese Defaults, **wenn sie das Feld leer lassen**
+* Beim Anzeigen im TreeView wird unterschieden:
+
+  * explizit gesetzter Wert
+  * vererbter Wert aus `default_metadata`
+  * Fallback auf Schema-Default
+
+---
+
+### 4. **Speicherlogik (für Layout)**
+
+* Die Position und Größe der Splitter sowie die Anzahl und Filter der ContentPanels sollen gespeichert werden.
+* Dafür wird ein **unsichtbarer Systemknoten** im Dokument verwendet, z. B. `id = _layout`.
+* Dieser enthält Konfiguration wie:
+
+```json
+{
+  "splitter_sizes": [200, 600],
+  "panels": [
+    {"filter": "lang = 'DE'", "selected": 0},
+    {"filter": "audience = 'POP'", "selected": 1}
+  ]
+}
+```
+
+---
+
+### 5. **GUI-Verhalten**
+
+* Bei Auswahl eines neuen Knotens:
+
+  * NodeMetadataPanel lädt Knotendaten
+  * ContentsPanel lädt Contents
+  * Erste Content-Zeile wird automatisch selektiert
+* Filter aktualisieren TreeView und Auswahl
+* Editor wird bei Wechsel aktualisiert
+* Buttons zum Hinzufügen/Schließen von Panels sind vorhanden
+
+---
+
+---
+
+**specs/todos.md:**
+
+## Todos
+
+### erledigt
+[x] Metadata-Panel überarbeiten  
+[x] Rechten Panel überarbeiten  
+[x] Renderer implementieren 
+
+[x] Metadaten hinzufügen, löschen, umbenennen. Methoden und Knöpfe
+[x] Contents hinzufügen, löschen, sortieren? Methoden und Knöpfe
+
+### UI
+[ ] Icons überarbeiten - selbst zeichnen  
+[ ] Commands registry
+[ ] Anzeige-Modi: Standard Panels, JSON-Struktur, Lese-Modus
+[ ] Zumindest Darkmode, besser Themes.
+
+### Renderer
+[ ] Mehr Renderer implementieren (Bilder, Markdown, HTML, Tabellen, etc.)
+
+[ ] Split und Merge - vertikal zu Knoten, horizontal zu Contents. Das löst das Attachment Problem. Erfordert die Auswahl mehrerer Contents.
+
+### Import-Export
+[ ] Drag and Drop nach Außen von Knoten und Contents. (Akzeptiert Files aus Explorer, Selektionen, usw.). Kontext-Menü: Import/Export.
+
+
+## Bugs
+[ ] New Content --> "AttributeError: 'QComboBox' object has no attribute 'text'"
+[ ] Die Filter Combos are not populated right away. They are only after switching between them.
+
+---
+## Ideen 
+1. Wenn man die json zipped, könnte man auch beliebige Attachments dem Dokument hinzufügen (PDF, Bilder, etc.). Bei den Bildern hätte das den Vorteil, dass sie nicht mehr als base64 gespeichert werden müssen. MetaNode müsste dann mit 2 Arten von Dateien arbeiten: json und "mdx". mdx = gezippte Meta Node Datei.
+2. Speicherformat flexibel machen JSON, SQLite, zip
+3. Medienplan-Handbuch in MetaNode schreiben.---
 
 **ui/content_panel_view.py:**
 
@@ -768,14 +1180,16 @@ from ui.node_editor_panel import NodeEditorPanel
 from core.schema_registry import SchemaRegistry
 from models.node_model import Node
 from core.project_paths import get_path
+from core.project_settings import get_settings, set_settings
+from utils.ratios import calculate_ratios
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.last_node_id = None
-
-        self.setWindowTitle("Tree Editor")
+        # print("\n==================== MainWindow Konstruktor ====================\n")
+        self.setWindowTitle("MetaNode")
         self.resize(1200, 800)
 
         self.model = TreeDataModel()
@@ -811,13 +1225,43 @@ class MainWindow(QMainWindow):
 
         # Datei-Menü
         self._init_file_menu()
-
-        # Bearbeiten-Toolbar
+        # Toolbar initialisieren
         self._init_toolbar()
+        # Ansicht-Menü ergänzen
+        self._init_view_menu()
 
         # Initiales Beispiel laden
         self.model.load_from_file("memetik.json")
         self.tree_area.load_model(self.model)
+        # Settings prüfen und anwenden (wie in open_file)
+        tree_data = self.model.to_dict()
+        settings = get_settings(tree_data)
+        node_id = self.last_node_id or "root"
+        node_wrapper = self.model.find_node(node_id)
+        if node_wrapper:
+            raw_node = node_wrapper.node
+            node_obj = Node(raw_node, self.meta_schema, self.content_schema)
+            self.right_area.load_node(node_obj)
+        else:
+            self.right_area.load_node(None)
+        # Splitter wiederherstellen
+        if 'splitters' in settings:
+            for key, sizes in settings['splitters'].items():
+                self._restore_splitter_sizes(self.centralWidget(), key, sizes)
+        # Filter wiederherstellen und Panels ggf. anlegen
+        if 'filters' in settings and hasattr(self.right_area, 'get_all_content_panels'):
+            panels = self.right_area.get_all_content_panels()
+            num_needed = len(settings['filters'])
+            # Panels ggf. dynamisch erzeugen
+            if hasattr(self.right_area.content_stack, 'ensure_panel_count'):
+                self.right_area.content_stack.ensure_panel_count(num_needed)
+                panels = self.right_area.get_all_content_panels()
+            for idx in range(num_needed):
+                key = f"panel{idx}"
+                if key in settings['filters'] and idx < len(panels):
+                    panel = panels[idx]
+                    if hasattr(panel, 'filter_input'):
+                        panel.filter_input.setEditText(settings['filters'][key])
 
         # Shortcuts
         undo_shortcut = QShortcut(QKeySequence("Ctrl+Z"), self)
@@ -825,6 +1269,8 @@ class MainWindow(QMainWindow):
 
         redo_shortcut = QShortcut(QKeySequence("Ctrl+Y"), self)
         redo_shortcut.activated.connect(self.do_combined_redo)
+
+        # print("\n==================== Nach Konstruktor: Initiales Beispiel geladen ====================\n")
 
     # ----------------------------
     # Menüleiste und Toolbar
@@ -872,6 +1318,12 @@ class MainWindow(QMainWindow):
         toolbar.addAction(QIcon(str(get_path("icons", "rename.svg"))), "Knoten umbenennen",
                           lambda: self.tree_area.rename_item(self.tree_area.currentItem()))
 
+    def _init_view_menu(self):
+        menu_bar = self.menuBar()
+        view_menu = menu_bar.addMenu("Ansicht")
+        view_menu.addAction("SingleContentPanels angleichen",
+                            self.equalize_single_content_panels)
+
     # ----------------------------
     # Dateioperationen
     # ----------------------------
@@ -891,14 +1343,38 @@ class MainWindow(QMainWindow):
         self.right_area.load_node(None)  # ← leert das rechte Panel
 
     def open_file(self):
+        # print("\n==================== LADEN: open_file ====================\n")
         path, _ = QFileDialog.getOpenFileName(
             self, "Datei öffnen", "", "JSON-Dateien (*.json)")
         if path:
             self.model.load_from_file(path)
             self.tree_area.load_model(self.model)
-            self.right_area.load_node(None)  # ← leert das rechte Panel
+            # Settings auslesen
+            tree_data = self.model.to_dict()
+            settings = get_settings(tree_data)
+            # Globale Filterliste aus Settings laden
+            if 'global_filters' in settings and hasattr(self.right_area, 'content_stack') and hasattr(self.right_area.content_stack, 'set_global_filters'):
+                self.right_area.content_stack.set_global_filters(settings['global_filters'])
+            # Settings-Knoten im Modell explizit überschreiben (alte Settings entfernen)
+            set_settings(tree_data, settings)
+            self.model.load_from_dict(tree_data)
+            # Panels/Splitter komplett zurücksetzen und nach Settings neu aufbauen
+            from core.project_settings import restore_layout_from_settings
+            restore_layout_from_settings(settings, self.right_area, self)
+            # Nach Panel-Aufbau Node laden (damit Contents gesetzt werden)
+            node_id = self.last_node_id or "root"
+            node_wrapper = self.model.find_node(node_id)
+            if node_wrapper:
+                raw_node = node_wrapper.node
+                node_obj = Node(raw_node, self.meta_schema,
+                                self.content_schema)
+                self.right_area.load_node(node_obj)
+            else:
+                self.right_area.load_node(None)
+        # print("\n==================== ENDE open_file ====================\n")
 
     def save_file(self):
+        # print("\n==================== SPEICHERN: save_file ====================\n")
         # Änderungen aus GUI ins Modell übernehmen
         if self.right_area._node is not None:
             node_wrapper = self.model.find_node(self.right_area._node.id)
@@ -906,7 +1382,27 @@ class MainWindow(QMainWindow):
                 updated = self.right_area.update_and_return_node()
                 node_wrapper.node.update(updated.to_dict())
                 self.model.mark_dirty()
-
+        # Layout und Filter speichern
+        tree_data = self.model.to_dict()
+        settings = get_settings(tree_data)
+        # Alle relevanten Splitter speichern
+        splitters = {}
+        for key, splitter in self.get_all_relevant_splitters().items():
+            if splitter.orientation() == Qt.Horizontal:
+                sizes = [splitter.widget(i).width() for i in range(splitter.count())]
+            else:
+                sizes = [splitter.widget(i).height() for i in range(splitter.count())]
+            splitters[key] = calculate_ratios(sizes)
+        settings['splitters'] = splitters
+        # Filter sammeln
+        settings['filters'] = self._collect_filters()
+        # Globale Filterliste speichern
+        if hasattr(self.right_area, 'content_stack') and hasattr(self.right_area.content_stack, 'get_global_filters'):
+            settings['global_filters'] = self.right_area.content_stack.get_global_filters()
+        # print("\n--- Settings to save ---\n", settings, "\n------------------------\n")
+        set_settings(tree_data, settings)
+        # Modell mit neuen Settings neu laden, damit sie beim Speichern im JSON landen
+        self.model.load_from_dict(tree_data)
         try:
             self.model.save_to_file()
         except ValueError:
@@ -988,11 +1484,107 @@ class MainWindow(QMainWindow):
             self.tree_area.load_model(self.model)
             if self.last_node_id:
                 self.tree_area.select_node_by_id(self.last_node_id)
+
+    def equalize_single_content_panels(self):
+        """Setzt alle SingleContentPanels im Splitter auf gleiche Breite."""
+        if hasattr(self.right_area, 'content_stack'):
+            splitter = self.right_area.content_stack.splitter
+            count = splitter.count()
+            if count > 0:
+                total = splitter.size().width()
+                size = total // count if count > 0 else 100
+                splitter.setSizes([size] * count)
+
+    def get_all_relevant_splitters(self):
+        """Gibt ein Dict aller zu sichernden Splitter mit eindeutigen Keys zurück."""
+        splitters = {}
+        # Splitter 1: zwischen TreeView und RightPanel
+        main_splitter = self.centralWidget().findChild(QSplitter)
+        if main_splitter:
+            splitters['main'] = main_splitter
+        # Splitter 2: im RightPanel zwischen Knoten-Metadata und PanelStack
+        if hasattr(self.right_area, 'splitter'):
+            splitters['right_panel'] = self.right_area.splitter
+        # PanelStack: mehrere Panels nebeneinander
+        if hasattr(self.right_area, 'content_stack'):
+            splitters['content_panels'] = self.right_area.content_stack.splitter
+            # Innerhalb jedes SingleContentPanel: Splitter zwischen Metadata und Editor
+            if hasattr(self.right_area.content_stack, 'panel_views'):
+                for idx, panel in enumerate(self.right_area.content_stack.panel_views):
+                    if hasattr(panel, 'splitter'):
+                        splitters[f'panel{idx}_splitter'] = panel.splitter
+        return splitters
+
+    def _restore_splitter_sizes(self, widget, key, ratios, prefix="main"):
+        splitters = self.get_all_relevant_splitters()
+        if key in splitters and ratios:
+            splitter = splitters[key]
+            total = splitter.size().width() if splitter.orientation() == Qt.Horizontal else splitter.size().height()
+            sizes = [max(30, int(r * total)) for r in ratios]
+            splitter.setSizes(sizes)
+
+    def _collect_filters(self):
+        """Sammelt alle Filtertexte aus den Content-Panels (sofern vorhanden)."""
+        filters = {}
+        if hasattr(self.right_area, 'get_all_content_panels'):
+            for idx, panel in enumerate(self.right_area.get_all_content_panels()):
+                if hasattr(panel, 'filter_input'):
+                    filters[f"panel{idx}"] = panel.filter_input.currentText()
+        return filters
+
+    def _collect_splitter_sizes(self, widget, prefix="main"):
+        """Rekursiv alle Splitter und deren tatsächlichen Widget-Größen als Verhältnis sammeln (mit Debug)."""
+        from PyQt5.QtWidgets import QSplitter
+        from PyQt5.QtCore import Qt
+        splitters = {}
+        if isinstance(widget, QSplitter):
+            if widget.orientation() == Qt.Horizontal:
+                sizes = [widget.widget(i).width() for i in range(widget.count())]
+            else:
+                sizes = [widget.widget(i).height() for i in range(widget.count())]
+            # print(f"DEBUG Sammeln Splitter {prefix}: widget-sizes={sizes}, sum={sum(sizes)}")
+            # Debug: Zeige die enthaltenen Widgets und deren Typen
+            # for i in range(widget.count()):
+            #     w = widget.widget(i)
+            #     print(f"  Splitter {prefix} Widget {i}: {type(w)}, visible={w.isVisible()}, size={w.size()}")
+            ratios = calculate_ratios(sizes)
+            splitters[prefix] = ratios
+        if hasattr(widget, 'children'):
+            for i, child in enumerate(widget.children()):
+                if isinstance(child, QSplitter):
+                    name = f"{prefix}_splitter{i}"
+                    splitters.update(self._collect_splitter_sizes(child, name))
+                elif hasattr(child, 'children'):
+                    splitters.update(self._collect_splitter_sizes(child, f"{prefix}_child{i}"))
+        return splitters
+
+    def debug_panel_splitter_ratios(self):
+        """Gibt die Ratios und Breiten der SingleContentPanels im Haupt-Panel-Splitter aus."""
+        if hasattr(self.right_area, 'content_stack'):
+            splitter = self.right_area.content_stack.splitter
+            count = splitter.count()
+            sizes = [splitter.widget(i).width() for i in range(count)]
+            ratios = calculate_ratios(sizes)
+            # print("\n==== DEBUG: SingleContentPanels Splitter ====")
+            for i in range(count):
+                w = splitter.widget(i)
+                # print(f"  Panel {i}: {type(w)}, width={w.width()}, visible={w.isVisible()}")
+            # print(f"  sizes={sizes}")
+            # print(f"  ratios={ratios}, sum={sum(ratios)}")
+            # print("===========================================\n")
+        else:
+            pass
+            # print("[WARN] Kein content_stack mit Splitter gefunden!")
+
+    # WICHTIG: Trennung der Filter-Listen in den Settings
+    # 'filters': Panel-spezifische Filterzuordnung, z.B. {'panel0': 'lang="DE"', ...}
+    # 'global_filters': Sammlung aller gültigen Filter für die Dropdown-Auswahl in allen Panels
+    # Diese Listen dürfen nicht verwechselt oder überschrieben werden!
 ---
 
 **ui/node_editor_panel.py:**
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QSplitter
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSplitter
 from PyQt5.QtCore import Qt
 from typing import Optional
 
@@ -1065,6 +1657,15 @@ class NodeEditorPanel(QWidget):
             def can_undo(self): return False
             def can_redo(self): return False
         return Dummy()
+
+    def get_all_content_panels(self):
+        """Gibt alle aktiven SingleContentPanel-Instanzen im ContentPanelStack zurück."""
+        if hasattr(self.content_stack, 'get_all_content_panels'):
+            return self.content_stack.get_all_content_panels()
+        # Fallback: Versuche, auf panel_views zuzugreifen
+        if hasattr(self.content_stack, 'panel_views'):
+            return self.content_stack.panel_views
+        return []
 ---
 
 **ui/tree_view.py:**
@@ -1441,6 +2042,124 @@ class NodeTree(QTreeWidget):
         return match_value(node.node) if deep else query in node.title.lower()
 ---
 
+**utils/filters.py:**
+
+---
+
+**utils/ratios.py:**
+
+def calculate_ratios(sizes):
+    """Berechnet Ratios aus einer Liste von Größen, sodass sum(ratios) == 1 (bis auf Floating-Point-Genauigkeit).
+    Gibt eine leere Liste zurück, wenn keine sinnvollen Verhältnisse berechnet werden können
+    (z.B. nur Nullen oder leere Eingabe).
+    """
+    total = sum(sizes)
+    n = len(sizes)
+    if total > 0 and n > 0:
+        ratios = [s / total for s in sizes]
+        # Korrigiere den gesamten Rundungsfehler auf das letzte Element
+        diff = 1.0 - sum(ratios)
+        ratios[-1] += diff
+        print(
+            f"DEBUG: calculate_ratios sizes={sizes}, total={total}, ratios={ratios}, sum={sum(ratios)}")
+        return ratios
+    return []
+---
+
+**widgets/content_editor_base.py:**
+
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QTextEdit, QComboBox, QLabel
+from PyQt5.QtCore import pyqtSignal
+
+
+class BaseContentEditor(QWidget):
+    content_edited = pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def set_content(self, content: dict):
+        """Setzt die anzuzeigenden Daten im Editor. Erwartet ein Content-Dict."""
+        raise NotImplementedError
+
+    def get_content(self) -> dict:
+        """Liefert das aktuelle Content-Dict aus dem Editor zurück."""
+        raise NotImplementedError
+
+
+class TextBlockEditor(BaseContentEditor):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        layout = QVBoxLayout(self)
+        self.renderer_combo = QComboBox()
+        self.renderer_combo.addItems(["text_blocks", "markdown", "html"])
+        layout.addWidget(QLabel("Renderer:"))
+        layout.addWidget(self.renderer_combo)
+        self.title_input = QLineEdit()
+        layout.addWidget(QLabel("Titel:"))
+        layout.addWidget(self.title_input)
+        self.text_edit = QTextEdit()
+        layout.addWidget(QLabel("Text:"))
+        layout.addWidget(self.text_edit)
+        self.title_input.installEventFilter(self)
+        self.text_edit.installEventFilter(self)
+        self.renderer_combo.currentIndexChanged.connect(self._on_renderer_changed)
+        self._content = None  # Das aktuell bearbeitete Content-Dict
+
+    def set_content(self, content: dict):
+        self._content = content.copy()  # Kopie, um Änderungen zu speichern
+        self.title_input.setText(content.get("title", ""))
+        self.text_edit.setPlainText(content.get("data", {}).get("text", ""))
+        renderer = content.get("renderer", "text_blocks")
+        idx = self.renderer_combo.findText(renderer)
+        if idx >= 0:
+            self.renderer_combo.setCurrentIndex(idx)
+        else:
+            self.renderer_combo.setCurrentIndex(0)
+
+    def get_content(self) -> dict:
+        if not self._content:
+            return {}
+        result = self._content.copy()
+        result["title"] = self.title_input.text()
+        result["renderer"] = self.renderer_combo.currentText()
+        if "data" not in result:
+            result["data"] = {}
+        result["data"]["text"] = self.text_edit.toPlainText()
+        return result
+
+    def eventFilter(self, obj, event):
+        if event.type() == event.FocusOut:
+            self.content_edited.emit()
+        return super().eventFilter(obj, event)
+
+    def _on_renderer_changed(self):
+        self.content_edited.emit()
+---
+
+**widgets/content_editor_factory.py:**
+
+from widgets.content_editor_base import TextBlockEditor
+# Hier können weitere Editor-Implementierungen importiert werden
+
+
+def create_content_editor(renderer: str, parent=None):
+    """
+    Factory-Funktion: Erzeugt den passenden Editor für den angegebenen Renderer.
+    """
+    if renderer == "text_blocks":
+        return TextBlockEditor(parent)
+    # Beispiel für weitere Renderer:
+    # elif renderer == "markdown":
+    #     return MarkdownEditor(parent)
+    # elif renderer == "html":
+    #     return HtmlEditor(parent)
+    # ...
+    else:
+        # Fallback: TextBlockEditor
+        return TextBlockEditor(parent)
+---
+
 **widgets/content_editor_widget.py:**
 
 # content_editor_widget.py
@@ -1577,6 +2296,138 @@ class ContentListEditor(QWidget):
         return [editor.get_content() for editor in self._editors]
 ---
 
+**widgets/content_metadata_panel.py:**
+
+from PyQt5.QtWidgets import (
+    QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog
+)
+from PyQt5.QtCore import Qt
+from typing import List
+from models.content_model import Content
+
+
+class ContentMetadataPanel(QWidget):
+    def __init__(self, schema: dict, default_metadata: dict = None, parent=None):
+        super().__init__(parent)
+        self.schema = schema or {}
+        self.default_metadata = default_metadata or {}
+        self._metadata_clipboard = None  # Für Copy/Cut/Paste von Feldern
+        self.tree = QTreeWidget()
+        self.tree.setColumnCount(3)
+        self.tree.setHeaderLabels(["Feld", "Wert", "Default"])
+        self.tree.setAlternatingRowColors(True)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.tree)
+
+        self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tree.customContextMenuRequested.connect(self._show_context_menu)
+
+    def set_contents(self, contents: List[Content]):
+        self.tree.clear()
+
+        for idx, content in enumerate(contents):
+            top = QTreeWidgetItem([f"Content {idx + 1}", "", ""])
+            top.setFirstColumnSpanned(True)
+            self.tree.addTopLevelItem(top)
+
+            all_keys = set(self.schema.get("properties", {}).keys()) | set(
+                content.metadata.data.keys())
+            for key in sorted(all_keys):
+                actual = str(content.metadata.get(key, ""))
+                default = self.default_metadata.get(key)
+                if default is None:
+                    default = self.schema.get("properties", {}).get(
+                        key, {}).get("default", "")
+                default = str(default)
+
+                child = QTreeWidgetItem([key, actual, default])
+                child.setFlags(child.flags() | Qt.ItemIsEditable)
+                top.addChild(child)
+
+            self.tree.expandItem(top)
+
+    def get_metadata_for_index(self, index: int) -> dict:
+        """Liefert die aktuellen Metadaten für den Content an Position index als Dict zurück."""
+        top = self.tree.topLevelItem(index)
+        if not top:
+            return {}
+        metadata = {}
+        for i in range(top.childCount()):
+            child = top.child(i)
+            key = child.text(0)
+            value = child.text(1)
+            metadata[key] = value
+        return metadata
+
+    def _show_context_menu(self, pos):
+        item = self.tree.itemAt(pos)
+        if not item or not item.parent():
+            return  # Nur auf Metadaten-Feldern
+        menu = QMenu(self)
+        action_add = QAction("Feld hinzufügen", self)
+        action_rename = QAction("Feld umbenennen", self)
+        action_delete = QAction("Feld löschen", self)
+        action_copy = QAction("Feld kopieren", self)
+        action_cut = QAction("Feld ausschneiden", self)
+        action_paste = QAction("Feld einfügen", self)
+        menu.addAction(action_add)
+        menu.addAction(action_rename)
+        menu.addAction(action_delete)
+        menu.addSeparator()
+        menu.addAction(action_copy)
+        menu.addAction(action_cut)
+        menu.addAction(action_paste)
+        action_add.triggered.connect(lambda: self.add_metadata_field(item))
+        action_rename.triggered.connect(lambda: self.rename_metadata_field(item))
+        action_delete.triggered.connect(lambda: self.delete_metadata_field(item))
+        action_copy.triggered.connect(lambda: self.copy_metadata_field(item))
+        action_cut.triggered.connect(lambda: self.cut_metadata_field(item))
+        action_paste.triggered.connect(lambda: self.paste_metadata_field(item))
+        menu.exec_(self.tree.viewport().mapToGlobal(pos))
+
+    def add_metadata_field(self, item):
+        key, ok = QInputDialog.getText(self, "Feld hinzufügen", "Name des neuen Felds:")
+        if ok and key:
+            value, ok2 = QInputDialog.getText(self, "Feld hinzufügen", f"Wert für '{key}':")
+            if ok2:
+                parent = item.parent()
+                new_child = QTreeWidgetItem([key, value, ""])
+                new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+                parent.addChild(new_child)
+                parent.setExpanded(True)
+
+    def rename_metadata_field(self, item):
+        key = item.text(0)
+        new_key, ok = QInputDialog.getText(self, "Feld umbenennen", "Neuer Name:", text=key)
+        if ok and new_key and new_key != key:
+            item.setText(0, new_key)
+
+    def delete_metadata_field(self, item):
+        parent = item.parent()
+        if parent:
+            parent.removeChild(item)
+
+    def copy_metadata_field(self, item):
+        self._metadata_clipboard = (item.text(0), item.text(1))
+
+    def cut_metadata_field(self, item):
+        self.copy_metadata_field(item)
+        self.delete_metadata_field(item)
+
+    def paste_metadata_field(self, item):
+        if not self._metadata_clipboard:
+            return
+        parent = item.parent()
+        if parent:
+            key, value = self._metadata_clipboard
+            new_child = QTreeWidgetItem([key, value, ""])
+            new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+            parent.addChild(new_child)
+            parent.setExpanded(True)
+---
+
 **widgets/content_panel_stack.py:**
 
 from PyQt5.QtWidgets import QWidget, QSplitter, QHBoxLayout
@@ -1585,6 +2436,7 @@ from typing import List
 
 from widgets.single_content_panel import SingleContentPanel
 from models.content_model import Content
+from utils.ratios import calculate_ratios
 
 
 class ContentPanelStack(QWidget):
@@ -1592,6 +2444,7 @@ class ContentPanelStack(QWidget):
         super().__init__(parent)
         self.meta_schema = meta_schema
         self.content_schema = content_schema
+        self.global_filters = []  # Globale Filterliste für alle Panels
 
         self.splitter = QSplitter()
         self.splitter.setOrientation(Qt.Horizontal)
@@ -1608,13 +2461,14 @@ class ContentPanelStack(QWidget):
         panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text)
         panel.request_add_panel.connect(self.add_panel)
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
-
+        # Synchronisierung: Wenn ein gültiger Filter ausgewählt/eingegeben wird, global updaten
+        panel.filter_selected.connect(self._on_panel_filter_selected)
 
         self.panel_views.append(panel)
         self.splitter.addWidget(panel)
         # Falls bereits ein Node geladen wurde, Daten sofort setzen:
         if self.panel_views and self.panel_views[0]._all_contents:
-            panel.set_contents(self.panel_views[0]._all_contents)        
+            panel.set_contents(self.panel_views[0]._all_contents)
         if self._last_contents:
             panel.set_contents(self._last_contents)
 
@@ -1627,208 +2481,80 @@ class ContentPanelStack(QWidget):
         self._last_contents = contents
         for panel in self.panel_views:
             panel.set_contents(contents)
----
 
-**widgets/content_panel_view.py:**
+    def clear_panels(self):
+        """Entfernt alle Panels aus dem Stack."""
+        while self.panel_views:
+            panel = self.panel_views.pop()
+            self.splitter.widget(self.splitter.indexOf(panel)).deleteLater()
 
-from PyQt5.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout,
-    QLineEdit, QListWidget, QListWidgetItem,
-    QTableWidget, QTableWidgetItem,
-    QPushButton, QLabel
-)
-from PyQt5.QtCore import pyqtSignal
-from datetime import datetime
-from models.content_model import Content
-from content_editor_widget import ContentEditorWidget
-from core.content_filter_parser import ContentFilterParser
+    def ensure_panel_count(self, count: int):
+        """Stellt sicher, dass genau 'count' Panels existieren (fügt hinzu oder entfernt)."""
+        current = len(self.panel_views)
+        if current < count:
+            for _ in range(count - current):
+                self.add_panel()
+        elif current > count:
+            for _ in range(current - count):
+                self.remove_panel(self.panel_views[-1])
 
+    def get_all_content_panels(self):
+        """Gibt alle SingleContentPanel-Instanzen zurück."""
+        return self.panel_views
 
-class ContentPanelView(QWidget):
-    request_add_panel = pyqtSignal()
-    request_close_panel = pyqtSignal()
+    def remove_panels_after(self, idx: int):
+        """Entfernt alle Panels nach dem Index idx (inklusive idx+1 bis Ende)."""
+        while len(self.panel_views) > idx + 1:
+            self.remove_panel(self.panel_views[-1])
 
-    def __init__(self, meta_schema, content_schema, filter_text="", parent=None):
-        super().__init__(parent)
-        self.meta_schema = meta_schema
-        self.content_schema = content_schema
-        self._all_contents: list[Content] = []
-        self._current_editor: ContentEditorWidget = None
+    def _collect_splitter_ratios(self):
+        """Gibt die Ratios (Verhältnisse) der Panel-Breiten im Splitter zurück, sodass sum(ratios) == 1."""
+        count = self.splitter.count()
+        print(f"DEBUG: splitter.count={count}, len(panel_views)={len(self.panel_views)}")
+        sizes = []
+        for i in range(count):
+            w = self.splitter.widget(i)
+            width = w.width() if w else -1
+            print(f"  Panel {i}: widget={w}, width={width}")
+            sizes.append(width)
+        total = sum(sizes)
+        print(f"  sizes={sizes}, total={total}")
+        ratios = calculate_ratios(sizes)
+        print(f"  ratios={ratios}, sum={sum(ratios)}")
+        return ratios
 
-        layout = QVBoxLayout(self)
-
-        # --- Filterzeile ---
-        top_row = QHBoxLayout()
-        self.filter_input = QLineEdit(filter_text)
-        self.filter_input.setPlaceholderText(
-            "Filter z.B. lang = \"DE\" AND audience = \"POP\"")
-        self.filter_input.textChanged.connect(self.apply_filter)
-        top_row.addWidget(QLabel("Filter:"))
-        top_row.addWidget(self.filter_input)
-
-        # Buttons rechts
-        btn_add = QPushButton("+")
-        btn_close = QPushButton("x")
-        btn_dup = QPushButton("Duplizieren")
-        btn_new = QPushButton("Neu")
-        top_row.addWidget(btn_add)
-        top_row.addWidget(btn_close)
-        top_row.addWidget(btn_dup)
-        top_row.addWidget(btn_new)
-
-        btn_add.clicked.connect(self.request_add_panel.emit)
-        btn_close.clicked.connect(self.request_close_panel.emit)
-        # btn_dup.clicked.connect(...) später
-        # btn_new.clicked.connect(...) später
-
-        layout.addLayout(top_row)
-
-        # --- Tabelle & Editor ---
-        self.content_table = QTableWidget()
-        self.content_table.setColumnCount(len(self._all_columns()))
-        self.content_table.setHorizontalHeaderLabels(self._all_columns())
-        self.content_table.setSelectionBehavior(QTableWidget.SelectRows)
-        self.content_table.setEditTriggers(QTableWidget.NoEditTriggers)
-        self.content_table.setEditTriggers(
-            QTableWidget.DoubleClicked | QTableWidget.SelectedClicked)
-        self.content_table.cellClicked.connect(self.on_table_cell_clicked)
-        self.content_table.cellChanged.connect(self.on_table_cell_changed)
-        layout.addWidget(self.content_table)
-
-        self.editor_placeholder = QLabel("Kein Content ausgewählt")
-        layout.addWidget(self.editor_placeholder)
-
-    def set_contents(self, contents: list[Content]):
-        self._all_contents = contents
-        self.apply_filter()
-
-    def apply_filter(self):
-        self.content_table.setRowCount(0)
-        columns = self._all_columns()
-
-        parser = ContentFilterParser(self.filter_input.text())
-        matching_contents = [c for c in self._all_contents if parser.match(c)]
-
-        for row, content in enumerate(matching_contents):
-            self.content_table.insertRow(row)
-            for col, key in enumerate(columns):
-                val = self._get_column_value(content, key)
-                item = QTableWidgetItem(val)
-                if col == 0:
-                    item.setData(1000, content)
-                self.content_table.setItem(row, col, item)
-
-        # automatische Auswahl
-        selected = self.select_default_content()
-        if selected:
-            for row in range(self.content_table.rowCount()):
-                item = self.content_table.item(row, 0)
-                if item and item.data(1000) is selected:
-                    self.content_table.selectRow(row)
-                    self.on_table_cell_clicked(row, 0)
-                    break
-
-    def _get_column_value(self, content: Content, key: str) -> str:
-        if key == "ID":
-            return str(id(content))
-        elif key == "Titel":
-            return content.title or ""
-        elif key in ("main", "modified"):
-            return str(content.metadata.get(key, ""))
-        else:
-            return str(content.metadata.get(key, ""))
-
-    def on_table_cell_clicked(self, row: int, column: int):
-        item = self.content_table.item(row, 0)
-        if not item:
+    def _restore_splitter_ratios(self, ratios):
+        """Setzt die Panel-Breiten anhand der Ratios (Verhältnisse) im Splitter."""
+        count = self.splitter.count()
+        if count == 0 or not ratios:
             return
-        content = item.data(1000)
+        total = self.splitter.size().width()
+        sizes = [int(r * total) for r in ratios[:-1]]
+        # Letztes Panel bekommt den Rest, damit sum(sizes) == total
+        last_size = total - sum(sizes)
+        sizes.append(max(30, last_size))  # Mindestbreite 30px
+        self.splitter.setSizes(sizes)
 
-        if self._current_editor:
-            self.layout().removeWidget(self._current_editor)
-            self._current_editor.deleteLater()
+    def set_global_filters(self, filters: list):
+        """Setzt die globale Filterliste und synchronisiert alle Panels."""
+        self.global_filters = filters
+        self.update_all_filter_dropdowns()
 
-        self._current_editor = ContentEditorWidget(
-            content, excluded_fields=self._schema_columns())
-        self.layout().addWidget(self._current_editor)
+    def get_global_filters(self) -> list:
+        """Gibt die globale Filterliste zurück."""
+        return self.global_filters
 
-    def on_table_cell_changed(self, row: int, col: int):
-        if row < 0 or col < 0:
-            return
+    def update_all_filter_dropdowns(self):
+        """Aktualisiert die Filter-Dropdowns in allen Panels mit der globalen Filterliste."""
+        for panel in self.panel_views:
+            if hasattr(panel, 'update_filter_list'):
+                panel.update_filter_list(self.global_filters)
 
-        item = self.content_table.item(row, 0)
-        if not item:
-            return
-        content = item.data(1000)
-        if not isinstance(content, Content):
-            return
-        if not content:
-            return
-
-        key = self._all_columns()[col]
-        value = self.content_table.item(row, col).text()
-
-        if key == "Titel":
-            content.title = value
-        elif key in self.content_schema["properties"]:
-            content.metadata.set(key, value)
-        elif key in ("main", "modified"):
-            content.metadata.set(key, value)
-        content.metadata.set(
-            "modified", datetime.now().isoformat(timespec="seconds"))
-        mod_col = self._column_index("modified")
-
-        self.content_table.blockSignals(True)
-        self.content_table.setItem(row, mod_col, QTableWidgetItem(
-            content.metadata.get("modified", "")))
-        self.content_table.blockSignals(False)
-
-    def on_content_selected(self, current, previous):
-        if self._current_editor:
-            self.layout().removeWidget(self._current_editor)
-            self._current_editor.deleteLater()
-            self._current_editor = None
-
-        if current:
-            content = current.data(1000)
-            editor = ContentEditorWidget(
-                content, excluded_fields=self._schema_columns())
-            self._current_editor = editor
-            self.layout().addWidget(editor)
-        else:
-            self.layout().addWidget(self.editor_placeholder)
-
-    def select_default_content(self):
-        if not self._all_contents:
-            return
-
-        # Hauptkandidat: main = "1", "true", "yes"
-        for c in self._all_contents:
-            val = str(c.metadata.get("main", "")).lower()
-            if val in ("1", "true", "yes"):
-                return c
-
-        # Fallback: jüngster – optionales Feld "modified"
-        def get_timestamp(c):
-            # ISO-Zeitstempel z. B. "2025-06-18T10:23:00"
-            return c.metadata.get("modified", "")
-
-        sorted_by_time = sorted(
-            self._all_contents, key=get_timestamp, reverse=True)
-        return sorted_by_time[0] if sorted_by_time else None
-
-    def _schema_columns(self):
-        dynamic = list(self.content_schema.get("properties", {}).keys())
-        for fixed in ("main", "modified"):
-            if fixed in dynamic:
-                dynamic.remove(fixed)
-        return dynamic
-
-    def _all_columns(self):
-        return ["ID", "Titel", "main", "modified"] + self._schema_columns()
-
-    def _column_index(self, name: str) -> int:
-        return self._all_columns().index(name)
+    def _on_panel_filter_selected(self, filter_str):
+        """Fügt einen neuen gültigen Filter zur globalen Liste hinzu und synchronisiert alle Dropdowns."""
+        if filter_str and filter_str not in self.global_filters:
+            self.global_filters.append(filter_str)
+            self.update_all_filter_dropdowns()
 ---
 
 **widgets/metadata_widget.py:**
@@ -1897,5 +2623,418 @@ class MetadataEditor(QWidget):
                 data[key] = widget.isChecked()
             # Weitere Typen hier ergänzen
         return Metadata(data, self._schema)
+---
+
+**widgets/node_metadata_panel.py:**
+
+from PyQt5.QtWidgets import (
+    QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog
+)
+from PyQt5.QtCore import Qt
+from models.metadata_model import Metadata
+
+
+class NodeMetadataPanel(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.tree = QTreeWidget()
+        self.tree.setColumnCount(3)
+        self.tree.setHeaderLabels(["Feld", "Wert", "Default"])
+        self.tree.setAlternatingRowColors(True)
+        self.tree.setRootIsDecorated(False)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.tree)
+
+        self._metadata: Metadata = None
+        self._metadata_clipboard = None  # Für Copy/Cut/Paste von Feldern
+
+        self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tree.customContextMenuRequested.connect(self._show_context_menu)
+
+    def set_metadata(self, metadata: Metadata):
+        """Lädt die Metadaten in die Ansicht"""
+        self._metadata = metadata
+        self.tree.clear()
+
+        schema = metadata.schema or {}
+        defined_keys = set(schema.get("properties", {}).keys())
+
+        # Zuerst: Felder aus dem Schema
+        for key in defined_keys:
+            actual = str(metadata.get(key, ""))
+            default = str(schema["properties"][key].get("default", ""))
+            self._add_row(key, actual, default)
+
+        # Dann: zusätzliche Felder
+        for key in metadata.data.keys():
+            if key in defined_keys:
+                continue
+            val = str(metadata.get(key))
+            self._add_row(key, val, "(frei)")
+
+    def _add_row(self, key: str, actual: str, default: str):
+        item = QTreeWidgetItem([key, actual, default])
+        item.setFlags(item.flags() | Qt.ItemIsEditable)
+        self.tree.addTopLevelItem(item)
+
+    def get_metadata(self) -> Metadata:
+        """Liest die bearbeiteten Werte aus dem TreeView"""
+        new_data = {}
+        for i in range(self.tree.topLevelItemCount()):
+            item = self.tree.topLevelItem(i)
+            key = item.text(0).strip()
+            val = item.text(1).strip()
+            new_data[key] = val
+        return Metadata(new_data, self._metadata.schema if self._metadata else {})
+
+    def _show_context_menu(self, pos):
+        item = self.tree.itemAt(pos)
+        if not item:
+            return  # Nur auf Feldern
+        menu = QMenu(self)
+        action_add = QAction("Feld hinzufügen", self)
+        action_rename = QAction("Feld umbenennen", self)
+        action_delete = QAction("Feld löschen", self)
+        action_copy = QAction("Feld kopieren", self)
+        action_cut = QAction("Feld ausschneiden", self)
+        action_paste = QAction("Feld einfügen", self)
+        menu.addAction(action_add)
+        menu.addAction(action_rename)
+        menu.addAction(action_delete)
+        menu.addSeparator()
+        menu.addAction(action_copy)
+        menu.addAction(action_cut)
+        menu.addAction(action_paste)
+        action_add.triggered.connect(lambda: self.add_metadata_field(item))
+        action_rename.triggered.connect(lambda: self.rename_metadata_field(item))
+        action_delete.triggered.connect(lambda: self.delete_metadata_field(item))
+        action_copy.triggered.connect(lambda: self.copy_metadata_field(item))
+        action_cut.triggered.connect(lambda: self.cut_metadata_field(item))
+        action_paste.triggered.connect(lambda: self.paste_metadata_field(item))
+        menu.exec_(self.tree.viewport().mapToGlobal(pos))
+
+    def add_metadata_field(self, item):
+        key, ok = QInputDialog.getText(self, "Feld hinzufügen", "Name des neuen Felds:")
+        if ok and key:
+            value, ok2 = QInputDialog.getText(self, "Feld hinzufügen", f"Wert für '{key}':")
+            if ok2:
+                new_child = QTreeWidgetItem([key, value, ""])
+                new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+                self.tree.addTopLevelItem(new_child)
+
+    def rename_metadata_field(self, item):
+        key = item.text(0)
+        new_key, ok = QInputDialog.getText(self, "Feld umbenennen", "Neuer Name:", text=key)
+        if ok and new_key and new_key != key:
+            item.setText(0, new_key)
+
+    def delete_metadata_field(self, item):
+        idx = self.tree.indexOfTopLevelItem(item)
+        if idx >= 0:
+            self.tree.takeTopLevelItem(idx)
+
+    def copy_metadata_field(self, item):
+        self._metadata_clipboard = (item.text(0), item.text(1))
+
+    def cut_metadata_field(self, item):
+        self.copy_metadata_field(item)
+        self.delete_metadata_field(item)
+
+    def paste_metadata_field(self, item):
+        if not self._metadata_clipboard:
+            return
+        key, value = self._metadata_clipboard
+        new_child = QTreeWidgetItem([key, value, ""])
+        new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+        self.tree.addTopLevelItem(new_child)
+---
+
+**widgets/single_content_panel.py:**
+
+from PyQt5.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QPushButton, QSplitter,
+    QComboBox, QTreeWidgetItem, QToolBar, QAction
+)
+from PyQt5.QtCore import Qt, pyqtSignal, QSize
+from PyQt5.QtGui import QIcon
+from typing import List
+from models.content_model import Content
+from widgets.content_metadata_panel import ContentMetadataPanel
+from core.content_filter_parser import ContentFilterParser, is_valid_filter
+from widgets.content_editor_factory import create_content_editor
+from core.project_paths import get_path
+
+
+class SingleContentPanel(QWidget):
+    request_add_panel = pyqtSignal()
+    request_close_panel = pyqtSignal()
+    filter_selected = pyqtSignal(str)  # Signal für Filterauswahl/-eingabe
+
+    def __init__(self, meta_schema, content_schema, filter_text="", parent=None):
+        super().__init__(parent)
+        self.meta_schema = meta_schema
+        self.content_schema = content_schema
+        self._all_contents: List[Content] = []
+        self._current_content = None  # aktuell bearbeiteter Content
+        self.content_editor = None  # Dynamischer Editor
+        self._content_clipboard = None  # Für Copy/Cut/Paste
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        # --- Content-Toolbar ---
+        self.content_toolbar = QToolBar("Content-Aktionen")
+        self.content_toolbar.setIconSize(QSize(20, 20))
+
+        def icon_or_empty(icon_name):
+            try:
+                icon_path = str(get_path("icons", icon_name))
+                icon = QIcon(icon_path)
+                return icon if not icon.isNull() else QIcon()
+            except Exception:
+                return QIcon()
+        self.action_add_content = QAction(icon_or_empty(
+            "add_child.svg"), "Content hinzufügen", self)
+        self.action_delete_content = QAction(icon_or_empty(
+            "delete.svg"), "Content löschen", self)
+        self.action_copy_content = QAction(icon_or_empty(
+            "copy.svg"), "Content kopieren", self)
+        self.action_cut_content = QAction(icon_or_empty(
+            "cut.svg"), "Content ausschneiden", self)
+        self.action_paste_content = QAction(icon_or_empty(
+            "paste.svg"), "Content einfügen", self)
+        self.action_rename_content = QAction(icon_or_empty(
+            "rename.svg"), "Content umbenennen", self)
+        self.content_toolbar.addAction(self.action_add_content)
+        self.content_toolbar.addAction(self.action_delete_content)
+        self.content_toolbar.addAction(self.action_copy_content)
+        self.content_toolbar.addAction(self.action_cut_content)
+        self.content_toolbar.addAction(self.action_paste_content)
+        self.content_toolbar.addAction(self.action_rename_content)
+        layout.addWidget(self.content_toolbar)
+
+        # --- obere Button- und Filterzeile ---
+        top_row = QHBoxLayout()
+        self.filter_input = QComboBox()
+        self.filter_input.setEditable(True)
+        self.filter_input.setInsertPolicy(QComboBox.NoInsert)
+        self.filter_input.setEditText(filter_text)
+        self.filter_input.setPlaceholderText(
+            "z.B. lang = 'DE' AND audience = 'POP'")
+        self.filter_input.lineEdit().editingFinished.connect(self.on_filter_edit_finished)
+        self.filter_input.currentIndexChanged.connect(lambda _: self.on_filter_edit_finished())
+        self.filter_input.editTextChanged.connect(lambda _: self.apply_filter())
+        top_row.addWidget(QLabel("Filter:"))
+        top_row.addWidget(self.filter_input)
+
+        btn_add = QPushButton("+")
+        btn_close = QPushButton("×")
+        top_row.addWidget(btn_add)
+        top_row.addWidget(btn_close)
+
+        btn_add.clicked.connect(self.request_add_panel.emit)
+        btn_close.clicked.connect(self.request_close_panel.emit)
+
+        layout.addLayout(top_row)
+
+        # --- vertikaler Splitter für Inhalte ---
+        self.splitter = QSplitter(Qt.Vertical)
+        layout.addWidget(self.splitter)
+
+        # self.metadata_placeholder = QLabel(...)
+        self.metadata_panel = ContentMetadataPanel(
+            schema=self.content_schema,
+            default_metadata={}  # ← später ersetzen durch Node-Vererbung
+        )
+        self.metadata_panel.tree.itemClicked.connect(self.on_tree_item_clicked)
+        self.splitter.addWidget(self.metadata_panel)
+
+        # Editorbereich
+        self.editor_area = QWidget()
+        self.editor_layout = QVBoxLayout(self.editor_area)
+        self.editor_layout.setContentsMargins(0, 0, 0, 0)
+        self.splitter.addWidget(self.editor_area)
+
+        self.splitter.setSizes([150, 400])
+
+        # --- Verbindungen für Toolbar-Actionen ---
+        self.action_add_content.triggered.connect(self.add_content)
+        self.action_delete_content.triggered.connect(self.delete_content)
+        self.action_copy_content.triggered.connect(self.copy_content)
+        self.action_cut_content.triggered.connect(self.cut_content)
+        self.action_paste_content.triggered.connect(self.paste_content)
+        self.action_rename_content.triggered.connect(self.rename_content)
+
+    def _set_content_editor(self, content_dict):
+        # Entferne alten Editor
+        if self.content_editor:
+            self.editor_layout.removeWidget(self.content_editor)
+            self.content_editor.deleteLater()
+            self.content_editor = None
+        renderer = content_dict.get("renderer", "text_blocks")
+        self.content_editor = create_content_editor(
+            renderer, parent=self.editor_area)
+        self.editor_layout.addWidget(self.content_editor)
+        self.content_editor.set_content(content_dict)
+        self.content_editor.content_edited.connect(self._write_back_current)
+
+    def set_contents(self, contents: List[Content]):
+        """Übergibt die vollständige Content-Liste an dieses Panel"""
+        self._all_contents = contents
+
+        # Filter anwenden
+        parser = ContentFilterParser(self.filter_input.currentText())
+        matching = [c for c in contents if parser.match(c)]
+
+        self.metadata_panel.set_contents(matching)
+
+        if matching:
+            first = matching[0]
+            self._current_content = first
+            self._set_content_editor(first.__dict__)
+        else:
+            self._current_content = None
+            self._set_content_editor(
+                {"title": "", "renderer": "text_blocks", "data": {}})
+
+    def on_tree_item_clicked(self, item: QTreeWidgetItem, column: int):
+        self._write_back_current()  # Änderungen vor Auswahlwechsel speichern
+        # Nur Top-Level-Nodes (Content-Nodes) abfangen
+        parent = item.parent()
+        if not parent:  # Nur reagieren, wenn Kind-Node (Feld) angeklickt wurde
+            return
+
+        content_title = parent.text(0)
+        index = self.metadata_panel.tree.indexOfTopLevelItem(parent)
+        if index < 0 or index >= len(self._all_contents):
+            return
+
+        # Neuen Inhalt laden
+        selected = self._all_contents[index]
+        self._current_content = selected
+
+        self._set_content_editor(selected.__dict__)
+
+    def _write_back_current(self):
+        if not self._current_content or not self.content_editor:
+            return
+        content_dict = self.content_editor.get_content()
+        self._current_content.title = content_dict.get("title", "")
+        self._current_content.renderer = content_dict.get(
+            "renderer", self._current_content.renderer)
+        if hasattr(self._current_content, "data") and "data" in content_dict:
+            self._current_content.data.update(content_dict["data"])
+        # Metadaten übernehmen
+        index = self._all_contents.index(self._current_content)
+        metadata = self.metadata_panel.get_metadata_for_index(index)
+        if hasattr(self._current_content, "metadata") and hasattr(self._current_content.metadata, "data"):
+            self._current_content.metadata.data.update(metadata)
+        # ⇨ Aktualisiere TreeView (falls noch sichtbar)
+        root_item = self.metadata_panel.tree.topLevelItem(index)
+        if root_item:
+            for i in range(root_item.childCount()):
+                child = root_item.child(i)
+                key = child.text(0)
+                if key == "title":
+                    child.setText(1, self._current_content.title)
+                elif key == "renderer":
+                    child.setText(1, self._current_content.renderer)
+                elif key == "text":
+                    text = self._current_content.data.get("text", "")
+                    child.setText(
+                        1, text[:40] + "..." if len(text) > 40 else text)
+
+    def on_filter_edit_finished(self):
+        filter_str = self.filter_input.currentText().strip()
+        if is_valid_filter(filter_str):
+            self.filter_selected.emit(filter_str)
+        self.apply_filter()
+
+    def update_filter_list(self, filter_list):
+        """Aktualisiert die Dropdown-Liste der Filter."""
+        current = self.filter_input.currentText()
+        self.filter_input.blockSignals(True)
+        self.filter_input.clear()
+        self.filter_input.addItems(filter_list)
+        self.filter_input.setEditText(current)
+        self.filter_input.blockSignals(False)
+
+    def apply_filter(self):
+        self._write_back_current()  # Änderungen vor Filterwechsel speichern
+        self.set_contents(self._all_contents)
+
+    def add_content(self):
+        filter_str = self.filter_input.text()
+        print(f"[DEBUG] Aktueller Filter-String: '{filter_str}'")
+        import re
+        filter_values = dict(re.findall(r"(\w+)\s*=\s*['\"]([^'\"]+)['\"]", filter_str))
+        print(f"[DEBUG] Neue Content-Metadaten: {filter_values}")  # Debug-Ausgabe
+        metadata = filter_values.copy() if filter_values else {}
+        new_content = Content(
+            {
+                "content_type": "text",
+                "title": "Neuer Content",
+                "renderer": "text_blocks",
+                "data": {"text": ""},
+                "metadata": metadata
+            },
+            self.meta_schema
+        )
+        self._all_contents.append(new_content)
+        self.apply_filter()  # Filter sofort neu anwenden!
+        self._current_content = new_content
+        self._set_content_editor(new_content.__dict__)
+
+    def delete_content(self):
+        if not self._current_content:
+            return
+        if self._current_content in self._all_contents:
+            idx = self._all_contents.index(self._current_content)
+            del self._all_contents[idx]
+            # Nächsten Content auswählen
+            if self._all_contents:
+                new_idx = max(0, idx - 1)
+                self._current_content = self._all_contents[new_idx]
+                self._set_content_editor(self._current_content.__dict__)
+            else:
+                self._current_content = None
+                self._set_content_editor(
+                    {"title": "", "renderer": "text_blocks", "data": {}})
+            self.set_contents(self._all_contents)
+
+    def copy_content(self):
+        if not self._current_content:
+            return
+        import copy
+        self._content_clipboard = copy.deepcopy(self._current_content)
+
+    def cut_content(self):
+        self.copy_content()
+        self.delete_content()
+
+    def paste_content(self):
+        if not self._content_clipboard:
+            return
+        import copy
+        pasted = copy.deepcopy(self._content_clipboard)
+        pasted.title += " (Kopie)"
+        self._all_contents.append(pasted)
+        self.set_contents(self._all_contents)
+        self._current_content = pasted
+        self._set_content_editor(pasted.__dict__)
+
+    def rename_content(self):
+        if not self._current_content:
+            return
+        from PyQt5.QtWidgets import QInputDialog
+        new_title, ok = QInputDialog.getText(
+            self, "Content umbenennen", "Neuer Titel:", text=self._current_content.title)
+        if ok and new_title:
+            self._current_content.title = new_title
+            self._set_content_editor(self._current_content.__dict__)
+            self.set_contents(self._all_contents)
 ---
 

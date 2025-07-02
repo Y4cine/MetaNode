@@ -1,3 +1,9 @@
+
+# -*- coding: utf-8 -*-
+"""content_panel_stack.py
+This module defines the ContentPanelStack class for managing multiple content panels in a horizontal stack.
+"""
+
 from PyQt5.QtWidgets import QWidget, QSplitter, QHBoxLayout
 from PyQt5.QtCore import Qt
 from typing import List

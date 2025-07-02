@@ -1,3 +1,11 @@
+
+# -*- coding: utf-8 -*-
+"""main_window.py
+This module defines the MainWindow class for the main application window,
+including the tree view, node editor, and file operations.
+"""
+
+
 from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QSplitter, QVBoxLayout,
     QFileDialog, QMessageBox, QShortcut

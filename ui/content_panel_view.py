@@ -1,6 +1,12 @@
+
+# -*- coding: utf-8 -*-
+"""content_panel_view.py
+This module defines the ContentPanelView class for displaying and managing content in a panel.
+"""
+
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QLineEdit, QListWidget, QListWidgetItem,
+    QLineEdit,
     QTableWidget, QTableWidgetItem,
     QPushButton, QLabel
 )

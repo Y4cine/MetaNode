@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+### 01.07.2025
+- Saved filter status with file. Filters are now in ComboBoxes.
+
 ### 25.06.2025
 - Refactored UI layout persistence: All relevant QSplitter ratios (main, right panel, content panels, and per-panel splitters) are now saved and restored explicitly using unique keys.
 - Removed recursive splitter detection to prevent layout inconsistencies and ensure robust, workflow-safe restoration.

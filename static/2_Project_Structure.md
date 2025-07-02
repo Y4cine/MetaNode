@@ -17,38 +17,43 @@ Temporäre Dateien zur automatisierten Generierung der Projektdoku. Keine Runtim
 Datenmodelle: Klassen für Tree-Struktur, Nodes, Contents und Metadaten.
 
 **Dateien:**
-- {filepath: "models/content_model.py"}
-- {filepath: "models/metadata_model.py"}
-- {filepath: "models/node_model.py"}
-- {filepath: "models/tree_data.py"}
+- {filepath: "models/content_model.py", purpose: "Content model with metadata and renderer"}
+- {filepath: "models/metadata_model.py", purpose: "Metadata handling and (future) validation"}
+- {filepath: "models/node_model.py", purpose: "Node model with metadata and content"}
+- {filepath: "models/tree_data.py", purpose: "Tree structure with undo support"}
 
 ### "ui"
 GUI-Struktur für das Hauptfenster mit Bereichen wie TreeView, RightPanel, Node-Metadaten und Content-Panels.
 
 **Dateien:**
-- {filepath: "ui/content_panel_view.py"}
-- {filepath: "ui/main_window.py", purpose: "Main module, called by main."}
-- {filepath: "ui/node_editor_panel.py"}
-- {filepath: "ui/tree_view.py"}
+- {filepath: "ui/content_panel_view.py", purpose: "Single content view with filter + editor"}
+- {filepath: "ui/main_window.py", purpose: "GUI entry, sets up main layout and actions"}
+- {filepath: "ui/node_editor_panel.py", purpose: "Main right panel (metadata + content stack)"}
+- {filepath: "ui/tree_view.py", purpose: "Tree widget with search, edit, drag&drop"}
 
 ### "widgets"  
 Modular aufgebaute, wiederverwendbare Widgets für Content-Editor, Metadaten-Anzeige etc.
 
 **Dateien:**
-- {filepath: "widgets/content_editor_widget.py"}
-- {filepath: "widgets/content_list_widget.py"}
-- {filepath: "widgets/content_panel_stack.py"}
-- {filepath: "widgets/content_panel_view.py"}
-- {filepath: "widgets/metadata_widget.py"}
+- {filepath: "widgets/content_editor_base.py"}
+- {filepath: "widgets/content_editor_factory.py"}
+- {filepath: "widgets/content_editor_widget.py", purpose: "Editor for single content (title + text)"}
+- {filepath: "widgets/content_list_widget.py", purpose: "Multi-content editor with add/delete"}
+- {filepath: "widgets/content_metadata_panel.py"}
+- {filepath: "widgets/content_panel_stack.py", purpose: "Manages multiple parallel content views"}
+- {filepath: "widgets/metadata_widget.py", purpose: "(To be replaced by TreeView editor)"}
+- {filepath: "widgets/node_metadata_panel.py"}
+- {filepath: "widgets/single_content_panel.py"}
 
 ### "core"
 Zentrale Hilfskomponenten wie "content_filter_parser", "paths_registry", "schemas_registry", "undo_manager".
 
 **Dateien:**
-- {filepath: "core/content_filter_parser.py", purpose: "Filter contents by their metadata."}
-- {filepath: "core/project_paths.py", purpose: "Registry for Foldernames"}
-- {filepath: "core/schema_registry.py", purpose: "Registry for Node and Content Schemas. Schemas base on JSON"}
-- {filepath: "core/undo_manager.py", purpose: "Undo manager"}
+- {filepath: "core/content_filter_parser.py", purpose: "Filter engine for AND/OR/NOT queries"}
+- {filepath: "core/project_paths.py", purpose: "Path registry for key folders"}
+- {filepath: "core/project_settings.py"}
+- {filepath: "core/schema_registry.py", purpose: "JSON schema loader and cache"}
+- {filepath: "core/undo_manager.py", purpose: "Simple undo/redo stack"}
 
 ### "utils"
 (Derzeit leer) – reserviert für allgemeine Hilfsfunktionen.
@@ -65,5 +70,5 @@ Toolbar-Icons (SVG).
 JSON-Schemas zur Definition von Metadatenfeldern für Nodes und Contents.
 
 **Dateien:**
-- {filepath: "schemas/chapter_meta.json"}
-- {filepath: "schemas/content_schema.json"}
+- {filepath: "schemas/chapter_meta.json", purpose: "JSON schema for node metadata"}
+- {filepath: "schemas/content_schema.json", purpose: "JSON schema for content metadata"}

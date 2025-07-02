@@ -1,7 +1,12 @@
 # metadata_widget.py
+# -*- coding: utf-8 -*-
+"""metadata_widget.py
 
-from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QCheckBox, QComboBox
-from PyQt5.QtCore import Qt
+This module defines the MetadataEditor class for editing metadata fields.
+
+"""
+
+from PyQt5.QtWidgets import QWidget, QFormLayout, QLineEdit, QCheckBox
 from typing import Dict, Any
 from models.metadata_model import Metadata
 

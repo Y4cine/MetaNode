@@ -1,3 +1,10 @@
+
+# widgets/content_list_widget.py
+# -*- coding: utf-8 -*-
+"""content_list_widget.py
+This module defines the ContentListEditor class for managing a list of content editors.
+"""
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 from typing import List
 from models.content_model import Content

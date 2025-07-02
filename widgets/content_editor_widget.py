@@ -1,4 +1,8 @@
 # content_editor_widget.py
+# -*- coding: utf-8 -*-
+"""content_editor_widget.py
+This module defines the ContentEditorWidget class for editing content with metadata.
+"""
 
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
                              QLineEdit, QTextEdit, QGroupBox, QHBoxLayout,
@@ -16,7 +20,6 @@ class ContentEditorWidget(QWidget):
 
         super().__init__(parent)
         self._content = content
-
 
         self.title_input = QLineEdit(content.title)
         self.text_area = QTextEdit()

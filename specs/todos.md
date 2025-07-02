@@ -1,25 +1,34 @@
 ## Todos
 
+### erledigt
 [x] Metadata-Panel überarbeiten  
 [x] Rechten Panel überarbeiten  
 [x] Renderer implementieren 
-[ ] Metadaten hinzufügen, löschen, umbenennen. Methoden und Knöpfe
-[ ] Contents hinzufügen, löschen, sortieren? Methoden und Knöpfe
 
+[x] Metadaten hinzufügen, löschen, umbenennen. Methoden und Knöpfe
+[x] Contents hinzufügen, löschen, sortieren? Methoden und Knöpfe
+
+### UI
 [ ] Icons überarbeiten - selbst zeichnen  
+[ ] Commands registry
+[ ] Anzeige-Modi: Standard Panels, JSON-Struktur, Lese-Modus
+[ ] Zumindest Darkmode, besser Themes.
+
+### Renderer
 [ ] Mehr Renderer implementieren (Bilder, Markdown, HTML, Tabellen, etc.)
 
 [ ] Split und Merge - vertikal zu Knoten, horizontal zu Contents. Das löst das Attachment Problem. Erfordert die Auswahl mehrerer Contents.
-[ ] Drag and Drop nach Außen von Knoten und Contents. (Akzeptiert Files aus Explorer, Selektionen, usw.). Kontext-Menü: Import/Export.
-<<<<<<< HEAD
-[ ] Save Tree state (expanded nodes)
-[ ] Save selected item
-=======
 
->>>>>>> 3e89cb5c484986955e5996142c4cfc2597bbb3bc
+### Import-Export
+[ ] Drag and Drop nach Außen von Knoten und Contents. (Akzeptiert Files aus Explorer, Selektionen, usw.). Kontext-Menü: Import/Export.
+
+
 ## Bugs
 [ ] New Content --> "AttributeError: 'QComboBox' object has no attribute 'text'"
-
+[ ] Die Filter Combos are not populated right away. They are only after switching between them.
 
 ---
-Idee: Wenn man die json zipped, könnte man auch beliebige Attachments dem Dokument hinzufügen (PDF, Bilder, etc.). Bei den Bildern hätte das den Vorteil, dass sie nicht mehr als base64 gespeichert werden müssen. MetaNode müsste dann mit 2 Arten von Dateien arbeiten: json und "mdx". mdx = gezippte Meta Node Datei.
+## Ideen 
+1. Wenn man die json zipped, könnte man auch beliebige Attachments dem Dokument hinzufügen (PDF, Bilder, etc.). Bei den Bildern hätte das den Vorteil, dass sie nicht mehr als base64 gespeichert werden müssen. MetaNode müsste dann mit 2 Arten von Dateien arbeiten: json und "mdx". mdx = gezippte Meta Node Datei.
+2. Speicherformat flexibel machen JSON, SQLite, zip
+3. Medienplan-Handbuch in MetaNode schreiben.

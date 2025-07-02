@@ -1,4 +1,9 @@
 # content_model.py
+# -*- coding: utf-8 -*-
+"""content_model.py
+This module defines the Content class for managing content data with metadata.
+"""
+
 
 from typing import Dict, Any
 from models.metadata_model import Metadata
@@ -24,4 +29,3 @@ class Content:
     def validate(self):
         self.metadata.validate()
         # TODO: Später: Datenvalidierung für self.data ergänzen
-

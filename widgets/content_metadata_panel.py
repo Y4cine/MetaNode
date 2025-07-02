@@ -1,3 +1,10 @@
+
+# widgets/content_metadata_panel.py
+# -*- coding: utf-8 -*-
+"""content_metadata_panel.py
+This module defines the ContentMetadataPanel class for displaying and managing metadata fields for content.
+"""
+
 from PyQt5.QtWidgets import (
     QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog
 )

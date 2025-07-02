@@ -1,3 +1,9 @@
+
+# -*- coding: utf-8 -*-
+"""content_editor_base.py
+This module defines the BaseContentEditor class and its subclass TextBlockEditor for editing content.
+"""
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QTextEdit, QComboBox, QLabel
 from PyQt5.QtCore import pyqtSignal
 

@@ -1,3 +1,9 @@
+
+# -*- coding: utf-8 -*-
+"""node_editor_panel.py
+This module defines the NodeEditorPanel class for editing nodes in the application.
+"""
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSplitter
 from PyQt5.QtCore import Qt
 from typing import Optional

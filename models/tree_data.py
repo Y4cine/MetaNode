@@ -1,12 +1,17 @@
-# Summary:
 
+# -*- coding: utf-8 -*-
+"""
+tree_data.py
+This module defines the TreeDataModel and TreeNodeWrapper classes for managing a tree-like data structure
+with undo/redo functionality.
+"""
 
 import uuid
 import json
 from typing import Any, Dict, List, Optional
 import copy
 from core.undo_manager import UndoManager
-from core.project_paths import get_path, file_exists
+from core.project_paths import get_path
 
 
 class TreeNodeWrapper:

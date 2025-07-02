@@ -1,4 +1,10 @@
 # node_model.py
+# -*- coding: utf-8 -*-
+"""node_model.py
+
+This module defines the Node class for managing a node in the tree structure,
+including its metadata and content.
+"""
 
 from typing import Dict, Any, List
 from models.metadata_model import Metadata
