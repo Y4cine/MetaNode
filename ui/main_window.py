@@ -27,40 +27,41 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.last_node_id = None
-        # print("\n==================== MainWindow Konstruktor ====================\n")
         self.setWindowTitle("MetaNode")
         self.resize(1200, 800)
 
         self.model = TreeDataModel()
-
-        # Schemas vorbereiten
-        # oder „schemas“, je nach Pfadstruktur
         self.schemas = SchemaRegistry(base_dir=".")
         self.meta_schema = self.schemas.get("chapter_meta")
-        self.content_schema = self.schemas.get(
-            "content_schema")  # oder einfach ein Dummy für jetzt
+        self.content_schema = self.schemas.get("content_schema")
 
-        # Hauptlayout
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         layout = QVBoxLayout(central_widget)
-
         splitter = QSplitter(Qt.Horizontal)
         layout.addWidget(splitter)
-
-        # Linke Seite: Tree mit Suche
         self.tree_area = NodeTree()
         splitter.addWidget(self.tree_area.container)
         self.tree_area.node_selected.connect(self.on_node_selected)
-
-        # Rechte Seite: neue Inhaltsansicht mit mehreren Panels
         self.right_area = NodeEditorPanel(
             meta_schema=self.meta_schema,
             content_schema=self.content_schema
         )
         splitter.addWidget(self.right_area)
 
-        # Menü und Toolbar initialisieren (robust, keine Duplikate)
+        # Theme aus User-Settings laden (falls vorhanden)
+        try:
+            from utils.user_settings import get_setting
+            theme_path = get_setting("theme_path", "")
+            if theme_path:
+                import os
+                if os.path.exists(theme_path):
+                    with open(theme_path, "r", encoding="utf-8") as f:
+                        from PyQt5.QtWidgets import QApplication
+                        QApplication.instance().setStyleSheet(f.read())
+        except Exception as e:
+            print(f"[WARN] Konnte Theme nicht laden: {e}")
+
         self._init_menus_and_toolbars()
 
     def _init_menus_and_toolbars(self):
@@ -92,12 +93,14 @@ class MainWindow(QMainWindow):
 
     def load_stylesheet(self):
         from PyQt5.QtWidgets import QApplication  # Import hier, damit QApplication verfügbar ist
+        from utils.user_settings import set_setting
         path, _ = QFileDialog.getOpenFileName(self, "Stylesheet auswählen", "", "CSS Files (*.css);;Alle Dateien (*)")
         if path:
             try:
                 with open(path, "r", encoding="utf-8") as f:
                     stylesheet = f.read()
                 QApplication.instance().setStyleSheet(stylesheet)
+                set_setting("theme_path", path)
             except Exception as e:
                 QMessageBox.warning(self, "Fehler", f"Stylesheet konnte nicht geladen werden:\n{e}")
 

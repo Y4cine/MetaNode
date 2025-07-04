@@ -1,5 +1,11 @@
 
+
 ## [Unreleased]
+
+### 04.07.2025
+- User-Settings werden jetzt automatisch im Benutzerprofil gespeichert und beim Start wiederhergestellt (z.B. gewähltes Theme).
+- Settings werden plattformübergreifend im passenden User-Ordner (`AppData/Roaming/MetaNode` etc.) als JSON abgelegt.
+- Neue Utility-Datei: `utils/user_settings.py` für robustes, erweiterbares Settings-Handling.
 
 ### 04.07.2025
 - Theme-Umschaltung für die gesamte Anwendung per Menüpunkt unter "Ansicht" implementiert (CSS-Stylesheets für Light/Dark Mode).

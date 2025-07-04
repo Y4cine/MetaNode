@@ -1,0 +1,79 @@
+/* theme_2025.css – Zeitgeist 2025: Modern, Calm, Soft Neobrutalism, sanfte Pastellfarben, klare Kontraste */
+
+QMainWindow {
+    background: #f6f5f3;
+}
+
+QWidget {
+    background: #f6f5f3;
+    color: #23272e;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 11.5pt;
+}
+
+QMenuBar, QMenu {
+    background: #fff6e9;
+    color: #23272e;
+    border-bottom: 1.5px solid #ffe0b2;
+}
+
+QMenu::item:selected {
+    background: #ffe0b2;
+    color: #23272e;
+}
+
+QToolBar {
+    background: #fff6e9;
+    border-bottom: 1.5px solid #ffe0b2;
+}
+
+QPushButton {
+    background: #ffe0b2;
+    color: #23272e;
+    border: 2px solid #ffb300;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+QPushButton:hover {
+    background: #ffd54f;
+    color: #23272e;
+}
+
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background: #fff;
+    color: #23272e;
+    border: 1.5px solid #ffb300;
+    border-radius: 6px;
+}
+
+QTreeView, QListView {
+    background: #fff;
+    alternate-background-color: #f6f5f3;
+    color: #23272e;
+    border-radius: 6px;
+}
+
+QHeaderView::section {
+    background: #ffe0b2;
+    color: #23272e;
+    border: 1.5px solid #ffb300;
+    font-weight: 600;
+}
+
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #fff6e9;
+    border: none;
+}
+
+QScrollBar::handle {
+    background: #ffd54f;
+    border-radius: 6px;
+}
+
+QStatusBar {
+    background: #fff6e9;
+    color: #23272e;
+    border-top: 1.5px solid #ffe0b2;
+}

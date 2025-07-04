@@ -1,0 +1,77 @@
+/* theme_2015.css – Zeitgeist 2015: Flat Design, kräftige Farben, klare Kanten, Metro/Material-Style */
+
+QMainWindow {
+    background: #f0f0f0;
+}
+
+QWidget {
+    background: #ffffff;
+    color: #222;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 10.5pt;
+}
+
+QMenuBar, QMenu {
+    background: #2196f3;
+    color: #fff;
+    border: none;
+}
+
+QMenu::item:selected {
+    background: #1976d2;
+    color: #fff;
+}
+
+QToolBar {
+    background: #2196f3;
+    border: none;
+}
+
+QPushButton {
+    background: #2196f3;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 6px 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(33,150,243,0.08);
+}
+QPushButton:hover {
+    background: #1976d2;
+}
+
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background: #fff;
+    color: #222;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+}
+
+QTreeView, QListView {
+    background: #fff;
+    alternate-background-color: #e3f2fd;
+    color: #222;
+}
+
+QHeaderView::section {
+    background: #2196f3;
+    color: #fff;
+    border: none;
+    font-weight: 500;
+}
+
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #e3f2fd;
+    border: none;
+}
+
+QScrollBar::handle {
+    background: #2196f3;
+    border-radius: 2px;
+}
+
+QStatusBar {
+    background: #2196f3;
+    color: #fff;
+    border-top: none;
+}
