@@ -1,0 +1,72 @@
+/* theme_dark.css - Dark Mode Theme */
+
+QMainWindow {
+    background: #23272e;
+}
+
+QWidget {
+    background: #2c313a;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+}
+
+QMenuBar, QMenu {
+    background: #23272e;
+    color: #e0e0e0;
+}
+
+QMenu::item:selected {
+    background: #444b58;
+}
+
+QToolBar {
+    background: #23272e;
+    border-bottom: 1px solid #444b58;
+}
+
+QPushButton {
+    background: #444b58;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 5px 12px;
+}
+QPushButton:hover {
+    background: #5a6272;
+}
+
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background: #23272e;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 3px;
+}
+
+QTreeView, QListView {
+    background: #2c313a;
+    alternate-background-color: #23272e;
+    color: #e0e0e0;
+}
+
+QHeaderView::section {
+    background: #444b58;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #23272e;
+    border: none;
+}
+
+QScrollBar::handle {
+    background: #444b58;
+    border-radius: 4px;
+}
+
+QStatusBar {
+    background: #23272e;
+    color: #e0e0e0;
+    border-top: 1px solid #444b58;
+}

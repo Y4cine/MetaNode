@@ -60,14 +60,46 @@ class MainWindow(QMainWindow):
         )
         splitter.addWidget(self.right_area)
 
-        splitter.setSizes([300, 900])
+        # Menü und Toolbar initialisieren (robust, keine Duplikate)
+        self._init_menus_and_toolbars()
 
+    def _init_menus_and_toolbars(self):
+        # Entferne alle bestehenden Toolbars
+        for tb in self.findChildren(type(self.addToolBar("dummy"))):
+            self.removeToolBar(tb)
+        # Entferne alle bestehenden Menüs
+        menu_bar = self.menuBar()
+        menu_bar.clear()
         # Datei-Menü
         self._init_file_menu()
         # Toolbar initialisieren
         self._init_toolbar()
-        # Ansicht-Menü ergänzen
+        # Ansicht-Menü (inkl. Theme) ergänzen
         self._init_view_menu()
+
+    def _add_theme_action_to_view_menu(self):
+        menu_bar = self.menuBar()
+        view_menu = None
+        # Suche das "Ansicht"-Menü
+        for action in menu_bar.actions():
+            if action.text() == "Ansicht":
+                view_menu = action.menu()
+                break
+        if view_menu is not None:
+            view_menu.addSeparator()
+            view_menu.addAction("Theme laden...", self.load_stylesheet)
+
+
+    def load_stylesheet(self):
+        from PyQt5.QtWidgets import QApplication  # Import hier, damit QApplication verfügbar ist
+        path, _ = QFileDialog.getOpenFileName(self, "Stylesheet auswählen", "", "CSS Files (*.css);;Alle Dateien (*)")
+        if path:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    stylesheet = f.read()
+                QApplication.instance().setStyleSheet(stylesheet)
+            except Exception as e:
+                QMessageBox.warning(self, "Fehler", f"Stylesheet konnte nicht geladen werden:\n{e}")
 
         # Initiales Beispiel laden
         self.model.load_from_file("memetik.json")
@@ -162,6 +194,8 @@ class MainWindow(QMainWindow):
         view_menu = menu_bar.addMenu("Ansicht")
         view_menu.addAction("SingleContentPanels angleichen",
                             self.equalize_single_content_panels)
+        # Theme-Action ergänzen
+        self._add_theme_action_to_view_menu()
 
     # ----------------------------
     # Dateioperationen

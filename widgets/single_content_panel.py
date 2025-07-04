@@ -219,7 +219,7 @@ class SingleContentPanel(QWidget):
         self.set_contents(self._all_contents)
 
     def add_content(self):
-        filter_str = self.filter_input.text()
+        filter_str = self.filter_input.currentText().strip()
         print(f"[DEBUG] Aktueller Filter-String: '{filter_str}'")
         import re
         filter_values = dict(re.findall(r"(\w+)\s*=\s*['\"]([^'\"]+)['\"]", filter_str))

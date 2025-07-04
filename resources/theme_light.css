@@ -1,0 +1,72 @@
+/* theme_light.css - Standard (Light) Theme */
+
+QMainWindow {
+    background: #f5f5f5;
+}
+
+QWidget {
+    background: #ffffff;
+    color: #222;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+}
+
+QMenuBar, QMenu {
+    background: #f5f5f5;
+    color: #222;
+}
+
+QMenu::item:selected {
+    background: #e0e0e0;
+}
+
+QToolBar {
+    background: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+}
+
+QPushButton {
+    background: #e0e0e0;
+    color: #222;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 5px 12px;
+}
+QPushButton:hover {
+    background: #d0d0d0;
+}
+
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background: #fff;
+    color: #222;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+}
+
+QTreeView, QListView {
+    background: #fff;
+    alternate-background-color: #f0f0f0;
+    color: #222;
+}
+
+QHeaderView::section {
+    background: #e0e0e0;
+    color: #222;
+    border: 1px solid #bbb;
+}
+
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #f5f5f5;
+    border: none;
+}
+
+QScrollBar::handle {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+QStatusBar {
+    background: #f5f5f5;
+    color: #222;
+    border-top: 1px solid #ccc;
+}

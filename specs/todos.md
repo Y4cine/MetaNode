@@ -13,6 +13,7 @@
 [ ] Commands registry
 [ ] Anzeige-Modi: Standard Panels, JSON-Struktur, Lese-Modus
 [ ] Zumindest Darkmode, besser Themes.
+[ ] Lokalisierung
 
 ### Renderer
 [ ] Mehr Renderer implementieren (Bilder, Markdown, HTML, Tabellen, etc.)

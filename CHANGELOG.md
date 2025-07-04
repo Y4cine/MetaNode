@@ -1,4 +1,11 @@
+
 ## [Unreleased]
+
+### 04.07.2025
+- Theme-Umschaltung für die gesamte Anwendung per Menüpunkt unter "Ansicht" implementiert (CSS-Stylesheets für Light/Dark Mode).
+- Theme-Wechsel wirkt sofort und ohne Duplikate auf Menüs/Toolbars – Menüstruktur bleibt immer korrekt.
+- Robuste Menü- und Toolbar-Initialisierung: Keine Dopplungen mehr beim Theme-Wechsel.
+- Zwei Beispiel-Themes (`resources/theme_light.css`, `resources/theme_dark.css`) hinzugefügt.
 
 ### 01.07.2025
 - Saved filter status with file. Filters are now in ComboBoxes.
