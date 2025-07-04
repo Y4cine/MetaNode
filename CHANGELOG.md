@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+### 2025-07-04 (UI/UX)
+- User settings can now be opened via menu and edited in your standard text editor.
+- User settings has now an option "open_last" to open the last opened file.
+- The app title shows now the current open file.
+- Toolbar now features three exclusive toggle buttons for Edit, Read, and JSON view modes (icons: `mode_edit.svg`, `mode_read.svg`, `mode_json.svg`).
+- Synchronization between menu and toolbar: switching the view mode via menu or toolbar always updates the other (toggle state and enabled/disabled state).
+- Placeholder icons are used; can be replaced by user-supplied icons with the same names in the `icons` folder.
+
 ### 2025-07-04 (Addendum)
 - File menu: Submenu "Recently Opened" shows the last opened files, direct navigation possible.
 - Recent files list is managed automatically, only existing files are shown, no duplicates due to slash mix.
@@ -13,8 +21,6 @@
 - User settings are now automatically saved in the user profile and restored on startup (e.g. selected theme).
 - Settings are stored cross-platform in the appropriate user folder (`AppData/Roaming/MetaNode` etc.) as JSON.
 - New utility file: `utils/user_settings.py` for robust, extensible settings handling.
-
-### 2025-07-04
 - Theme switching for the entire application via menu item under "View" implemented (CSS stylesheets for light/dark mode).
 - Theme change takes effect immediately and without duplicates in menus/toolbars – menu structure always remains correct.
 - Robust menu and toolbar initialization: No more duplicates when switching themes.

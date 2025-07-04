@@ -34,6 +34,7 @@ class SingleContentPanel(QWidget):
         self._current_content = None  # aktuell bearbeiteter Content
         self.content_editor = None  # Dynamischer Editor
         self._content_clipboard = None  # Für Copy/Cut/Paste
+        self.setMinimumWidth(80)  # Mindestbreite für Splitter-Kollaps
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 

@@ -22,6 +22,7 @@ from core.project_settings import get_settings, set_settings
 from utils.ratios import calculate_ratios
 from utils.user_settings import get_recent_files, add_recent_file
 import os
+import sys
 
 
 class MainWindow(QMainWindow):
@@ -66,15 +67,29 @@ class MainWindow(QMainWindow):
         # Menüs und Toolbars initialisieren (vor dem Laden der Datei)
         self._init_menus_and_toolbars()
 
-        # Initiales Beispiel laden und zu recent_files hinzufügen
-        initial_file = str(get_path("resources", "memetik.json"))  # Korrekter Aufruf mit Ordner-Alias
-        if os.path.exists(initial_file):
-            print(f"[DEBUG] Lade initiales Beispiel: {initial_file}")
-            self.model.load_from_file(initial_file)
-            self.tree_area.load_model(self.model)
-            print(f"[DEBUG] Füge initiales Beispiel zu Recent Files hinzu: {initial_file}")
-            add_recent_file(initial_file)
-            self.update_recent_files_menu()
+        # --- NEU: open_last-Option aus Settings prüfen ---
+        from utils.user_settings import get_setting
+        open_last = get_setting("open_last", False)
+        recent = get_recent_files()
+        if open_last and recent:
+            last_file = recent[0]
+            if os.path.exists(last_file):
+                print(f"[DEBUG] Lade zuletzt geöffnete Datei: {last_file}")
+                self.model.load_from_file(last_file)
+                self.tree_area.load_model(self.model)
+                self.update_recent_files_menu()
+                self.set_window_title_with_path(last_file)
+            else:
+                print(f"[DEBUG] Zuletzt geöffnete Datei nicht gefunden: {last_file}")
+                self.new_file()
+        else:
+            self.new_file()
+
+    def set_window_title_with_path(self, path=None):
+        if path:
+            self.setWindowTitle(f"{os.path.basename(path)} – MetaNode")
+        else:
+            self.setWindowTitle("MetaNode")
 
     def _init_menus_and_toolbars(self):
         # Entferne alle bestehenden Toolbars
@@ -144,6 +159,8 @@ class MainWindow(QMainWindow):
         self.recent_files_menu = file_menu.addMenu("Zuletzt geöffnet")
         self.update_recent_files_menu()
         file_menu.addSeparator()
+        file_menu.addAction("User Settings bearbeiten...", self.edit_user_settings)
+        file_menu.addSeparator()
         file_menu.addAction("Schließen", self.close)
 
     def update_recent_files_menu(self):
@@ -159,6 +176,7 @@ class MainWindow(QMainWindow):
 
     def open_recent_file(self, path):
         if path:
+            self.set_window_title_with_path(path)
             if hasattr(self, 'set_edit_mode'):
                 self.set_edit_mode()
             self.model.load_from_file(path)
@@ -339,6 +357,7 @@ class MainWindow(QMainWindow):
         })
         self.tree_area.load_model(self.model)
         self.right_area.load_node(None)  # ← leert das rechte Panel
+        self.set_window_title_with_path(None)
 
     def open_file(self):
         # print("\n==================== LADEN: open_file ====================\n")
@@ -346,6 +365,7 @@ class MainWindow(QMainWindow):
             self, "Datei öffnen", "", "JSON-Dateien (*.json)")
         if path:
             print(f"[DEBUG] Datei öffnen: {path}")
+            self.set_window_title_with_path(path)
             # Immer in den Editiermodus wechseln, damit content_stack etc. verfügbar sind
             if hasattr(self, 'set_edit_mode'):
                 self.set_edit_mode()
@@ -592,3 +612,17 @@ class MainWindow(QMainWindow):
     # 'filters': Panel-spezifische Filterzuordnung, z.B. {'panel0': 'lang="DE"', ...}
     # 'global_filters': Sammlung aller gültigen Filter für die Dropdown-Auswahl in allen Panels
     # Diese Listen dürfen nicht verwechselt oder überschrieben werden!
+
+    def edit_user_settings(self):
+        from utils.user_settings import get_user_settings_path
+        import subprocess
+        settings_path = get_user_settings_path()
+        try:
+            if os.name == "nt":
+                os.startfile(settings_path)
+            elif sys.platform == "darwin":
+                subprocess.call(["open", settings_path])
+            else:
+                subprocess.call(["xdg-open", settings_path])
+        except Exception as e:
+            QMessageBox.warning(self, "Fehler", f"Konnte User Settings nicht öffnen:\n{e}")
