@@ -142,8 +142,8 @@
           "id": "524fdf15-d00c-4f89-b6b7-3c0475998665",
           "children": [],
           "metadata": {
-            "status": "",
-            "print": ""
+            "print": "",
+            "status": ""
           },
           "contents": [
             {
@@ -173,7 +173,13 @@
                 "text": ""
               },
               "renderer": "text_blocks",
-              "metadata": {}
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
             }
           ]
         }
@@ -524,8 +530,8 @@
               "id": "f5174f71-e45e-4e70-9e61-7d9db03dff85",
               "children": [],
               "metadata": {
-                "status": "",
-                "print": ""
+                "print": "",
+                "status": ""
               },
               "contents": [
                 {

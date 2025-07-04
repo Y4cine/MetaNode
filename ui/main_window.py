@@ -188,6 +188,32 @@ class MainWindow(QMainWindow):
         toolbar = self.addToolBar("Bearbeiten")
         toolbar.setIconSize(QSize(24, 24))
 
+        # View mode toggle buttons (exclusive)
+        from PyQt5.QtWidgets import QAction, QActionGroup
+        mode_group = QActionGroup(self)
+        mode_group.setExclusive(True)
+
+        self.action_edit_mode = QAction(QIcon(str(get_path("icons", "mode_edit.svg"))), "Edit Mode", self)
+        self.action_edit_mode.setCheckable(True)
+        self.action_edit_mode.setChecked(True)
+        self.action_edit_mode.triggered.connect(self.set_edit_mode)
+        mode_group.addAction(self.action_edit_mode)
+        toolbar.addAction(self.action_edit_mode)
+
+        self.action_read_mode = QAction(QIcon(str(get_path("icons", "mode_read.svg"))), "Read Mode", self)
+        self.action_read_mode.setCheckable(True)
+        self.action_read_mode.triggered.connect(self.set_read_mode)
+        mode_group.addAction(self.action_read_mode)
+        toolbar.addAction(self.action_read_mode)
+
+        self.action_json_mode = QAction(QIcon(str(get_path("icons", "mode_json.svg"))), "JSON View", self)
+        self.action_json_mode.setCheckable(True)
+        self.action_json_mode.triggered.connect(self.show_json_view)
+        mode_group.addAction(self.action_json_mode)
+        toolbar.addAction(self.action_json_mode)
+
+        toolbar.addSeparator()
+
         # Dateiaktionen
         toolbar.addAction(QIcon(str(get_path("icons", "new.svg"))),
                           "Neu", self.new_file)
@@ -225,29 +251,42 @@ class MainWindow(QMainWindow):
 
         # Modus-Submenü
         mode_menu = view_menu.addMenu("Modus")
-        mode_menu.addAction("Lesemodus", self.set_read_mode)
-        mode_menu.addAction("JSON-Ansicht", self.show_json_view)
+        self.menu_action_edit_mode = mode_menu.addAction("Edit Mode", self.set_edit_mode)
+        self.menu_action_read_mode = mode_menu.addAction("Read Mode", self.set_read_mode)
+        self.menu_action_json_mode = mode_menu.addAction("JSON View", self.show_json_view)
 
     def set_read_mode(self):
+        # Synchronize toolbar and menu
+        if hasattr(self, 'action_read_mode'):
+            self.action_read_mode.setChecked(True)
+        if hasattr(self, 'menu_action_read_mode'):
+            self.menu_action_read_mode.setEnabled(False)
+            self.menu_action_edit_mode.setEnabled(True)
+            self.menu_action_json_mode.setEnabled(True)
         # Lesemodus: Ersetze rechten Bereich durch NodeReadPanel
         from widgets.node_read_panel import NodeReadPanel
         if hasattr(self, '_read_panel') and self._read_panel is not None:
             return  # Bereits im Lesemodus
         self._editor_panel = self.right_area
         self._read_panel = NodeReadPanel(self.model, self.tree_area, self.meta_schema, self.content_schema)
-        # NodeReadPanel anstelle von right_area im Splitter anzeigen
         splitter = self.centralWidget().findChild(QSplitter)
         if splitter:
             idx = splitter.indexOf(self.right_area)
             splitter.insertWidget(idx, self._read_panel)
-            splitter.widget(idx+1).setParent(None)  # Entferne Editor-Panel
-        # Aktuellen Node im Lesepanel anzeigen
+            splitter.widget(idx+1).setParent(None)
         node = getattr(self.right_area, '_node', None)
         if node:
             self._read_panel.set_node(node)
         self.right_area = self._read_panel
 
     def set_edit_mode(self):
+        # Synchronize toolbar and menu
+        if hasattr(self, 'action_edit_mode'):
+            self.action_edit_mode.setChecked(True)
+        if hasattr(self, 'menu_action_edit_mode'):
+            self.menu_action_edit_mode.setEnabled(False)
+            self.menu_action_read_mode.setEnabled(True)
+            self.menu_action_json_mode.setEnabled(True)
         # Zurück zum Editor: Ersetze NodeReadPanel durch NodeEditorPanel
         if not hasattr(self, '_read_panel') or self._read_panel is None:
             return  # Nicht im Lesemodus
@@ -262,6 +301,13 @@ class MainWindow(QMainWindow):
         self._read_panel = None
 
     def show_json_view(self):
+        # Synchronize toolbar and menu
+        if hasattr(self, 'action_json_mode'):
+            self.action_json_mode.setChecked(True)
+        if hasattr(self, 'menu_action_json_mode'):
+            self.menu_action_json_mode.setEnabled(False)
+            self.menu_action_edit_mode.setEnabled(True)
+            self.menu_action_read_mode.setEnabled(True)
         # Zeigt die aktuelle Node oder das Modell als JSON an
         import json
         if hasattr(self.right_area, '_node') and self.right_area._node:
@@ -270,7 +316,7 @@ class MainWindow(QMainWindow):
             data = self.model.to_dict()
         json_str = json.dumps(data, indent=2, ensure_ascii=False)
         dlg = QMessageBox(self)
-        dlg.setWindowTitle("JSON-Ansicht")
+        dlg.setWindowTitle("JSON-View")
         dlg.setTextInteractionFlags(Qt.TextSelectableByMouse)
         dlg.setIcon(QMessageBox.Information)
         dlg.setText(json_str)
