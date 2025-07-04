@@ -164,3 +164,12 @@ class TreeDataModel:
         if snapshot:
             self.load_from_dict(copy.deepcopy(snapshot))
             self.mark_dirty()
+
+    def iter_nodes(self):
+        def _walk(node):
+            yield node
+            for child in getattr(node, 'children', []):
+                yield from _walk(child)
+        root = getattr(self, 'root', None)
+        if root:
+            yield from _walk(root)

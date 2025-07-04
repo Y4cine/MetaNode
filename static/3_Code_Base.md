@@ -228,9 +228,9 @@ def restore_layout_from_settings(settings, right_area, main_window):
         from PyQt5.QtWidgets import QSplitter
 
         def print_splitter_sizes(widget, key):
-            if isinstance(widget, QSplitter):
+            '''if isinstance(widget, QSplitter):
                 print(f"DEBUG Splitter {key} sizes:", widget.sizes(), "sum:",
-                      sum(widget.sizes()), "width:", widget.size().width())
+                      sum(widget.sizes()), "width:", widget.size().width())'''
             if hasattr(widget, 'children'):
                 for i, child in enumerate(widget.children()):
                     if isinstance(child, QSplitter):

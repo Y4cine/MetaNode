@@ -10,7 +10,7 @@ def calculate_ratios(sizes):
         # Korrigiere den gesamten Rundungsfehler auf das letzte Element
         diff = 1.0 - sum(ratios)
         ratios[-1] += diff
-        print(
-            f"DEBUG: calculate_ratios sizes={sizes}, total={total}, ratios={ratios}, sum={sum(ratios)}")
+        '''print(
+            f"DEBUG: calculate_ratios sizes={sizes}, total={total}, ratios={ratios}, sum={sum(ratios)}")'''
         return ratios
     return []

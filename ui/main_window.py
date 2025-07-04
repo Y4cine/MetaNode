@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """main_window.py
 This module defines the MainWindow class for the main application window,
@@ -21,6 +20,8 @@ from models.node_model import Node
 from core.project_paths import get_path
 from core.project_settings import get_settings, set_settings
 from utils.ratios import calculate_ratios
+from utils.user_settings import get_recent_files, add_recent_file
+import os
 
 
 class MainWindow(QMainWindow):
@@ -62,7 +63,18 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print(f"[WARN] Konnte Theme nicht laden: {e}")
 
+        # Menüs und Toolbars initialisieren (vor dem Laden der Datei)
         self._init_menus_and_toolbars()
+
+        # Initiales Beispiel laden und zu recent_files hinzufügen
+        initial_file = str(get_path("resources", "memetik.json"))  # Korrekter Aufruf mit Ordner-Alias
+        if os.path.exists(initial_file):
+            print(f"[DEBUG] Lade initiales Beispiel: {initial_file}")
+            self.model.load_from_file(initial_file)
+            self.tree_area.load_model(self.model)
+            print(f"[DEBUG] Füge initiales Beispiel zu Recent Files hinzu: {initial_file}")
+            add_recent_file(initial_file)
+            self.update_recent_files_menu()
 
     def _init_menus_and_toolbars(self):
         # Entferne alle bestehenden Toolbars
@@ -104,38 +116,7 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 QMessageBox.warning(self, "Fehler", f"Stylesheet konnte nicht geladen werden:\n{e}")
 
-        # Initiales Beispiel laden
-        self.model.load_from_file("memetik.json")
-        self.tree_area.load_model(self.model)
-        # Settings prüfen und anwenden (wie in open_file)
-        tree_data = self.model.to_dict()
-        settings = get_settings(tree_data)
-        node_id = self.last_node_id or "root"
-        node_wrapper = self.model.find_node(node_id)
-        if node_wrapper:
-            raw_node = node_wrapper.node
-            node_obj = Node(raw_node, self.meta_schema, self.content_schema)
-            self.right_area.load_node(node_obj)
-        else:
-            self.right_area.load_node(None)
-        # Splitter wiederherstellen
-        if 'splitters' in settings:
-            for key, sizes in settings['splitters'].items():
-                self._restore_splitter_sizes(self.centralWidget(), key, sizes)
-        # Filter wiederherstellen und Panels ggf. anlegen
-        if 'filters' in settings and hasattr(self.right_area, 'get_all_content_panels'):
-            panels = self.right_area.get_all_content_panels()
-            num_needed = len(settings['filters'])
-            # Panels ggf. dynamisch erzeugen
-            if hasattr(self.right_area.content_stack, 'ensure_panel_count'):
-                self.right_area.content_stack.ensure_panel_count(num_needed)
-                panels = self.right_area.get_all_content_panels()
-            for idx in range(num_needed):
-                key = f"panel{idx}"
-                if key in settings['filters'] and idx < len(panels):
-                    panel = panels[idx]
-                    if hasattr(panel, 'filter_input'):
-                        panel.filter_input.setEditText(settings['filters'][key])
+        # Nach Theme-Wechsel keine Datei laden oder recent_files verändern!
 
         # Shortcuts
         undo_shortcut = QShortcut(QKeySequence("Ctrl+Z"), self)
@@ -159,7 +140,49 @@ class MainWindow(QMainWindow):
         file_menu.addAction("Speichern", self.save_file)
         file_menu.addAction("Speichern unter...", self.save_file_as)
         file_menu.addSeparator()
+        # Bereich für zuletzt geöffnete Dateien
+        self.recent_files_menu = file_menu.addMenu("Zuletzt geöffnet")
+        self.update_recent_files_menu()
+        file_menu.addSeparator()
         file_menu.addAction("Schließen", self.close)
+
+    def update_recent_files_menu(self):
+        # Entferne alte Einträge
+        self.recent_files_menu.clear()
+        recent_files = get_recent_files()
+        if not recent_files:
+            self.recent_files_menu.addAction("(Keine)").setEnabled(False)
+            return
+        for path in recent_files:
+            action = self.recent_files_menu.addAction(path)
+            action.triggered.connect(lambda checked, p=path: self.open_recent_file(p))
+
+    def open_recent_file(self, path):
+        if path:
+            if hasattr(self, 'set_edit_mode'):
+                self.set_edit_mode()
+            self.model.load_from_file(path)
+            self.tree_area.load_model(self.model)
+            # Settings auslesen und Panels/Splitter neu aufbauen wie in open_file
+            tree_data = self.model.to_dict()
+            settings = get_settings(tree_data)
+            if 'global_filters' in settings and hasattr(self.right_area, 'content_stack') and hasattr(self.right_area.content_stack, 'set_global_filters'):
+                self.right_area.content_stack.set_global_filters(settings['global_filters'])
+            set_settings(tree_data, settings)
+            self.model.load_from_dict(tree_data)
+            from core.project_settings import restore_layout_from_settings
+            restore_layout_from_settings(settings, self.right_area, self)
+            node_id = self.last_node_id or "root"
+            node_wrapper = self.model.find_node(node_id)
+            if node_wrapper:
+                raw_node = node_wrapper.node
+                node_obj = Node(raw_node, self.meta_schema, self.content_schema)
+                self.right_area.load_node(node_obj)
+            else:
+                self.right_area.load_node(None)
+            # Datei zu recent_files hinzufügen und Menü aktualisieren
+            add_recent_file(path)
+            self.update_recent_files_menu()
 
     def _init_toolbar(self):
         toolbar = self.addToolBar("Bearbeiten")
@@ -200,6 +223,59 @@ class MainWindow(QMainWindow):
         # Theme-Action ergänzen
         self._add_theme_action_to_view_menu()
 
+        # Modus-Submenü
+        mode_menu = view_menu.addMenu("Modus")
+        mode_menu.addAction("Lesemodus", self.set_read_mode)
+        mode_menu.addAction("JSON-Ansicht", self.show_json_view)
+
+    def set_read_mode(self):
+        # Lesemodus: Ersetze rechten Bereich durch NodeReadPanel
+        from widgets.node_read_panel import NodeReadPanel
+        if hasattr(self, '_read_panel') and self._read_panel is not None:
+            return  # Bereits im Lesemodus
+        self._editor_panel = self.right_area
+        self._read_panel = NodeReadPanel(self.model, self.tree_area, self.meta_schema, self.content_schema)
+        # NodeReadPanel anstelle von right_area im Splitter anzeigen
+        splitter = self.centralWidget().findChild(QSplitter)
+        if splitter:
+            idx = splitter.indexOf(self.right_area)
+            splitter.insertWidget(idx, self._read_panel)
+            splitter.widget(idx+1).setParent(None)  # Entferne Editor-Panel
+        # Aktuellen Node im Lesepanel anzeigen
+        node = getattr(self.right_area, '_node', None)
+        if node:
+            self._read_panel.set_node(node)
+        self.right_area = self._read_panel
+
+    def set_edit_mode(self):
+        # Zurück zum Editor: Ersetze NodeReadPanel durch NodeEditorPanel
+        if not hasattr(self, '_read_panel') or self._read_panel is None:
+            return  # Nicht im Lesemodus
+        splitter = self.centralWidget().findChild(QSplitter)
+        if splitter:
+            idx = splitter.indexOf(self._read_panel)
+            editor_panel = getattr(self, '_editor_panel', None)
+            if editor_panel:
+                splitter.insertWidget(idx, editor_panel)
+                splitter.widget(idx+1).setParent(None)
+                self.right_area = editor_panel
+        self._read_panel = None
+
+    def show_json_view(self):
+        # Zeigt die aktuelle Node oder das Modell als JSON an
+        import json
+        if hasattr(self.right_area, '_node') and self.right_area._node:
+            data = self.right_area._node.to_dict() if hasattr(self.right_area._node, 'to_dict') else str(self.right_area._node)
+        else:
+            data = self.model.to_dict()
+        json_str = json.dumps(data, indent=2, ensure_ascii=False)
+        dlg = QMessageBox(self)
+        dlg.setWindowTitle("JSON-Ansicht")
+        dlg.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        dlg.setIcon(QMessageBox.Information)
+        dlg.setText(json_str)
+        dlg.exec_()
+
     # ----------------------------
     # Dateioperationen
     # ----------------------------
@@ -223,14 +299,19 @@ class MainWindow(QMainWindow):
         path, _ = QFileDialog.getOpenFileName(
             self, "Datei öffnen", "", "JSON-Dateien (*.json)")
         if path:
+            print(f"[DEBUG] Datei öffnen: {path}")
+            # Immer in den Editiermodus wechseln, damit content_stack etc. verfügbar sind
+            if hasattr(self, 'set_edit_mode'):
+                self.set_edit_mode()
             self.model.load_from_file(path)
             self.tree_area.load_model(self.model)
             # Settings auslesen
             tree_data = self.model.to_dict()
             settings = get_settings(tree_data)
             # Globale Filterliste aus Settings laden
-            if 'global_filters' in settings and hasattr(self.right_area, 'content_stack') and hasattr(self.right_area.content_stack, 'set_global_filters'):
-                self.right_area.content_stack.set_global_filters(settings['global_filters'])
+            if 'global_filters' in settings and hasattr(self.right_area, 'content_stack'):
+                if hasattr(self.right_area.content_stack, 'set_global_filters'):
+                    self.right_area.content_stack.set_global_filters(settings['global_filters'])
             # Settings-Knoten im Modell explizit überschreiben (alte Settings entfernen)
             set_settings(tree_data, settings)
             self.model.load_from_dict(tree_data)
@@ -242,11 +323,15 @@ class MainWindow(QMainWindow):
             node_wrapper = self.model.find_node(node_id)
             if node_wrapper:
                 raw_node = node_wrapper.node
-                node_obj = Node(raw_node, self.meta_schema,
-                                self.content_schema)
+                node_obj = Node(raw_node, self.meta_schema, self.content_schema)
                 self.right_area.load_node(node_obj)
             else:
                 self.right_area.load_node(None)
+            # Datei zu recent_files hinzufügen und Menü aktualisieren
+            print(f"[DEBUG] Füge Datei zu Recent Files hinzu: {path}")
+            add_recent_file(path)
+            print("[DEBUG] Aktualisiere Recent Files Menü")
+            self.update_recent_files_menu()
         # print("\n==================== ENDE open_file ====================\n")
 
     def save_file(self):
@@ -325,20 +410,25 @@ class MainWindow(QMainWindow):
     # ----------------------------
 
     def on_node_selected(self, node_id):
-        # vorherigen Node sichern
-        if self.right_area._node is not None:
-            node_wrapper = self.model.find_node(self.right_area._node.id)
-            if node_wrapper:
-                updated = self.right_area.update_and_return_node()
-                node_wrapper.node.update(updated.to_dict())
-                self.model.mark_dirty()
+        # vorherigen Node sichern (nur im Editormodus)
+        if hasattr(self.right_area, '_node') and hasattr(self.right_area, 'update_and_return_node'):
+            if self.right_area._node is not None:
+                node_wrapper = self.model.find_node(self.right_area._node.id)
+                if node_wrapper:
+                    updated = self.right_area.update_and_return_node()
+                    node_wrapper.node.update(updated.to_dict())
+                    self.model.mark_dirty()
 
         # neuen Node laden
         node_wrapper = self.model.find_node(node_id)
         if node_wrapper:
             raw_node = node_wrapper.node
             node_obj = Node(raw_node, self.meta_schema, self.content_schema)
-            self.right_area.load_node(node_obj)
+            # Unterscheide Editormodus und Lesemodus
+            if hasattr(self.right_area, 'load_node'):
+                self.right_area.load_node(node_obj)
+            elif hasattr(self.right_area, 'set_node'):
+                self.right_area.set_node(node_obj)
         self.last_node_id = node_id
 
     # ----------------------------
