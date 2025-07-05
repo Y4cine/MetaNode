@@ -14,14 +14,16 @@ from utils.ratios import calculate_ratios
 
 
 class ContentPanelStack(QWidget):
-    def __init__(self, meta_schema, content_schema, parent=None):
+    def __init__(self, meta_schema, content_schema, parent=None, splitter_manager=None):
         super().__init__(parent)
         self.meta_schema = meta_schema
         self.content_schema = content_schema
         self.global_filters = []  # Globale Filterliste für alle Panels
 
-        self.splitter = QSplitter()
-        self.splitter.setOrientation(Qt.Horizontal)
+        if splitter_manager is not None:
+            self.splitter = splitter_manager.create_splitter(Qt.Horizontal)
+        else:
+            self.splitter = QSplitter(Qt.Horizontal)
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -29,14 +31,16 @@ class ContentPanelStack(QWidget):
 
         self.panel_views: List[SingleContentPanel] = []
         self._last_contents: list[Content] = []
-        self.add_panel()  # initial ein Panel
+        self.add_panel(splitter_manager=splitter_manager)  # initial ein Panel
 
-    def add_panel(self, filter_text: str = ""):
-        panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text)
-        panel.request_add_panel.connect(self.add_panel)
+    def add_panel(self, filter_text: str = "", splitter_manager=None):
+        panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text, splitter_manager=splitter_manager)
+        panel.request_add_panel.connect(lambda: self.add_panel(splitter_manager=splitter_manager))
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
         # Synchronisierung: Wenn ein gültiger Filter ausgewählt/eingegeben wird, global updaten
         panel.filter_selected.connect(self._on_panel_filter_selected)
+        # NEW: Forward content_edited signal
+        panel.content_edited.connect(self._on_panel_content_edited)
 
         self.panel_views.append(panel)
         self.splitter.addWidget(panel)
@@ -45,6 +49,12 @@ class ContentPanelStack(QWidget):
             panel.set_contents(self.panel_views[0]._all_contents)
         if self._last_contents:
             panel.set_contents(self._last_contents)
+
+    def _on_panel_content_edited(self):
+        # Forward to parent (NodeEditorPanel) if possible
+        parent = self.parent()
+        if parent and hasattr(parent, 'on_content_edited'):
+            parent.on_content_edited()
 
     def remove_panel(self, panel: SingleContentPanel):
         if panel in self.panel_views and len(self.panel_views) > 1:

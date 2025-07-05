@@ -1,0 +1,193 @@
+{
+  "id": "root",
+  "title": "Neue Struktur",
+  "children": [
+    {
+      "title": "Erstens",
+      "id": "47841cf7-84e9-4c49-a8a6-bf3175829dda",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": ""
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        },
+        {
+          "content_type": "text",
+          "title": "1",
+          "data": {
+            "text": "1"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "lang": "DE",
+            "audience": "",
+            "main": "1",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Zweitens",
+      "id": "84ccb9af-b6e1-46dd-a61b-129d355edbd6",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": "1"
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "2",
+          "data": {
+            "text": "2"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Drittens",
+      "id": "4e0f606f-5ff1-4f96-ae39-3d63f587f56e",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "3",
+          "data": {
+            "text": "3"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "_settings",
+      "settings": {
+        "splitters": {
+          "main": [
+            0.13678844519966016,
+            0.8632115548003398
+          ],
+          "content_panels": [
+            0.40059347181008903,
+            0.599406528189911
+          ],
+          "panel0_splitter": [
+            0.4638364779874214,
+            0.5361635220125787
+          ],
+          "panel1_splitter": [
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1": [
+            0.13678844519966016,
+            0.8632115548003398
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            0.40059347181008903,
+            0.599406528189911
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter13": [
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter13": [
+            0.4638364779874214,
+            0.5361635220125787
+          ]
+        },
+        "filters": {
+          "panel0": "lang=\"DE\"",
+          "panel1": ""
+        },
+        "global_filters": [
+          "lang=\"DE\""
+        ]
+      },
+      "children": [],
+      "title": "",
+      "metadata": {
+        "print": "",
+        "status": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "5"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "status": "",
+    "print": ""
+  },
+  "contents": [
+    {
+      "content_type": "text",
+      "title": "Neuer Inhalt",
+      "data": {
+        "text": ""
+      },
+      "renderer": "text_blocks",
+      "metadata": {
+        "audience": "",
+        "lang": "",
+        "main": "",
+        "status": "",
+        "version": ""
+      }
+    }
+  ]
+}

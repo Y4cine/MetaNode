@@ -75,14 +75,20 @@ class NodeTree(QTreeWidget):
         self.clear()
         if model.root:
             root_item = self._build_item_recursive(model.root)
-            self.addTopLevelItem(root_item)
+            if root_item is not None:
+                self.addTopLevelItem(root_item)
             self.expandAll()
 
     def _build_item_recursive(self, node: TreeNodeWrapper) -> QTreeWidgetItem:
+        # Skip settings node
+        if node.id == '_settings':
+            return None
         item = QTreeWidgetItem([node.title])
         item.setData(0, Qt.UserRole, node.id)
         for child in node.children:
-            item.addChild(self._build_item_recursive(child))
+            child_item = self._build_item_recursive(child)
+            if child_item is not None:
+                item.addChild(child_item)
         return item
 
     def select_node_by_id(self, node_id: str):

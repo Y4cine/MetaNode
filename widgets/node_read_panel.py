@@ -189,3 +189,10 @@ class NodeReadPanel(QWidget):
         # Synchronisiere TreeView-Auswahl
         if hasattr(self.tree_view, 'select_node_by_id'):
             self.tree_view.select_node_by_id(getattr(node, 'id', None))
+
+    def switch_node(self, node, model=None, meta_schema=None, content_schema=None):
+        """
+        Interface compatibility: Accepts the same arguments as NodeEditorPanel.switch_node.
+        For now, simply calls set_node with the node.
+        """
+        self.set_node(node)

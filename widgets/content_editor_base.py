@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """content_editor_base.py
 This module defines the BaseContentEditor class and its subclass TextBlockEditor for editing content.
@@ -24,11 +23,13 @@ class BaseContentEditor(QWidget):
 
 
 class TextBlockEditor(BaseContentEditor):
+    renderer_changed = pyqtSignal(str)  # Signal to notify renderer change
+
     def __init__(self, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         self.renderer_combo = QComboBox()
-        self.renderer_combo.addItems(["text_blocks", "markdown", "html"])
+        self.renderer_combo.addItems(["text_blocks", "markdown", "html", "Form"])
         layout.addWidget(QLabel("Renderer:"))
         layout.addWidget(self.renderer_combo)
         self.title_input = QLineEdit()
@@ -39,7 +40,7 @@ class TextBlockEditor(BaseContentEditor):
         layout.addWidget(self.text_edit)
         self.title_input.installEventFilter(self)
         self.text_edit.installEventFilter(self)
-        self.renderer_combo.currentIndexChanged.connect(self._on_renderer_changed)
+        self.renderer_combo.currentTextChanged.connect(self._on_renderer_changed)
         self._content = None  # Das aktuell bearbeitete Content-Dict
 
     def set_content(self, content: dict):
@@ -70,4 +71,5 @@ class TextBlockEditor(BaseContentEditor):
         return super().eventFilter(obj, event)
 
     def _on_renderer_changed(self):
+        self.renderer_changed.emit(self.renderer_combo.currentText())
         self.content_edited.emit()

@@ -1,6 +1,10 @@
 {
   "id": "root",
-  "title": "Beispielstruktur",
+  "title": "Baum",
+  "metadata": {
+    "status": "",
+    "print": ""
+  },
   "contents": [
     {
       "content_type": "text",
@@ -20,51 +24,8 @@
   ],
   "children": [
     {
-      "id": "kap1",
-      "title": "Kapitel 1",
-      "contents": [
-        {
-          "content_type": "text",
-          "title": "Einleitung",
-          "data": {
-            "text": "Dies ist die Einleitung zu Kapitel 1."
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "lang": "DE",
-            "audience": "POP",
-            "version": "1.0",
-            "modified": "2025-06-19T10:37:13",
-            "main": "",
-            "status": ""
-          }
-        },
-        {
-          "content_type": "text",
-          "title": "Fazit",
-          "data": {
-            "text": "SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI SCI "
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "lang": "DE",
-            "audience": "SCI",
-            "version": "1.0",
-            "modified": "2025-06-19T10:37:13",
-            "main": "",
-            "status": ""
-          }
-        }
-      ],
-      "children": [],
-      "metadata": {
-        "print": "",
-        "status": ""
-      }
-    },
-    {
-      "title": "2",
-      "id": "30d4be25-4c65-4217-bc8b-aa45ead48f57",
+      "title": "a",
+      "id": "9d9b74ad-0591-46bb-89f9-1be808b955fe",
       "children": [],
       "metadata": {
         "print": "",
@@ -73,18 +34,69 @@
       "contents": [
         {
           "content_type": "text",
-          "title": "Neuer Inhalt",
+          "title": "a",
           "data": {
-            "text": ""
+            "text": "a"
           },
           "renderer": "text_blocks",
           "metadata": {
-            "modified": "2025-06-19T10:37:14",
-            "main": "",
-            "lang": "",
             "audience": "",
-            "version": "",
-            "status": ""
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "b",
+      "id": "096ea585-0918-45fd-9fab-7185510d3796",
+      "children": [],
+      "metadata": {
+        "print": "",
+        "status": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "b",
+          "data": {
+            "text": "b b b b b"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "c",
+      "id": "c06918c3-e1fe-4b1a-bc9d-27d27aee5a3a",
+      "children": [],
+      "metadata": {
+        "print": "",
+        "status": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "c",
+          "data": {
+            "text": "c"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
           }
         }
       ]
@@ -94,49 +106,38 @@
       "settings": {
         "splitters": {
           "main": [
-            0.058179723502304145,
-            0.9418202764976958
-          ],
-          "right_panel": [
-            0.18016759776536312,
-            0.8198324022346368
+            0.33559898045879355,
+            0.6644010195412065
           ],
           "content_panels": [
-            0.25,
-            0.25,
-            0.25,
-            0.25
+            1.0
           ],
           "panel0_splitter": [
-            0.1932938856015779,
-            0.8067061143984221
+            0.2732793522267207,
+            0.7267206477732794
           ],
-          "panel1_splitter": [
-            0.14201183431952663,
-            0.8579881656804734
+          "main_recursive_splitter1": [
+            0.33559898045879355,
+            0.6644010195412065
           ],
-          "panel2_splitter": [
-            0.27218934911242604,
-            0.727810650887574
+          "main_recursive_splitter1_child0_splitter1": [
+            0.25,
+            0.75
           ],
-          "panel3_splitter": [
-            0.27218934911242604,
-            0.727810650887574
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter13": [
+            0.2732793522267207,
+            0.7267206477732794
           ]
         },
         "filters": {
-          "panel0": "audience=\"POP\"",
-          "panel1": "audience=\"SCI\"",
-          "panel2": "",
-          "panel3": ""
+          "panel0": ""
         },
         "global_filters": []
       },
       "children": []
     }
-  ],
-  "metadata": {
-    "status": "",
-    "print": ""
-  }
+  ]
 }

@@ -56,6 +56,9 @@ def restore_layout_from_settings(settings, right_area, main_window):
     - Trägt Filtertexte ein
     - Entfernt überzählige Panels
     """
+    # Only restore layout if right_area has content_stack (i.e., is not a JsonEditor)
+    if not hasattr(right_area, 'content_stack'):
+        return
     # Panels zurücksetzen
     if hasattr(right_area.content_stack, 'clear_panels'):
         right_area.content_stack.clear_panels()
@@ -77,22 +80,16 @@ def restore_layout_from_settings(settings, right_area, main_window):
             if hasattr(main_window, '_restore_splitter_sizes'):
                 main_window._restore_splitter_sizes(
                     main_window.centralWidget(), key, sizes)
-        # Debug-Ausgabe für Splittergrößen
-        from PyQt5.QtWidgets import QSplitter
-
-        def print_splitter_sizes(widget, key):
-            '''if isinstance(widget, QSplitter):
-                print(f"DEBUG Splitter {key} sizes:", widget.sizes(), "sum:",
-                      sum(widget.sizes()), "width:", widget.size().width())'''
-            if hasattr(widget, 'children'):
-                for i, child in enumerate(widget.children()):
-                    if isinstance(child, QSplitter):
-                        name = f"{key}_splitter{i}"
-                        print_splitter_sizes(child, name)
-                    elif hasattr(child, 'children'):
-                        print_splitter_sizes(child, f"{key}_child{i}")
-
-        print_splitter_sizes(main_window.centralWidget(), "main")
+        # After restoring, explicitly collapse panels if size is 0
+        if hasattr(right_area, 'content_stack') and hasattr(right_area.content_stack, 'panel_views'):
+            for idx, panel in enumerate(right_area.content_stack.panel_views):
+                if hasattr(panel, 'splitter'):
+                    s = panel.splitter
+                    # If the saved size for the metadata panel is 0, hide it
+                    key = f'panel{idx}_splitter'
+                    if key in splitters and len(splitters[key]) > 0 and splitters[key][0] == 0:
+                        if hasattr(panel.metadata_panel, 'setVisible'):
+                            panel.metadata_panel.setVisible(False)
     QTimer.singleShot(0, set_splitters)
     # Filtertexte setzen
     for idx in range(num_panels):

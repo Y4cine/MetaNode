@@ -26,6 +26,14 @@ class Content:
             "metadata": self.metadata.to_dict()
         }
 
+    def from_dict(self, data: Dict[str, Any]):
+        self.content_type = data.get("content_type", self.content_type)
+        self.title = data.get("title", self.title)
+        self.data = data.get("data", self.data)
+        self.renderer = data.get("renderer", self.renderer)
+        if "metadata" in data and hasattr(self.metadata, "update_from_dict"):
+            self.metadata.update_from_dict(data["metadata"])
+
     def validate(self):
         self.metadata.validate()
         # TODO: Später: Datenvalidierung für self.data ergänzen

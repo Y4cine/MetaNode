@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+### 2025-07-05 (Major Refactor)
+- Removed all in-place and sub-node JSON editing. JSON editing is now only possible via a modal dialog for the full model.
+- The right pane always shows structured editors; no more direct JSON editing for nodes or content.
+- All file, menu, toolbar, and mode logic is now delegated to manager classes.
+- UI state, undo/redo, and data flows are robust and modular.
+- The codebase is ready for further modularization and extension.
+
 ### 2025-07-04 (UI/UX)
 - User settings can now be opened via menu and edited in your standard text editor.
 - User settings has now an option "open_last" to open the last opened file.

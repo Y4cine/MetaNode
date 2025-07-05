@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """node_metadata_panel.py
 
@@ -7,7 +6,7 @@ This module defines the NodeMetadataPanel class for displaying and editing metad
 """
 
 from PyQt5.QtWidgets import (
-    QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog
+    QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QMenu, QAction, QInputDialog, QMessageBox
 )
 from PyQt5.QtCore import Qt
 from models.metadata_model import Metadata
@@ -97,17 +96,28 @@ class NodeMetadataPanel(QWidget):
 
     def add_metadata_field(self, item):
         key, ok = QInputDialog.getText(self, "Feld hinzufügen", "Name des neuen Felds:")
-        if ok and key:
-            value, ok2 = QInputDialog.getText(self, "Feld hinzufügen", f"Wert für '{key}':")
-            if ok2:
-                new_child = QTreeWidgetItem([key, value, ""])
-                new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
-                self.tree.addTopLevelItem(new_child)
+        if not ok or not key:
+            return
+        # Prevent duplicate keys
+        for i in range(self.tree.topLevelItemCount()):
+            if self.tree.topLevelItem(i).text(0) == key:
+                QMessageBox.warning(self, "Fehler", f"Feld '{key}' existiert bereits.")
+                return
+        value, ok2 = QInputDialog.getText(self, "Feld hinzufügen", f"Wert für '{key}':")
+        if ok2:
+            new_child = QTreeWidgetItem([key, value, ""])
+            new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
+            self.tree.addTopLevelItem(new_child)
 
     def rename_metadata_field(self, item):
         key = item.text(0)
         new_key, ok = QInputDialog.getText(self, "Feld umbenennen", "Neuer Name:", text=key)
         if ok and new_key and new_key != key:
+            # Prevent renaming to an existing key
+            for i in range(self.tree.topLevelItemCount()):
+                if self.tree.topLevelItem(i).text(0) == new_key:
+                    QMessageBox.warning(self, "Fehler", f"Feld '{new_key}' existiert bereits.")
+                    return
             item.setText(0, new_key)
 
     def delete_metadata_field(self, item):
@@ -126,6 +136,16 @@ class NodeMetadataPanel(QWidget):
         if not self._metadata_clipboard:
             return
         key, value = self._metadata_clipboard
+        # Prevent duplicate keys
+        for i in range(self.tree.topLevelItemCount()):
+            if self.tree.topLevelItem(i).text(0) == key:
+                QMessageBox.warning(self, "Fehler", f"Feld '{key}' existiert bereits.")
+                return
         new_child = QTreeWidgetItem([key, value, ""])
         new_child.setFlags(new_child.flags() | Qt.ItemIsEditable)
-        self.tree.addTopLevelItem(new_child)
+        # Insert after the current item if possible
+        idx = self.tree.indexOfTopLevelItem(item)
+        if idx >= 0:
+            self.tree.insertTopLevelItem(idx + 1, new_child)
+        else:
+            self.tree.addTopLevelItem(new_child)

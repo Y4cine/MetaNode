@@ -17,8 +17,8 @@
 
 ### Renderer
 [ ] Mehr Renderer implementieren (Bilder, Markdown, HTML, Tabellen, etc.)
-
-[ ] Split und Merge - vertikal zu Knoten, horizontal zu Contents. Das löst das Attachment Problem. Erfordert die Auswahl mehrerer Contents.
+[ ] **Split und Merge** - vertikal zu Knoten, horizontal zu Contents. Das löst das Attachment Problem. Erfordert die Auswahl mehrerer Contents.
+[ ] **Formulare** als Editor. Formular-Definition als Dict im Content.
 
 ### Import-Export
 [ ] Drag and Drop nach Außen von Knoten und Contents. (Akzeptiert Files aus Explorer, Selektionen, usw.). Kontext-Menü: Import/Export.

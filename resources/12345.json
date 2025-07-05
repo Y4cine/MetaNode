@@ -1,0 +1,195 @@
+{
+  "id": "root",
+  "title": "Neue Struktur",
+  "children": [
+    {
+      "title": "Erstens",
+      "id": "47841cf7-84e9-4c49-a8a6-bf3175829dda",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": ""
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        },
+        {
+          "content_type": "text",
+          "title": "1",
+          "data": {
+            "text": "1"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "lang": "DE",
+            "audience": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Zweitens",
+      "id": "84ccb9af-b6e1-46dd-a61b-129d355edbd6",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "2",
+          "data": {
+            "text": "2"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Drittens",
+      "id": "4e0f606f-5ff1-4f96-ae39-3d63f587f56e",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "3",
+          "data": {
+            "text": "3"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Viertens",
+      "id": "23e34de5-8b2e-4e8c-bf2e-d513c8453e60",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "4"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "_settings",
+      "settings": {
+        "splitters": {
+          "main": [
+            0.3874256584536958,
+            0.6125743415463042
+          ],
+          "right_panel": [
+            0.25,
+            0.75
+          ],
+          "content_panels": [
+            1.0
+          ],
+          "panel0_splitter": [
+            0.2735229759299781,
+            0.7264770240700219
+          ]
+        },
+        "filters": {
+          "panel0": ""
+        },
+        "global_filters": []
+      },
+      "children": [],
+      "title": "",
+      "metadata": {
+        "print": "",
+        "status": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "5"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "status": "",
+    "print": ""
+  },
+  "contents": [
+    {
+      "content_type": "text",
+      "title": "Neuer Inhalt",
+      "data": {
+        "text": ""
+      },
+      "renderer": "text_blocks",
+      "metadata": {
+        "audience": "",
+        "lang": "",
+        "main": "",
+        "status": "",
+        "version": ""
+      }
+    }
+  ]
+}

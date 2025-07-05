@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """single_content_panel.py
 
@@ -25,8 +24,9 @@ class SingleContentPanel(QWidget):
     request_add_panel = pyqtSignal()
     request_close_panel = pyqtSignal()
     filter_selected = pyqtSignal(str)  # Signal für Filterauswahl/-eingabe
+    content_edited = pyqtSignal()  # Signal for dirty/changed status
 
-    def __init__(self, meta_schema, content_schema, filter_text="", parent=None):
+    def __init__(self, meta_schema, content_schema, filter_text="", parent=None, splitter_manager=None):
         super().__init__(parent)
         self.meta_schema = meta_schema
         self.content_schema = content_schema
@@ -34,7 +34,7 @@ class SingleContentPanel(QWidget):
         self._current_content = None  # aktuell bearbeiteter Content
         self.content_editor = None  # Dynamischer Editor
         self._content_clipboard = None  # Für Copy/Cut/Paste
-        self.setMinimumWidth(80)  # Mindestbreite für Splitter-Kollaps
+        self.setMinimumWidth(0)  # Allow full collapse for splitter
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -61,12 +61,16 @@ class SingleContentPanel(QWidget):
             "paste.svg"), "Content einfügen", self)
         self.action_rename_content = QAction(icon_or_empty(
             "rename.svg"), "Content umbenennen", self)
+        # Remove JSON anzeigen action from the toolbar (JSON editing only via modal dialog in main window)
+        # self.action_show_json = QAction(icon_or_empty(
+        #     "json.svg"), "JSON anzeigen", self)
         self.content_toolbar.addAction(self.action_add_content)
         self.content_toolbar.addAction(self.action_delete_content)
         self.content_toolbar.addAction(self.action_copy_content)
         self.content_toolbar.addAction(self.action_cut_content)
         self.content_toolbar.addAction(self.action_paste_content)
         self.content_toolbar.addAction(self.action_rename_content)
+        # self.content_toolbar.addAction(self.action_show_json)
         layout.addWidget(self.content_toolbar)
 
         # --- obere Button- und Filterzeile ---
@@ -94,7 +98,10 @@ class SingleContentPanel(QWidget):
         layout.addLayout(top_row)
 
         # --- vertikaler Splitter für Inhalte ---
-        self.splitter = QSplitter(Qt.Vertical)
+        if splitter_manager is not None:
+            self.splitter = splitter_manager.create_splitter(Qt.Vertical)
+        else:
+            self.splitter = QSplitter(Qt.Vertical)
         layout.addWidget(self.splitter)
 
         # self.metadata_placeholder = QLabel(...)
@@ -102,6 +109,7 @@ class SingleContentPanel(QWidget):
             schema=self.content_schema,
             default_metadata={}  # ← später ersetzen durch Node-Vererbung
         )
+        self.metadata_panel.setMinimumWidth(0)  # Allow full collapse for splitter
         self.metadata_panel.tree.itemClicked.connect(self.on_tree_item_clicked)
         self.splitter.addWidget(self.metadata_panel)
 
@@ -120,6 +128,7 @@ class SingleContentPanel(QWidget):
         self.action_cut_content.triggered.connect(self.cut_content)
         self.action_paste_content.triggered.connect(self.paste_content)
         self.action_rename_content.triggered.connect(self.rename_content)
+        # self.action_show_json.triggered.connect(self.show_json_view)
 
     def _set_content_editor(self, content_dict):
         # Entferne alten Editor
@@ -127,15 +136,31 @@ class SingleContentPanel(QWidget):
             self.editor_layout.removeWidget(self.content_editor)
             self.content_editor.deleteLater()
             self.content_editor = None
+
         renderer = content_dict.get("renderer", "text_blocks")
-        self.content_editor = create_content_editor(
-            renderer, parent=self.editor_area)
+
+        try:
+            if renderer == "Form":
+                from widgets.form_renderer import FormRenderer
+                self.content_editor = FormRenderer(form_data=content_dict.get("data", {}), parent=self.editor_area)
+            # Remove/disable JsonEditor as a renderer for content
+            # elif renderer == "JsonEditor":
+            #     from widgets.json_editor import JsonEditor
+            #     self.content_editor = JsonEditor(json_data=content_dict.get("data", {}), parent=self.editor_area)
+            else:
+                self.content_editor = create_content_editor(renderer, parent=self.editor_area)
+        except Exception as e:
+            print(f"[ERROR] Failed to load renderer '{renderer}': {e}")
+            self.content_editor = create_content_editor("text_blocks", parent=self.editor_area)
+
         self.editor_layout.addWidget(self.content_editor)
         self.content_editor.set_content(content_dict)
         self.content_editor.content_edited.connect(self._write_back_current)
 
     def set_contents(self, contents: List[Content]):
         """Übergibt die vollständige Content-Liste an dieses Panel"""
+        if not self.try_leave_json_editor():
+            return
         self._all_contents = contents
 
         # Filter anwenden
@@ -154,13 +179,14 @@ class SingleContentPanel(QWidget):
                 {"title": "", "renderer": "text_blocks", "data": {}})
 
     def on_tree_item_clicked(self, item: QTreeWidgetItem, column: int):
+        if not self.try_leave_json_editor():
+            return
         self._write_back_current()  # Änderungen vor Auswahlwechsel speichern
         # Nur Top-Level-Nodes (Content-Nodes) abfangen
         parent = item.parent()
         if not parent:  # Nur reagieren, wenn Kind-Node (Feld) angeklickt wurde
             return
 
-        content_title = parent.text(0)
         index = self.metadata_panel.tree.indexOfTopLevelItem(parent)
         if index < 0 or index >= len(self._all_contents):
             return
@@ -199,6 +225,8 @@ class SingleContentPanel(QWidget):
                     text = self._current_content.data.get("text", "")
                     child.setText(
                         1, text[:40] + "..." if len(text) > 40 else text)
+        # Emit content_edited signal for dirty tracking
+        self.content_edited.emit()
 
     def on_filter_edit_finished(self):
         filter_str = self.filter_input.currentText().strip()
@@ -256,7 +284,12 @@ class SingleContentPanel(QWidget):
                 self._current_content = None
                 self._set_content_editor(
                     {"title": "", "renderer": "text_blocks", "data": {}})
-            self.set_contents(self._all_contents)
+            # --- NEW: Notify parent ContentPanelStack to sync all panels ---
+            parent_stack = self.parent()
+            while parent_stack and not hasattr(parent_stack, 'set_contents_for_all'):
+                parent_stack = parent_stack.parent()
+            if parent_stack and hasattr(parent_stack, 'set_contents_for_all'):
+                parent_stack.set_contents_for_all(self._all_contents)
 
     def copy_content(self):
         if not self._current_content:
@@ -289,3 +322,31 @@ class SingleContentPanel(QWidget):
             self._current_content.title = new_title
             self._set_content_editor(self._current_content.__dict__)
             self.set_contents(self._all_contents)
+
+    # def show_json_view(self):
+    #     # JSON editing for content is now disabled. Use the main window's modal dialog for full model editing.
+    #     pass
+
+    def try_leave_json_editor(self):
+        from widgets.json_editor import JsonEditor
+        from PyQt5.QtWidgets import QMessageBox
+        if isinstance(self.content_editor, JsonEditor):
+            if self.content_editor.is_dirty():
+                valid, error = self.content_editor.validate()
+                if not valid:
+                    QMessageBox.warning(self, "Invalid JSON", f"Cannot leave editor: {error}")
+                    return False
+                # Ask user to save or abort
+                reply = QMessageBox.question(self, "Unsaved Changes", "You have unsaved changes. Save before leaving?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+                if reply == QMessageBox.Cancel:
+                    return False
+                elif reply == QMessageBox.Yes:
+                    self.content_editor._on_save()
+                    if self.content_editor.is_dirty():
+                        # Still dirty after save attempt (e.g. invalid)
+                        return False
+        return True
+
+    # Example usage: before changing content/node
+    # if not self.try_leave_json_editor():
+    #     return  # Block navigation/change

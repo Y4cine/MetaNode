@@ -84,3 +84,11 @@ MetaNode is released under the [MIT License](LICENSE).
 MetaNode was born out of necessity. As a process engineer, I write specifications for various stakeholders — clients, mechanical, electrical, and software teams. I also work on a book about memetics that requires multilingual, multi-level content. Managing all these versions in Access became too painful.
 
 So I switched to Python and PyQt. ChatGPT (4o) — codename "Kai" — was my sparring partner throughout. Many architectural decisions emerged from these dialogues. Thanks to OpenAI for creating such a brilliant tool. What a time to build.
+
+## ⚡ July 2025: Major Refactor & JSON Editing Policy
+
+- All in-place and sub-node JSON editing is removed. JSON editing is now only possible via a modal dialog for the full model.
+- The right pane always shows structured editors; no more direct JSON editing for nodes or content.
+- All file, menu, toolbar, and mode logic is now delegated to manager classes.
+- UI state, undo/redo, and data flows are robust and modular.
+- The codebase is ready for further modularization and extension.

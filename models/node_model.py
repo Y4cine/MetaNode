@@ -20,6 +20,7 @@ class Node:
         self.contents: List[Content] = [
             Content(c, content_schema) for c in raw.get("contents", [])
         ]
+        self.content_schema = content_schema  # Store content_schema for from_dict
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -28,3 +29,12 @@ class Node:
             "metadata": self.metadata.to_dict(),
             "contents": [c.to_dict() for c in self.contents]
         }
+
+    def from_dict(self, data: Dict[str, Any]):
+        self.id = data.get("id", self.id)
+        self.title = data.get("title", self.title)
+        if "metadata" in data and hasattr(self.metadata, "update_from_dict"):
+            self.metadata.update_from_dict(data["metadata"])
+        if "contents" in data:
+            # Always reconstruct Content objects from dicts
+            self.contents = [Content(c, self.content_schema) if not isinstance(c, Content) else c for c in data["contents"]]
