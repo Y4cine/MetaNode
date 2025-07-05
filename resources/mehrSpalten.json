@@ -54,8 +54,8 @@
       "id": "c06918c3-e1fe-4b1a-bc9d-27d27aee5a3a",
       "children": [],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "a",
+        "print": ""
       },
       "contents": [
         {
@@ -80,34 +80,45 @@
       "settings": {
         "splitters": {
           "main": [
-            0.33559898045879355,
-            0.6644010195412065
+            0.30756159728122345,
+            0.6924384027187765
           ],
           "content_panels": [
-            1.0
+            0.5,
+            0.5
           ],
           "panel0_splitter": [
             0.2732793522267207,
             0.7267206477732794
           ],
+          "panel1_splitter": [
+            0.2735229759299781,
+            0.7264770240700219
+          ],
           "main_recursive_splitter1": [
-            0.33559898045879355,
-            0.6644010195412065
+            0.30756159728122345,
+            0.6924384027187765
           ],
           "main_recursive_splitter1_child0_splitter1": [
             0.25,
             0.75
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            1.0
+            0.5,
+            0.5
           ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter13": [
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.2735229759299781,
+            0.7264770240700219
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
             0.2732793522267207,
             0.7267206477732794
           ]
         },
         "filters": {
-          "panel0": ""
+          "panel0": "",
+          "panel1": ""
         },
         "global_filters": []
       },
@@ -119,7 +130,7 @@
       "children": [],
       "metadata": {
         "status": "",
-        "print": ""
+        "print": "1"
       },
       "contents": [
         {

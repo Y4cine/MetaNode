@@ -42,7 +42,8 @@ This vision drives the following refactoring principles:
 - [x] Move mode switching logic to `mode_manager.py` (done, including restoring working read mode logic)
 - [x] Move splitter/filters logic to `splitter_manager.py` (done)
 - [x] Move undo/redo logic to `undo_manager.py` (done)
-- [ ] Extract `TreeArea` (tree view logic) into its own module/class
+- [x] Extract `TreeArea` (tree view logic) into its own module/class
+- [x] Modularize `NodeTree` using mixins for search, context menu, clipboard, and drag-and-drop (done)
 - [ ] Extract `RightPane` (right/content panel logic) into its own module/class
 - [ ] Update imports and wiring in `MainWindow` to use new components
 - [ ] Subclass QSplitter to create a custom splitter that, when collapsed, still shows a visible handle or indicator (prevents full collapse and provides a visual hint). Integrate this custom splitter everywhere splitters are used (main, content panels, per-panel splitters). [Deferred: revisit after main refactor]
@@ -91,6 +92,26 @@ This vision drives the following refactoring principles:
 - Incrementally test and track any further refactor steps.
 
 ---
+
+## Modularization of NodeTree (tree_view.py)
+
+- The `NodeTree` class has been fully modularized using mixins:
+    - `TreeSearchMixin`: search/filter logic
+    - `TreeContextMenuMixin`: context menu and node edit logic
+    - `TreeClipboardMixin`: copy/cut/paste logic
+    - `TreeDragDropMixin`: drag-and-drop logic
+- All major logic is now separated into focused, testable components. `NodeTree` is now a clean, declarative composition of these behaviors.
+- The tree view is robust against multiple roots, and all user actions are validated and modular.
+- This pattern can be applied to other large widgets for maintainability.
+
+## Modularization of ContentPanelView (right/content panel)
+
+- The `ContentPanelView` class is now modularized using mixins:
+    - `ContentFilterMixin`: filtering logic (UI, parser, matching)
+    - `ContentTableMixin`: table setup, column/row management
+    - `ContentEditorManagerMixin`: editor instantiation and switching
+- All major logic is now separated into focused, testable components. `ContentPanelView` is now a clean, declarative composition of these behaviors.
+- This pattern matches the modularization of `NodeTree` and can be applied to other large widgets for maintainability.
 
 ## Additional Infos
 - Right pane is already subdivided (node metadata, content panels, etc.)

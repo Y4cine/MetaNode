@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """content_panel_view.py
 This module defines the ContentPanelView class for displaying and managing content in a panel.
@@ -6,8 +5,7 @@ This module defines the ContentPanelView class for displaying and managing conte
 
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QLineEdit,
-    QTableWidget, QTableWidgetItem,
+    QTableWidgetItem,
     QPushButton, QLabel
 )
 from PyQt5.QtCore import pyqtSignal
@@ -15,9 +13,12 @@ from datetime import datetime
 from models.content_model import Content
 from widgets.content_editor_widget import ContentEditorWidget
 from core.content_filter_parser import ContentFilterParser
+from .content_filter_mixin import ContentFilterMixin
+from .content_table_mixin import ContentTableMixin
+from .content_editor_manager_mixin import ContentEditorManagerMixin
 
 
-class ContentPanelView(QWidget):
+class ContentPanelView(QWidget, ContentFilterMixin, ContentTableMixin, ContentEditorManagerMixin):
     request_add_panel = pyqtSignal()
     request_close_panel = pyqtSignal()
 
@@ -32,12 +33,9 @@ class ContentPanelView(QWidget):
 
         # --- Filterzeile ---
         top_row = QHBoxLayout()
-        self.filter_input = QLineEdit(filter_text)
-        self.filter_input.setPlaceholderText(
-            "Filter z.B. lang = \"DE\" AND audience = \"POP\"")
-        self.filter_input.textChanged.connect(self.apply_filter)
+        filter_input = self.setup_filter_ui(filter_text)
         top_row.addWidget(QLabel("Filter:"))
-        top_row.addWidget(self.filter_input)
+        top_row.addWidget(filter_input)
 
         # Buttons rechts
         btn_add = QPushButton("+")
@@ -57,49 +55,16 @@ class ContentPanelView(QWidget):
         layout.addLayout(top_row)
 
         # --- Tabelle & Editor ---
-        self.content_table = QTableWidget()
-        self.content_table.setColumnCount(len(self._all_columns()))
-        self.content_table.setHorizontalHeaderLabels(self._all_columns())
-        self.content_table.setSelectionBehavior(QTableWidget.SelectRows)
-        self.content_table.setEditTriggers(QTableWidget.NoEditTriggers)
-        self.content_table.setEditTriggers(
-            QTableWidget.DoubleClicked | QTableWidget.SelectedClicked)
+        self.content_table = self.setup_content_table()
         self.content_table.cellClicked.connect(self.on_table_cell_clicked)
         self.content_table.cellChanged.connect(self.on_table_cell_changed)
         layout.addWidget(self.content_table)
 
-        self.editor_placeholder = QLabel("Kein Content ausgewählt")
-        layout.addWidget(self.editor_placeholder)
+        self.setup_editor_placeholder()
 
     def set_contents(self, contents: list[Content]):
         self._all_contents = contents
         self.apply_filter()
-
-    def apply_filter(self):
-        self.content_table.setRowCount(0)
-        columns = self._all_columns()
-
-        parser = ContentFilterParser(self.filter_input.text())
-        matching_contents = [c for c in self._all_contents if parser.match(c)]
-
-        for row, content in enumerate(matching_contents):
-            self.content_table.insertRow(row)
-            for col, key in enumerate(columns):
-                val = self._get_column_value(content, key)
-                item = QTableWidgetItem(val)
-                if col == 0:
-                    item.setData(1000, content)
-                self.content_table.setItem(row, col, item)
-
-        # automatische Auswahl
-        selected = self.select_default_content()
-        if selected:
-            for row in range(self.content_table.rowCount()):
-                item = self.content_table.item(row, 0)
-                if item and item.data(1000) is selected:
-                    self.content_table.selectRow(row)
-                    self.on_table_cell_clicked(row, 0)
-                    break
 
     def _get_column_value(self, content: Content, key: str) -> str:
         if key == "ID":
@@ -116,14 +81,7 @@ class ContentPanelView(QWidget):
         if not item:
             return
         content = item.data(1000)
-
-        if self._current_editor:
-            self.layout().removeWidget(self._current_editor)
-            self._current_editor.deleteLater()
-
-        self._current_editor = ContentEditorWidget(
-            content, excluded_fields=self._schema_columns())
-        self.layout().addWidget(self._current_editor)
+        self.show_content_editor(content, excluded_fields=self._schema_columns())
 
     def on_table_cell_changed(self, row: int, col: int):
         if row < 0 or col < 0:
@@ -157,19 +115,11 @@ class ContentPanelView(QWidget):
         self.content_table.blockSignals(False)
 
     def on_content_selected(self, current, previous):
-        if self._current_editor:
-            self.layout().removeWidget(self._current_editor)
-            self._current_editor.deleteLater()
-            self._current_editor = None
-
         if current:
             content = current.data(1000)
-            editor = ContentEditorWidget(
-                content, excluded_fields=self._schema_columns())
-            self._current_editor = editor
-            self.layout().addWidget(editor)
+            self.show_content_editor(content, excluded_fields=self._schema_columns())
         else:
-            self.layout().addWidget(self.editor_placeholder)
+            self.show_editor_placeholder()
 
     def select_default_content(self):
         if not self._all_contents:

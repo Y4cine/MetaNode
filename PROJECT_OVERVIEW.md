@@ -10,6 +10,17 @@
 - `ToolbarManager`/`MenuManager`: Setup and manage toolbars and menus.
 - `SingleContentPanel`/`ContentPanelStack`: Encapsulate content panel logic, splitter/metadata panel handling.
 - `UndoManager`: Integrated into `NodeEditorPanel` for local undo/redo.
+- `NodeTree`: Now a modular class composed of mixins for all major behaviors:
+    - `TreeSearchMixin` (search/filter)
+    - `TreeContextMenuMixin` (context menu/edit)
+    - `TreeClipboardMixin` (copy/cut/paste)
+    - `TreeDragDropMixin` (drag-and-drop)
+  This makes the tree view robust, maintainable, and easy to extend.
+- `ContentPanelView`: Now a modular class composed of mixins for all major behaviors:
+    - `ContentFilterMixin` (filtering)
+    - `ContentTableMixin` (table setup/columns)
+    - `ContentEditorManagerMixin` (editor instantiation/switching)
+  This makes the right/content panel robust, maintainable, and easy to extend.
 
 ## Vision: Pluggable Editors and Renderers
 A core architectural goal is to support flexible, pluggable editors and renderers for any node or content type. The system should allow dynamic switching between different editors (e.g., JSON, tree, table, image, form, external file) at runtime or via configuration. This is achieved by:
@@ -36,6 +47,7 @@ A core architectural goal is to support flexible, pluggable editors and renderer
 - `SingleContentPanel`
 - `ContentPanelStack`
 - `UndoManager`
+- `NodeTree`
 
 ## Key Architectural Changes (July 2025)
 
@@ -66,6 +78,8 @@ A core architectural goal is to support flexible, pluggable editors and renderer
 - All file, menu, toolbar, and mode logic is now delegated to manager classes.
 - UI state and data flows are robust, with strong validation and error handling.
 - The codebase is ready for further modularization and extension.
+- `NodeTree` in `tree_view.py` is now fully modularized using mixins for search, context menu, clipboard, and drag-and-drop logic. The class is declarative and easy to maintain.
+- `ContentPanelView` in `content_panel_view.py` is now modularized using mixins for filtering, table, and editor management. The class is declarative and easy to maintain.
 
 ---
 
