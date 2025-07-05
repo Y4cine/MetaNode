@@ -44,13 +44,18 @@ This vision drives the following refactoring principles:
 - [x] Move undo/redo logic to `undo_manager.py` (done)
 - [x] Extract `TreeArea` (tree view logic) into its own module/class
 - [x] Modularize `NodeTree` using mixins for search, context menu, clipboard, and drag-and-drop (done)
-- [ ] Extract `RightPane` (right/content panel logic) into its own module/class
-- [ ] Update imports and wiring in `MainWindow` to use new components
+- [x] Modularize right/content panel (`ContentPanelView`) using mixins for filtering, table, and editor management (done)
+  - Note: Modularization was achieved via mixins, not a single monolithic class/module, for maintainability and flexibility.
+- [x] Update imports and wiring in `MainWindow` to use new components (done)
+- [x] Restore layout/panel state on startup when last file is loaded (done)
+- [x] Restore minimum width (80px) for single content panels and metadata panels (done)
 - [ ] Subclass QSplitter to create a custom splitter that, when collapsed, still shows a visible handle or indicator (prevents full collapse and provides a visual hint). Integrate this custom splitter everywhere splitters are used (main, content panels, per-panel splitters). [Deferred: revisit after main refactor]
 
 ### 3. Notes & Decisions
 - Removed obsolete `set_read_mode` and `set_json_edit_mode` from `MainWindow` (now handled by `ModeManager`).
 - Confirmed that all file, menu, toolbar, and mode logic is now delegated to managers.
+- Layout/panel state is now restored on startup when the last file is loaded, matching manual file open behavior.
+- Minimum width for single content panels and metadata panels is set to 80px, preventing full collapse but allowing compact layouts.
 
 #### Next Refactoring Steps (as of July 4, 2025)
 - `MainWindow` still contains a lot of coordination, splitter/filter, undo/redo, and panel logic.

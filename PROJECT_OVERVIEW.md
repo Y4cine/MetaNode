@@ -56,6 +56,9 @@ A core architectural goal is to support flexible, pluggable editors and renderer
   - `ToolbarManager`, `MenuManager`, `FileManager`, `ModeManager`, `SplitterManager`, `PanelStateManager`, `UndoManager`.
 - **Node switching, undo/redo, and panel logic** are handled by dedicated classes.
 - **Pluggable editor interface** (`BaseEditor`) allows for future extension of content editors/renderers.
+- **Layout/panel state is restored on startup** when the last file is loaded, matching manual file open behavior.
+- **Minimum width for single content panels and metadata panels is set to 80px**, preventing full collapse but allowing compact layouts.
+- **All modularization and event wiring is complete as of July 2025.**
 
 ### 2. JSON Editing Policy (NEW)
 - **In-place JSON editing in the right pane and content panels is fully removed.**

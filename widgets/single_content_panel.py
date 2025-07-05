@@ -34,7 +34,7 @@ class SingleContentPanel(QWidget):
         self._current_content = None  # aktuell bearbeiteter Content
         self.content_editor = None  # Dynamischer Editor
         self._content_clipboard = None  # Für Copy/Cut/Paste
-        self.setMinimumWidth(0)  # Allow full collapse for splitter
+        self.setMinimumWidth(80)  # Allow panel to shrink to 80px (user-requested minimum)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -109,7 +109,7 @@ class SingleContentPanel(QWidget):
             schema=self.content_schema,
             default_metadata={}  # ← später ersetzen durch Node-Vererbung
         )
-        self.metadata_panel.setMinimumWidth(0)  # Allow full collapse for splitter
+        self.metadata_panel.setMinimumWidth(80)  # Allow panel to shrink to 80px (user-requested minimum)
         self.metadata_panel.tree.itemClicked.connect(self.on_tree_item_clicked)
         self.splitter.addWidget(self.metadata_panel)
 

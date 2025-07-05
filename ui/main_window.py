@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QKeySequence
 # -*- coding: utf-8 -*-
 """main_window.py
 This module defines the MainWindow class for the main application window,
@@ -13,7 +14,6 @@ from ui.tree_area import TreeArea
 from models.tree_data import TreeDataModel
 from ui.node_editor_panel import NodeEditorPanel
 from core.schema_registry import SchemaRegistry
-from models.node_model import Node
 from utils.user_settings import get_recent_files
 import os
 from ui.toolbar_manager import ToolbarManager
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         self.tree_area = TreeArea()
         splitter.addWidget(self.tree_area.container)
         self.tree_area.node_selected.connect(self.on_node_selected)
-        # SplitterManager initialisieren (before right_area, so it can be passed)
+        # SplitterManager initialyse (before right_area, so it can be passed)
         self._init_splitter_manager()
         self.right_area = NodeEditorPanel(
             meta_schema=self.meta_schema,
@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
         )
         splitter.addWidget(self.right_area)
 
-        # Theme aus User-Settings laden (falls vorhanden)
+        # load Theme from User-Settings (if exists)
         try:
             from utils.user_settings import get_setting
             theme_path = get_setting("theme_path", "")
@@ -101,6 +101,11 @@ class MainWindow(QMainWindow):
                 print(f"[DEBUG] Lade zuletzt geöffnete Datei: {last_file}")
                 self.model.load_from_file(last_file)
                 self.tree_area.load_model(self.model)
+                # Restore layout/panel state after loading last file
+                from core.project_settings import get_settings, restore_layout_from_settings
+                tree_data = self.model.to_dict()
+                settings = get_settings(tree_data)
+                restore_layout_from_settings(settings, self.right_area, self)
                 self.file_manager.update_recent_files_menu()
                 self.set_window_title_with_path(last_file)
             else:
@@ -165,8 +170,6 @@ class MainWindow(QMainWindow):
         redo_shortcut = QShortcut(QKeySequence("Ctrl+Y"), self)
         redo_shortcut.activated.connect(self.do_combined_redo)
 
-        # print("\n==================== Nach Konstruktor: Initiales Beispiel geladen ====================\n")
-
     # ----------------------------
     # Menüleiste und Toolbar
     # ----------------------------
@@ -188,42 +191,10 @@ class MainWindow(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction("Schließen", self.close)
 
-    # update_recent_files_menu is now handled by FileManager
-
-    # open_recent_file is now handled by FileManager
-
     def show_json_view(self):
-        # Only allow editing the full model as JSON, not sub-nodes
-        from widgets.json_editor import JsonEditor
-        from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QMessageBox, QLabel
-        data = self.model.to_dict()
-        dialog = QDialog(self)
-        dialog.setWindowTitle("JSON Editor (Full Model)")
-        layout = QVBoxLayout(dialog)
-        warning = QLabel(
-            "<b>Warning:</b> Editing the full model as JSON is advanced and may break the structure. Proceed with caution.")
-        layout.addWidget(warning)
-        editor = JsonEditor(dialog)
-        editor.set_content(data)
-        layout.addWidget(editor)
-        save_button = QPushButton("Save", dialog)
-        close_button = QPushButton("Close", dialog)
-        layout.addWidget(save_button)
-        layout.addWidget(close_button)
-
-        def save_and_close():
-            try:
-                new_data = editor.get_content()
-                # Validate and update the model
-                self.model.load_from_dict(new_data)
-                self.tree_area.load_model(self.model)
-                QMessageBox.information(self, "Saved", "JSON content saved and model reloaded.")
-                dialog.accept()
-            except Exception as e:
-                QMessageBox.warning(self, "Invalid JSON", f"Could not save: {e}")
-        save_button.clicked.connect(save_and_close)
-        close_button.clicked.connect(dialog.reject)
-        dialog.exec_()
+        # Delegated to JsonEditorManager
+        from ui.json_editor_manager import show_json_view
+        show_json_view(self)
 
     # ----------------------------
 
@@ -238,71 +209,37 @@ class MainWindow(QMainWindow):
     # ----------------------------
 
     def try_leave_global_json_editor(self):
-        from widgets.json_editor import JsonEditor
-        from PyQt5.QtWidgets import QMessageBox
-        if isinstance(self.right_area, JsonEditor):
-            if self.right_area.is_dirty():
-                valid, error = self.right_area.validate()
-                if not valid:
-                    QMessageBox.warning(self, "Invalid JSON", f"Cannot leave editor: {error}")
-                    return False
-                reply = QMessageBox.question(
-                    self, "Unsaved Changes", "You have unsaved changes. Save before leaving?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
-                if reply == QMessageBox.Cancel:
-                    return False
-                elif reply == QMessageBox.Yes:
-                    self.right_area._on_save()
-                    if self.right_area.is_dirty():
-                        return False
-        return True
+        # Delegated to JsonEditorManager
+        from ui.json_editor_manager import try_leave_global_json_editor
+        return try_leave_global_json_editor(self)
 
     def on_node_selected(self, node_id):
-        if not self.try_leave_global_json_editor():
-            return
-        node_wrapper = self.model.find_node(node_id)
-        if node_wrapper:
-            raw_node = node_wrapper.node
-            node_obj = Node(raw_node, self.meta_schema, self.content_schema)
-            from widgets.json_editor import JsonEditor
-            if isinstance(self.right_area, JsonEditor):
-                self.right_area.set_node(node_obj)
-
-                def on_global_json_saved():
-                    # Update the model's root node with the new data
-                    new_data = self.right_area.get_content()
-                    self.model.load_from_dict(new_data)
-                    self.tree_area.load_model(self.model)
-                self.right_area.content_saved.connect(on_global_json_saved)
-            else:
-                self.right_area.switch_node(node_obj, self.model, self.meta_schema, self.content_schema)
-        self.last_node_id = node_id
+        # Delegated to NodeSelectionManager
+        from ui.node_selection_manager import on_node_selected
+        on_node_selected(self, node_id)
 
     # ----------------------------
     # Undo / Redo
     # ----------------------------
 
     def do_combined_undo(self):
-        if self.right_area.undo.can_undo():
-            self.right_area.do_undo()
-        elif self.model.can_undo():
-            self.model.undo()
-            self.tree_area.load_model(self.model)  # UI aktualisieren
+        # Delegated to UndoManagerHelper
+        from ui.undo_manager_helper import do_combined_undo
+        do_combined_undo(self)
 
     def do_combined_redo(self):
-        if self.right_area.undo.can_redo():
-            self.right_area.do_redo()
-        elif self.model.can_redo():
-            self.model.redo()
-            self.tree_area.load_model(self.model)
-            if self.last_node_id:
-                self.tree_area.select_node_by_id(self.last_node_id)
+        # Delegated to UndoManagerHelper
+        from ui.undo_manager_helper import do_combined_redo
+        do_combined_redo(self)
 
     def edit_user_settings(self):
-        from PyQt5.QtWidgets import QMessageBox
-        QMessageBox.information(self, "User Settings", "User settings editor not yet implemented.")
+        # Delegated to SettingsManager
+        from ui.settings_manager import edit_user_settings
+        edit_user_settings(self)
 
     def equalize_single_content_panels(self):
-        from PyQt5.QtWidgets import QMessageBox
-        QMessageBox.information(self, "Equalize Panels", "Equalize single content panels not yet implemented.")
+        # Delegated to SettingsManager
+        from ui.settings_manager import equalize_single_content_panels
+        equalize_single_content_panels(self)
 
     # ...existing code...

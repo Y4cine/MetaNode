@@ -140,7 +140,9 @@ class NodeEditorPanel(QWidget):
         return None
 
     def get_current_metadata(self):
-        return getattr(self, '_node', None).metadata if hasattr(self, '_node') else None
+        if hasattr(self, '_node') and self._node is not None:
+            return self._node.metadata
+        return None
 
     def get_all_content_panels(self):
         """Gibt alle aktiven SingleContentPanel-Instanzen im ContentPanelStack zurück."""

@@ -100,45 +100,56 @@
       "settings": {
         "splitters": {
           "main": [
-            0.13678844519966016,
-            0.8632115548003398
+            0.23279524214103653,
+            0.7672047578589635
           ],
           "content_panels": [
-            0.40059347181008903,
-            0.599406528189911
+            0.3337066069428891,
+            0.46136618141097424,
+            0.20492721164613673
           ],
           "panel0_splitter": [
-            0.4638364779874214,
-            0.5361635220125787
+            0.2735229759299781,
+            0.7264770240700219
           ],
           "panel1_splitter": [
             0.0,
             1.0
           ],
+          "panel2_splitter": [
+            0.2735229759299781,
+            0.7264770240700219
+          ],
           "main_recursive_splitter1": [
-            0.13678844519966016,
-            0.8632115548003398
+            0.23279524214103653,
+            0.7672047578589635
           ],
           "main_recursive_splitter1_child0_splitter1": [
-            0.0,
-            1.0
+            0.25,
+            0.75
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            0.40059347181008903,
-            0.599406528189911
+            0.3337066069428891,
+            0.46136618141097424,
+            0.20492721164613673
           ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter13": [
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.2735229759299781,
+            0.7264770240700219
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
             0.0,
             1.0
           ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter13": [
-            0.4638364779874214,
-            0.5361635220125787
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child2_splitter12": [
+            0.2735229759299781,
+            0.7264770240700219
           ]
         },
         "filters": {
           "panel0": "lang=\"DE\"",
-          "panel1": ""
+          "panel1": "",
+          "panel2": ""
         },
         "global_filters": [
           "lang=\"DE\""
