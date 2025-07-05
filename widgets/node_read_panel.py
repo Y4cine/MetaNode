@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QComboBox, QCheckBox, QTextEdit
 from PyQt5.QtCore import Qt
 
+
 class NodeReadPanel(QWidget):
     def __init__(self, tree_model, tree_view, meta_schema, content_schema, parent=None):
         super().__init__(parent)
@@ -66,7 +67,8 @@ class NodeReadPanel(QWidget):
         lang = self.language_filter.currentText().strip()
         if self.current_node:
             if lang:
-                self.filtered_contents = [c for c in self.current_node.contents if c.metadata.get('lang', '').lower() == lang.lower()]
+                self.filtered_contents = [c for c in self.current_node.contents if c.metadata.get(
+                    'lang', '').lower() == lang.lower()]
             else:
                 self.filtered_contents = self.current_node.contents[:]
             if not self.filtered_contents:
@@ -155,7 +157,8 @@ class NodeReadPanel(QWidget):
             return None
         all_wrappers = list(self.tree_model.iter_nodes()) if hasattr(self.tree_model, 'iter_nodes') else []
         from models.node_model import Node
-        all_nodes = [Node(w.node, self.meta_schema, self.content_schema) if hasattr(w, 'node') else w for w in all_wrappers]
+        all_nodes = [Node(w.node, self.meta_schema, self.content_schema)
+                     if hasattr(w, 'node') else w for w in all_wrappers]
         # Filtere technische Nodes wie _settings heraus
         all_nodes = [n for n in all_nodes if getattr(n, 'id', None) and not str(getattr(n, 'id')).startswith('_')]
         ids = [getattr(n, 'id', None) for n in all_nodes]
@@ -173,7 +176,8 @@ class NodeReadPanel(QWidget):
             return None
         all_wrappers = list(self.tree_model.iter_nodes()) if hasattr(self.tree_model, 'iter_nodes') else []
         from models.node_model import Node
-        all_nodes = [Node(w.node, self.meta_schema, self.content_schema) if hasattr(w, 'node') else w for w in all_wrappers]
+        all_nodes = [Node(w.node, self.meta_schema, self.content_schema)
+                     if hasattr(w, 'node') else w for w in all_wrappers]
         all_nodes = [n for n in all_nodes if getattr(n, 'id', None) and not str(getattr(n, 'id')).startswith('_')]
         ids = [getattr(n, 'id', None) for n in all_nodes]
         print(f"[DEBUG] get_prev_node: all_ids={ids}, current_id={getattr(self.current_node, 'id', None)}")

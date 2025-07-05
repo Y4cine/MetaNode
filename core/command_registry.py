@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon, QKeySequence
 # Zentrale Registry
 _registry = {}
 
+
 def register_command(
     id: str,
     label: str,

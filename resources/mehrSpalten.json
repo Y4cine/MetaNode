@@ -28,8 +28,8 @@
       "id": "9d9b74ad-0591-46bb-89f9-1be808b955fe",
       "children": [],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "",
+        "print": ""
       },
       "contents": [
         {
@@ -37,32 +37,6 @@
           "title": "a",
           "data": {
             "text": "a"
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "audience": "",
-            "lang": "",
-            "main": "",
-            "status": "",
-            "version": ""
-          }
-        }
-      ]
-    },
-    {
-      "title": "b",
-      "id": "096ea585-0918-45fd-9fab-7185510d3796",
-      "children": [],
-      "metadata": {
-        "print": "",
-        "status": ""
-      },
-      "contents": [
-        {
-          "content_type": "text",
-          "title": "b",
-          "data": {
-            "text": "b b b b b"
           },
           "renderer": "text_blocks",
           "metadata": {
@@ -138,6 +112,32 @@
         "global_filters": []
       },
       "children": []
+    },
+    {
+      "title": "b",
+      "id": "096ea585-0918-45fd-9fab-7185510d3796",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "b",
+          "data": {
+            "text": "b b b b b"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
     }
   ]
 }

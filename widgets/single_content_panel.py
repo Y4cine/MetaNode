@@ -337,7 +337,8 @@ class SingleContentPanel(QWidget):
                     QMessageBox.warning(self, "Invalid JSON", f"Cannot leave editor: {error}")
                     return False
                 # Ask user to save or abort
-                reply = QMessageBox.question(self, "Unsaved Changes", "You have unsaved changes. Save before leaving?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+                reply = QMessageBox.question(
+                    self, "Unsaved Changes", "You have unsaved changes. Save before leaving?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
                 if reply == QMessageBox.Cancel:
                     return False
                 elif reply == QMessageBox.Yes:

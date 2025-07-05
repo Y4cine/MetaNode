@@ -1,10 +1,12 @@
 from PyQt5.QtWidgets import QWidget
 
+
 class BaseEditor(QWidget):
     """
     Abstract base class for all pluggable editors/renderers in MetaNode.
     Editors should inherit from this and implement the required interface.
     """
+
     def __init__(self, parent=None):
         super().__init__(parent)
 

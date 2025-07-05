@@ -3,7 +3,6 @@
 Handles collection and restoration of panel, filter, and splitter state for the main window.
 """
 
-from PyQt5.QtCore import QTimer
 
 class PanelStateManager:
     def __init__(self, main_window):

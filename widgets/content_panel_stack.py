@@ -34,7 +34,8 @@ class ContentPanelStack(QWidget):
         self.add_panel(splitter_manager=splitter_manager)  # initial ein Panel
 
     def add_panel(self, filter_text: str = "", splitter_manager=None):
-        panel = SingleContentPanel(self.meta_schema, self.content_schema, filter_text, splitter_manager=splitter_manager)
+        panel = SingleContentPanel(self.meta_schema, self.content_schema,
+                                   filter_text, splitter_manager=splitter_manager)
         panel.request_add_panel.connect(lambda: self.add_panel(splitter_manager=splitter_manager))
         panel.request_close_panel.connect(lambda: self.remove_panel(panel))
         # Synchronisierung: Wenn ein gültiger Filter ausgewählt/eingegeben wird, global updaten

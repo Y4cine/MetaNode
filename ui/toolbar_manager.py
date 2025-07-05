@@ -3,10 +3,11 @@
 Handles creation and setup of the main application toolbars.
 """
 
-from PyQt5.QtWidgets import QToolBar, QAction, QActionGroup
+from PyQt5.QtWidgets import QAction, QActionGroup
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
 from core.project_paths import get_path
+
 
 class ToolbarManager:
     def __init__(self, main_window):
@@ -21,7 +22,8 @@ class ToolbarManager:
         mode_group = QActionGroup(self.main_window)
         mode_group.setExclusive(True)
 
-        self.main_window.action_json_edit_mode = QAction(QIcon(str(get_path("icons", "mode_edit.svg"))), "JSON Edit Mode", self.main_window)
+        self.main_window.action_json_edit_mode = QAction(
+            QIcon(str(get_path("icons", "mode_edit.svg"))), "JSON Edit Mode", self.main_window)
         self.main_window.action_json_edit_mode.setCheckable(True)
         self.main_window.action_json_edit_mode.setChecked(True)
         # Connect to ModeManager's set_edit_mode instead of removed MainWindow.set_json_edit_mode
@@ -29,13 +31,15 @@ class ToolbarManager:
         mode_group.addAction(self.main_window.action_json_edit_mode)
         toolbar.addAction(self.main_window.action_json_edit_mode)
 
-        self.main_window.action_read_mode = QAction(QIcon(str(get_path("icons", "mode_read.svg"))), "Read Mode", self.main_window)
+        self.main_window.action_read_mode = QAction(
+            QIcon(str(get_path("icons", "mode_read.svg"))), "Read Mode", self.main_window)
         self.main_window.action_read_mode.setCheckable(True)
         self.main_window.action_read_mode.triggered.connect(self.main_window.mode_manager.set_read_mode)
         mode_group.addAction(self.main_window.action_read_mode)
         toolbar.addAction(self.main_window.action_read_mode)
 
-        self.main_window.action_json_mode = QAction(QIcon(str(get_path("icons", "mode_json.svg"))), "JSON View", self.main_window)
+        self.main_window.action_json_mode = QAction(
+            QIcon(str(get_path("icons", "mode_json.svg"))), "JSON View", self.main_window)
         self.main_window.action_json_mode.setCheckable(True)
         # Use mode_manager to switch modes, just like the menu
         self.main_window.action_json_mode.triggered.connect(lambda: self.main_window.mode_manager.set_json_mode())

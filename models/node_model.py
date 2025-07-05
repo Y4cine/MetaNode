@@ -37,4 +37,5 @@ class Node:
             self.metadata.update_from_dict(data["metadata"])
         if "contents" in data:
             # Always reconstruct Content objects from dicts
-            self.contents = [Content(c, self.content_schema) if not isinstance(c, Content) else c for c in data["contents"]]
+            self.contents = [Content(c, self.content_schema) if not isinstance(
+                c, Content) else c for c in data["contents"]]

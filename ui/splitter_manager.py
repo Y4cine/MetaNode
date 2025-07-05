@@ -7,11 +7,13 @@ from PyQt5.QtWidgets import QSplitter
 from PyQt5.QtCore import Qt
 from utils.ratios import calculate_ratios
 
+
 class SplitterManager:
     def create_splitter(self, orientation):
         """Factory method for creating QSplitter instances. Can be extended for custom splitters."""
         splitter = QSplitter(orientation)
         return splitter
+
     def __init__(self, main_window):
         self.main_window = main_window
 

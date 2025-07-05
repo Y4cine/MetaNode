@@ -25,6 +25,7 @@ class NodeEditorPanel(QWidget):
         # Load new node
         if node_obj is not None:
             self.load_node(node_obj)
+
     def on_content_edited(self):
         # Push undo snapshot on every content edit
         self.push_undo_snapshot()
@@ -34,6 +35,7 @@ class NodeEditorPanel(QWidget):
             main_win = main_win.parent()
         if main_win and hasattr(main_win, 'on_content_edited'):
             main_win.on_content_edited()
+
     def __init__(self, meta_schema, content_schema, parent=None, splitter_manager=None):
         super().__init__(parent)
         self.meta_schema = meta_schema

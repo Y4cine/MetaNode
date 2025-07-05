@@ -3,7 +3,7 @@
 Handles mode switching (edit, read, JSON view) for the main window.
 """
 
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QMessageBox, QSplitter
+from PyQt5.QtWidgets import QSplitter
 from widgets.json_editor import JsonEditor
 
 

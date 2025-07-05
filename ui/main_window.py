@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
     QFileDialog, QMessageBox, QShortcut
 )
 from PyQt5.QtCore import Qt
-from ui.tree_view import NodeTree
+from ui.tree_area import TreeArea
 from models.tree_data import TreeDataModel
 from ui.node_editor_panel import NodeEditorPanel
 from core.schema_registry import SchemaRegistry
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(central_widget)
         splitter = QSplitter(Qt.Horizontal)
         layout.addWidget(splitter)
-        self.tree_area = NodeTree()
+        self.tree_area = TreeArea()
         splitter.addWidget(self.tree_area.container)
         self.tree_area.node_selected.connect(self.on_node_selected)
         # SplitterManager initialisieren (before right_area, so it can be passed)
@@ -200,7 +200,8 @@ class MainWindow(QMainWindow):
         dialog = QDialog(self)
         dialog.setWindowTitle("JSON Editor (Full Model)")
         layout = QVBoxLayout(dialog)
-        warning = QLabel("<b>Warning:</b> Editing the full model as JSON is advanced and may break the structure. Proceed with caution.")
+        warning = QLabel(
+            "<b>Warning:</b> Editing the full model as JSON is advanced and may break the structure. Proceed with caution.")
         layout.addWidget(warning)
         editor = JsonEditor(dialog)
         editor.set_content(data)
@@ -245,7 +246,8 @@ class MainWindow(QMainWindow):
                 if not valid:
                     QMessageBox.warning(self, "Invalid JSON", f"Cannot leave editor: {error}")
                     return False
-                reply = QMessageBox.question(self, "Unsaved Changes", "You have unsaved changes. Save before leaving?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+                reply = QMessageBox.question(
+                    self, "Unsaved Changes", "You have unsaved changes. Save before leaving?", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
                 if reply == QMessageBox.Cancel:
                     return False
                 elif reply == QMessageBox.Yes:
@@ -264,6 +266,7 @@ class MainWindow(QMainWindow):
             from widgets.json_editor import JsonEditor
             if isinstance(self.right_area, JsonEditor):
                 self.right_area.set_node(node_obj)
+
                 def on_global_json_saved():
                     # Update the model's root node with the new data
                     new_data = self.right_area.get_content()
