@@ -76,20 +76,42 @@ def restore_layout_from_settings(settings, right_area, main_window):
     splitters = settings.get('splitters', {})
 
     def set_splitters():
-        for key, sizes in splitters.items():
-            if hasattr(main_window, '_restore_splitter_sizes'):
-                main_window._restore_splitter_sizes(
-                    main_window.centralWidget(), key, sizes)
-        # After restoring, explicitly collapse panels if size is 0
-        if hasattr(right_area, 'content_stack') and hasattr(right_area.content_stack, 'panel_views'):
-            for idx, panel in enumerate(right_area.content_stack.panel_views):
-                if hasattr(panel, 'splitter'):
-                    s = panel.splitter
-                    # If the saved size for the metadata panel is 0, hide it
-                    key = f'panel{idx}_splitter'
-                    if key in splitters and len(splitters[key]) > 0 and splitters[key][0] == 0:
-                        if hasattr(panel.metadata_panel, 'setVisible'):
-                            panel.metadata_panel.setVisible(False)
+        for key, ratios in splitters.items():
+            # Try to find the splitter by key
+            if key == 'main':
+                splitter = main_window.centralWidget().findChild(type(main_window.right_area.parent()))
+            elif key == 'content_panels' and hasattr(right_area, 'content_stack'):
+                splitter = right_area.content_stack.splitter
+            elif key.startswith('panel') and hasattr(right_area, 'content_stack') and hasattr(right_area.content_stack, 'panel_views'):
+                idx = int(key.split('_')[0].replace('panel', ''))
+                if idx < len(right_area.content_stack.panel_views):
+                    panel = right_area.content_stack.panel_views[idx]
+                    splitter = getattr(panel, 'splitter', None)
+                else:
+                    splitter = None
+            else:
+                splitter = None
+            if splitter and hasattr(splitter, 'setSizes'):
+                total = splitter.size().height() if splitter.orientation() == 2 else splitter.size().width()
+                # Defensive: fallback if total is 0
+                if total == 0:
+                    total = splitter.height() if splitter.orientation() == 2 else splitter.width()
+                # Calculate pixel sizes from ratios
+                sizes = [int(round(r * total)) for r in ratios]
+                # Ensure at least one pixel for non-collapsed panels
+                for i, r in enumerate(ratios):
+                    if r > 0 and sizes[i] == 0:
+                        sizes[i] = 1
+                splitter.setSizes(sizes)
+                # --- Sustainable fix: set collapsed state for every handle based on size ---
+                for i, size in enumerate(sizes):
+                    collapsed = size <= 1 or ratios[i] == 0
+                    # Use label from splitter if available, else fallback
+                    label = getattr(splitter, '_collapsed_label', None)
+                    if not label:
+                        label = "Metadata" if splitter.orientation() == 2 else "Content"
+                    if hasattr(splitter, 'set_collapsed'):
+                        splitter.set_collapsed(i, collapsed, label=label)
     QTimer.singleShot(0, set_splitters)
     # Filtertexte setzen
     for idx in range(num_panels):

@@ -19,23 +19,22 @@ class PanelStateManager:
         # Explicitly collect all relevant splitters
         splitters = {}
         # Main splitter between tree and right pane
+        from utils.ratios import calculate_ratios
         main_splitter = self.main_window.centralWidget().findChild(type(self.main_window.right_area.parent()))
         if isinstance(main_splitter, type(self.main_window.right_area.parent())):
-            from utils.ratios import calculate_ratios
-            sizes = [main_splitter.widget(i).width() for i in range(main_splitter.count())]
+            sizes = main_splitter.sizes()
             splitters['main'] = calculate_ratios(sizes)
         # Content panels splitter
         if hasattr(self.main_window.right_area, 'content_stack') and hasattr(self.main_window.right_area.content_stack, 'splitter'):
             content_splitter = self.main_window.right_area.content_stack.splitter
-            sizes = [content_splitter.widget(i).width() for i in range(content_splitter.count())]
+            sizes = content_splitter.sizes()
             splitters['content_panels'] = calculate_ratios(sizes)
         # Collect splitters inside each single content panel
         if hasattr(self.main_window.right_area, 'content_stack') and hasattr(self.main_window.right_area.content_stack, 'panel_views'):
             for idx, panel in enumerate(self.main_window.right_area.content_stack.panel_views):
                 if hasattr(panel, 'splitter'):
                     s = panel.splitter
-                    sizes = [s.widget(i).height() for i in range(s.count())]
-                    from utils.ratios import calculate_ratios
+                    sizes = s.sizes()
                     splitters[f'panel{idx}_splitter'] = calculate_ratios(sizes)
         # Recursively collect any other splitters (fallback)
         splitters.update(self.collect_splitter_sizes(self.main_window.centralWidget(), 'main_recursive'))
@@ -53,14 +52,10 @@ class PanelStateManager:
 
     def collect_splitter_sizes(self, widget, prefix="main"):
         from PyQt5.QtWidgets import QSplitter
-        from PyQt5.QtCore import Qt
-        from utils.ratios import calculate_ratios
         splitters = {}
         if isinstance(widget, QSplitter):
-            if widget.orientation() == Qt.Horizontal:
-                sizes = [widget.widget(i).width() for i in range(widget.count())]
-            else:
-                sizes = [widget.widget(i).height() for i in range(widget.count())]
+            from utils.ratios import calculate_ratios
+            sizes = widget.sizes()
             splitters[prefix] = calculate_ratios(sizes)
         if hasattr(widget, 'children'):
             for i, child in enumerate(widget.children()):

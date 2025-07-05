@@ -94,29 +94,50 @@
       "settings": {
         "splitters": {
           "main": [
-            0.07603686635944701,
-            0.923963133640553
+            0.08721934369602763,
+            0.9127806563039723
           ],
-          "right_panel": [
+          "content_panels": [
+            0.3330029732408325,
+            0.3330029732408325,
+            0.333994053518335
+          ],
+          "panel0_splitter": [
+            0.7900943396226415,
+            0.2099056603773585
+          ],
+          "panel1_splitter": [
             0.0,
             1.0
           ],
-          "content_panels": [
-            0.3331242158092848,
-            0.3337515683814304,
-            0.3331242158092848
-          ],
-          "panel0_splitter": [
-            0.2720125786163522,
-            0.7279874213836478
-          ],
-          "panel1_splitter": [
-            0.2720125786163522,
-            0.7279874213836478
-          ],
           "panel2_splitter": [
-            0.2720125786163522,
-            0.7279874213836478
+            0.7900943396226415,
+            0.2099056603773585
+          ],
+          "main_recursive_splitter1": [
+            0.08721934369602763,
+            0.9127806563039723
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.24964131994261118,
+            0.7503586800573888
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            0.3330029732408325,
+            0.3330029732408325,
+            0.333994053518335
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.7900943396226415,
+            0.2099056603773585
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child2_splitter12": [
+            0.7900943396226415,
+            0.2099056603773585
           ]
         },
         "filters": {
@@ -130,7 +151,7 @@
     }
   ],
   "metadata": {
-    "print": "",
-    "status": ""
+    "status": "",
+    "print": ""
   }
 }

@@ -6,7 +6,7 @@ including the tree view, node editor, and file operations.
 """
 
 from PyQt5.QtWidgets import (
-    QMainWindow, QWidget, QSplitter, QVBoxLayout,
+    QMainWindow, QWidget, QVBoxLayout,
     QFileDialog, QMessageBox, QShortcut
 )
 from PyQt5.QtCore import Qt
@@ -18,6 +18,7 @@ from utils.user_settings import get_recent_files
 import os
 from ui.toolbar_manager import ToolbarManager
 from ui.menu_manager import MenuManager
+from ui.custom_splitter import CustomSplitter
 
 
 class MainWindow(QMainWindow):
@@ -49,10 +50,10 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         layout = QVBoxLayout(central_widget)
-        splitter = QSplitter(Qt.Horizontal)
+        splitter = CustomSplitter(Qt.Horizontal, collapsed_label="Content")
         layout.addWidget(splitter)
         self.tree_area = TreeArea()
-        splitter.addWidget(self.tree_area.container)
+        splitter.addWidget(self.tree_area.container, "Tree")
         self.tree_area.node_selected.connect(self.on_node_selected)
         # SplitterManager initialyse (before right_area, so it can be passed)
         self._init_splitter_manager()
@@ -61,7 +62,7 @@ class MainWindow(QMainWindow):
             content_schema=self.content_schema,
             splitter_manager=self.splitter_manager
         )
-        splitter.addWidget(self.right_area)
+        splitter.addWidget(self.right_area, "Content")
 
         # load Theme from User-Settings (if exists)
         try:
@@ -241,5 +242,3 @@ class MainWindow(QMainWindow):
         # Delegated to SettingsManager
         from ui.settings_manager import equalize_single_content_panels
         equalize_single_content_panels(self)
-
-    # ...existing code...

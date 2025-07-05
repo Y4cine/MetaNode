@@ -6,11 +6,12 @@ This module defines the ContentEditorWidget class for editing content with metad
 
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
                              QLineEdit, QTextEdit, QGroupBox, QHBoxLayout,
-                             QPushButton, QSplitter)
+                             QPushButton)
 from PyQt5.QtCore import Qt, pyqtSignal
 from datetime import datetime
 from models.content_model import Content
 from widgets.metadata_widget import MetadataEditor
+from ui.custom_splitter import CustomSplitter
 
 
 class ContentEditorWidget(QWidget):
@@ -50,9 +51,9 @@ class ContentEditorWidget(QWidget):
         meta_layout = QVBoxLayout(meta_group)
         meta_layout.addWidget(self.meta_editor)
 
-        splitter = QSplitter(Qt.Vertical)
-        splitter.addWidget(self.text_area)
-        splitter.addWidget(meta_group)
+        splitter = CustomSplitter(Qt.Vertical, collapsed_label="Metadata")
+        splitter.addWidget(self.text_area, "Content")
+        splitter.addWidget(meta_group, "Metadata")
         layout.addWidget(splitter)
         splitter.setSizes([300, 100])  # anfängliche Größe
 

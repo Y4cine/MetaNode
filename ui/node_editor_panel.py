@@ -47,9 +47,10 @@ class NodeEditorPanel(QWidget):
         if splitter_manager is not None:
             self.splitter = splitter_manager.create_splitter(Qt.Vertical)
         else:
-            self.splitter = QSplitter(Qt.Vertical)
-        self.splitter.addWidget(self.meta_panel)
-        self.splitter.addWidget(self.content_stack)
+            from ui.custom_splitter import CustomSplitter
+            self.splitter = CustomSplitter(Qt.Vertical, collapsed_label="Node Metadata")
+        self.splitter.addWidget(self.meta_panel, "Node Metadata")
+        self.splitter.addWidget(self.content_stack, "Content Panel")
 
         self.splitter.setSizes([200, 600])
 

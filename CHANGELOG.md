@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+### 2025-07-05 (Custom Splitter & UI Modularization)
+- All splitters (main, content, per-panel) now use a custom `CustomSplitter`/`CustomSplitterHandle`:
+    - Prevents full collapse, always shows a visible, labeled handle.
+    - Draws a label for collapsed regions (rotated for horizontal splitters).
+    - Label dynamically reflects the content of the hidden/collapsed panel, or uses explicit label from `addWidget`.
+    - Robustly saves/restores layout state as ratios.
+    - Visually clean, theme-aware, and does not overlap content.
+    - All code is maintainable, modular, and documented.
+- All major UI components are modularized (tree view, content panel, main window) using mixins and manager/helper modules.
+- Debug code and unused imports removed, docstrings added, linter warnings minimized.
+
 ### 2025-07-05 (Major Refactor)
 - Removed all in-place and sub-node JSON editing. JSON editing is now only possible via a modal dialog for the full model.
 - The right pane always shows structured editors; no more direct JSON editing for nodes or content.

@@ -7,7 +7,7 @@ This module defines the SingleContentPanel class for displaying and editing a si
 
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QLabel, QPushButton, QSplitter,
+    QLabel, QPushButton,
     QComboBox, QTreeWidgetItem, QToolBar, QAction
 )
 from PyQt5.QtCore import Qt, pyqtSignal, QSize
@@ -18,6 +18,7 @@ from widgets.content_metadata_panel import ContentMetadataPanel
 from core.content_filter_parser import ContentFilterParser, is_valid_filter
 from widgets.content_editor_factory import create_content_editor
 from core.project_paths import get_path
+from ui.custom_splitter import CustomSplitter
 
 
 class SingleContentPanel(QWidget):
@@ -99,9 +100,9 @@ class SingleContentPanel(QWidget):
 
         # --- vertikaler Splitter für Inhalte ---
         if splitter_manager is not None:
-            self.splitter = splitter_manager.create_splitter(Qt.Vertical)
+            self.splitter = splitter_manager.create_splitter(Qt.Vertical, collapsed_label="Metadata")
         else:
-            self.splitter = QSplitter(Qt.Vertical)
+            self.splitter = CustomSplitter(Qt.Vertical, collapsed_label="Metadata")
         layout.addWidget(self.splitter)
 
         # self.metadata_placeholder = QLabel(...)
@@ -111,13 +112,13 @@ class SingleContentPanel(QWidget):
         )
         self.metadata_panel.setMinimumWidth(80)  # Allow panel to shrink to 80px (user-requested minimum)
         self.metadata_panel.tree.itemClicked.connect(self.on_tree_item_clicked)
-        self.splitter.addWidget(self.metadata_panel)
+        self.splitter.addWidget(self.metadata_panel, "Metadata")
 
         # Editorbereich
         self.editor_area = QWidget()
         self.editor_layout = QVBoxLayout(self.editor_area)
         self.editor_layout.setContentsMargins(0, 0, 0, 0)
-        self.splitter.addWidget(self.editor_area)
+        self.splitter.addWidget(self.editor_area, "Content")
 
         self.splitter.setSizes([150, 400])
 

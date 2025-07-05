@@ -87,8 +87,17 @@ So I switched to Python and PyQt. ChatGPT (4o) — codename "Kai" — was my spa
 
 ## ⚡ July 2025: Major Refactor & JSON Editing Policy
 
-- All in-place and sub-node JSON editing is removed. JSON editing is now only possible via a modal dialog for the full model.
-- The right pane always shows structured editors; no more direct JSON editing for nodes or content.
-- All file, menu, toolbar, and mode logic is now delegated to manager classes.
-- UI state, undo/redo, and data flows are robust and modular.
-- The codebase is ready for further modularization and extension.
+
+## 🪟 Custom Splitter & UI Improvements (2025-07-05)
+
+- All splitters (main, content, per-panel) now use a custom `CustomSplitter`/`CustomSplitterHandle`:
+    - Prevents full collapse, always shows a visible, labeled handle.
+    - Draws a label for collapsed regions (rotated for horizontal splitters).
+    - Label dynamically reflects the content of the hidden/collapsed panel, or uses explicit label from `addWidget`.
+    - Robustly saves/restores layout state as ratios.
+    - Visually clean, theme-aware, and does not overlap content.
+    - All code is maintainable, modular, and documented.
+- All major UI components are modularized (tree view, content panel, main window) using mixins and manager/helper modules.
+- Debug code and unused imports removed, docstrings added, linter warnings minimized.
+
+For more, see [`refactoring.md`](refactoring.md) and [`PROJECT_OVERVIEW.md`](PROJECT_OVERVIEW.md).

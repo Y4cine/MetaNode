@@ -9,9 +9,12 @@ from utils.ratios import calculate_ratios
 
 
 class SplitterManager:
-    def create_splitter(self, orientation):
-        """Factory method for creating QSplitter instances. Can be extended for custom splitters."""
-        splitter = QSplitter(orientation)
+    def create_splitter(self, orientation, collapsed_label=None):
+        """Factory method for creating CustomSplitter instances with a label."""
+        from ui.custom_splitter import CustomSplitter
+        # Use a default label if none provided, or allow caller to specify
+        label = collapsed_label if collapsed_label is not None else ("Metadata" if orientation == Qt.Vertical else "Content")
+        splitter = CustomSplitter(orientation, collapsed_label=label)
         return splitter
 
     def __init__(self, main_window):

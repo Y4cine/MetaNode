@@ -1,6 +1,7 @@
 # PROJECT OVERVIEW (Updated 2025-07-05)
 
 ## Architecture Summary
+- `CustomSplitter`/`CustomSplitterHandle`: Custom QSplitter subclass used everywhere in the UI. Prevents full collapse, always shows a visible, labeled handle, and is theme-aware. Pane labels are set via addWidget for clarity. Robustly saves/restores layout state as ratios. All splitters (main, content, per-panel) now use this class.
 - `MainWindow`: Thin coordinator. Handles high-level app events, delegates all logic to manager classes and panels.
 - `NodeEditorPanel`: Handles node switching, local undo/redo, and right-side content panel logic.
 - `SplitterManager`: Centralizes creation and management of all splitters (main, per-panel, etc.).
@@ -50,6 +51,14 @@ A core architectural goal is to support flexible, pluggable editors and renderer
 - `NodeTree`
 
 ## Key Architectural Changes (July 2025)
+- **CustomSplitter and CustomSplitterHandle** are now used for all splitters (main, content, per-panel):
+    - Prevents full collapse, always shows a visible, labeled handle.
+    - Draws a label for collapsed regions (rotated for horizontal splitters).
+    - Label dynamically reflects the content of the hidden/collapsed panel, or uses explicit label from addWidget.
+    - Robustly saves/restores layout state as ratios.
+    - Visually clean, theme-aware, and does not overlap content.
+    - All code is maintainable, modular, and documented.
+    - Debug code and unused imports removed, docstrings added, linter warnings minimized.
 
 ### 1. Modularization & Manager Classes
 - **MainWindow** is now a thin coordinator. All major logic is delegated to manager classes:

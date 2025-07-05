@@ -80,20 +80,29 @@ This vision drives the following refactoring principles:
 
 # Refactoring Progress (2025-07-05)
 
-## Completed
-- Node switching logic is now fully delegated to `NodeEditorPanel` via `switch_node`, with `MainWindow` only coordinating selection events.
-- All UI state (splitters, panels, filters) is managed by dedicated manager classes (`SplitterManager`, `PanelStateManager`), not duplicated in `MainWindow`.
-- Undo/redo logic is modular and local to panels, with global fallback.
-- File, mode, and menu/toolbar logic is fully modularized.
-- All major responsibilities are now handled by dedicated classes; `MainWindow` is a thin coordinator.
+## Completed (2025-07-05)
+- All major UI components are modularized (tree view, content panel, main window) using mixins and manager/helper modules.
+- CustomSplitter and CustomSplitterHandle implemented and integrated everywhere:
+    - Prevents full collapse, always shows a visible, labeled handle.
+    - Draws a label for collapsed regions (rotated for horizontal splitters).
+    - Label dynamically reflects the content of the hidden/collapsed panel, or uses explicit label from addWidget.
+    - Robustly saves/restores layout state as ratios.
+    - Visually clean, theme-aware, and does not overlap content.
+- All splitters (main, content, per-panel) now use CustomSplitter with labeled, non-collapsing handles.
+- Splitter state is saved as ratios and restored robustly for any window size.
+- Collapsed panels show a label and remain restorable.
+- All code is maintainable, modular, and documented.
+- Debug code and unused imports removed, docstrings added, linter warnings minimized.
 
 ## Remaining/Optional
-- JSON editor logic remains in `MainWindow` (could be modularized if needed).
-- Settings/user preferences logic (e.g., `edit_user_settings`) could be moved to a dedicated manager for further modularity.
+- JSON editor logic remains in MainWindow (could be modularized if needed).
+- Settings/user preferences logic (e.g., edit_user_settings) could be moved to a dedicated manager for further modularity.
 - Advanced undo/redo scenarios or further maintainability improvements (optional).
+- Minor linter warnings (e.g., long docstring lines, unused imports) can be cleaned up.
+- Further visual fine-tuning or code cleanup if desired.
 
 ## Next Steps
-- Continue to document architecture and class responsibilities in `PROJECT_OVERVIEW.md`.
+- Continue to document architecture and class responsibilities in PROJECT_OVERVIEW.md.
 - Incrementally test and track any further refactor steps.
 
 ---

@@ -7,8 +7,8 @@
       "id": "47841cf7-84e9-4c49-a8a6-bf3175829dda",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -100,60 +100,58 @@
       "settings": {
         "splitters": {
           "main": [
-            0.23279524214103653,
-            0.7672047578589635
+            0.19628836545324768,
+            0.8037116345467523
           ],
           "content_panels": [
-            0.3337066069428891,
-            0.46136618141097424,
-            0.20492721164613673
+            0.2782931354359926,
+            0.26716141001855287,
+            0.45454545454545453
           ],
           "panel0_splitter": [
-            0.2735229759299781,
-            0.7264770240700219
+            0.3218390804597701,
+            0.6781609195402298
           ],
           "panel1_splitter": [
-            0.0,
-            1.0
+            0.2735632183908046,
+            0.7264367816091954
           ],
           "panel2_splitter": [
-            0.2735229759299781,
-            0.7264770240700219
-          ],
-          "main_recursive_splitter1": [
-            0.23279524214103653,
-            0.7672047578589635
-          ],
-          "main_recursive_splitter1_child0_splitter1": [
-            0.25,
-            0.75
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            0.3337066069428891,
-            0.46136618141097424,
-            0.20492721164613673
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
-            0.2735229759299781,
-            0.7264770240700219
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
             0.0,
             1.0
           ],
+          "main_recursive_splitter1": [
+            0.19628836545324768,
+            0.8037116345467523
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.23385939741750358,
+            0.7661406025824964
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            0.2782931354359926,
+            0.26716141001855287,
+            0.45454545454545453
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
+            0.2735632183908046,
+            0.7264367816091954
+          ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1_child2_splitter12": [
-            0.2735229759299781,
-            0.7264770240700219
+            0.3218390804597701,
+            0.6781609195402298
           ]
         },
         "filters": {
-          "panel0": "lang=\"DE\"",
+          "panel0": "",
           "panel1": "",
           "panel2": ""
         },
-        "global_filters": [
-          "lang=\"DE\""
-        ]
+        "global_filters": []
       },
       "children": [],
       "title": "",

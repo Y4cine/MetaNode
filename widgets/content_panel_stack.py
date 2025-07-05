@@ -1,16 +1,16 @@
-
 # -*- coding: utf-8 -*-
 """content_panel_stack.py
 This module defines the ContentPanelStack class for managing multiple content panels in a horizontal stack.
 """
 
-from PyQt5.QtWidgets import QWidget, QSplitter, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QHBoxLayout
 from PyQt5.QtCore import Qt
 from typing import List
 
 from widgets.single_content_panel import SingleContentPanel
 from models.content_model import Content
 from utils.ratios import calculate_ratios
+from ui.custom_splitter import CustomSplitter
 
 
 class ContentPanelStack(QWidget):
@@ -21,9 +21,13 @@ class ContentPanelStack(QWidget):
         self.global_filters = []  # Globale Filterliste für alle Panels
 
         if splitter_manager is not None:
-            self.splitter = splitter_manager.create_splitter(Qt.Horizontal)
+            self.splitter = splitter_manager.create_splitter(Qt.Horizontal, collapsed_label="Content")
         else:
-            self.splitter = QSplitter(Qt.Horizontal)
+            self.splitter = CustomSplitter(Qt.Horizontal, collapsed_label="Content")
+
+        # Example: If you know the panels, add with labels. If dynamic, set labels when adding.
+        # self.splitter.addWidget(panel1, "Panel 1")
+        # self.splitter.addWidget(panel2, "Panel 2")
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -44,7 +48,7 @@ class ContentPanelStack(QWidget):
         panel.content_edited.connect(self._on_panel_content_edited)
 
         self.panel_views.append(panel)
-        self.splitter.addWidget(panel)
+        self.splitter.addWidget(panel, "Content Panel")
         # Falls bereits ein Node geladen wurde, Daten sofort setzen:
         if self.panel_views and self.panel_views[0]._all_contents:
             panel.set_contents(self.panel_views[0]._all_contents)
