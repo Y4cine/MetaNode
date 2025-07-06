@@ -1,0 +1,36 @@
+/* Big UI Theme for Low Vision or Presentation */
+
+QWidget {
+    background: #f5f5f5;
+    color: #222;
+    font-size: 18pt;
+}
+
+QPushButton, QComboBox, QLineEdit, QTextEdit, QTreeView, QTableView {
+    background: #fff;
+    color: #222;
+    border: 2px solid #888;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 20pt;
+}
+
+QPushButton:focus, QComboBox:focus, QLineEdit:focus, QTextEdit:focus, QTreeView:focus, QTableView:focus {
+    outline: 4px solid #1976D2;
+    background: #BBDEFB;
+    color: #222;
+}
+
+QHeaderView::section {
+    background: #1976D2;
+    color: #fff;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+QStatusBar {
+    background: #1976D2;
+    color: #fff;
+    font-size: 18pt;
+    font-weight: bold;
+}

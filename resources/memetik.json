@@ -119,7 +119,7 @@
           "content_type": "text",
           "title": "fff",
           "data": {
-            "text": "ffff"
+            "text": "Ideas control our world. They are as powerful as forces of nature. They control our thoughts, which in turn guide our actions – from brushing our teeth in the morning to waging wars or building entire civilizations.\nI deliberately use the terms “ideas” and ‘thoughts’ instead of “thinking.” “Thinking” refers to the active process in which we classify ideas, question them, compare them with our previous experiences, and, if necessary, recombine them.\nIdeas are concepts that circulate in society. They have not yet been processed by us. They are things like “freedom for all” or “woke.” We will later refer to such things as “memes.”\nThoughts are something that we have not necessarily created ourselves, but which nevertheless have an effect on our minds. One could say that they are the sum total of all traditions, cultures, knowledge, and norms.\nNo being, no matter how intelligent, could create the complex world of thoughts that a modern human being brings with them from nothing in a single lifetime. It is the result of millions of years of cultural, civilizational, and traditional developments.\nThinking is our individual contribution to the creation of this common tower of thought.\nOur thoughts are so powerful that we find traces of humans almost everywhere. However, this is not because humans are so strong or skilled, but rather because they join forces with others to manipulate things, invent new things, and impart knowledge.\nBefore humans, this phenomenon existed only to a limited extent in some herd animals. We are familiar with the rearing of offspring, hunting in packs, and the use of simple tools.\nHowever, humans have taken this to the extreme—presumably through the invention of language. In its scope, it is comparable to the terraforming that bacteria carried out billions of years ago. They enriched the atmosphere with oxygen, making life as we know it today possible in the first place.\n\n\nThoughts dam monsoon rains in reservoirs, lead millions into wars, or keep entire civilizations alive. They structure coexistence, enable supply, create deserts – or transform them back into flourishing landscapes.\n\n\nThey are omnipresent. They control you and your neighbor. In big ways and small."
           },
           "renderer": "text_blocks",
           "metadata": {
@@ -153,7 +153,13 @@
                 "text": ""
               },
               "renderer": "text_blocks",
-              "metadata": {}
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
             }
           ]
         },
@@ -410,7 +416,7 @@
                       },
                       "renderer": "text_blocks",
                       "metadata": {
-                        "lang": "",
+                        "lang": "DE",
                         "audience": "",
                         "version": "",
                         "main": "",
