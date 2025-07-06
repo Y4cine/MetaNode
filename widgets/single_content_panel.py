@@ -130,6 +130,7 @@ class SingleContentPanel(QWidget):
         self.action_paste_content.triggered.connect(self.paste_content)
         self.action_rename_content.triggered.connect(self.rename_content)
         # self.action_show_json.triggered.connect(self.show_json_view)
+        self.splitter.splitterMoved.connect(self._on_vertical_splitter_moved)
 
     def _set_content_editor(self, content_dict):
         # Entferne alten Editor
@@ -349,6 +350,17 @@ class SingleContentPanel(QWidget):
                         return False
         return True
 
-    # Example usage: before changing content/node
-    # if not self.try_leave_json_editor():
-    #     return  # Block navigation/change
+    def _on_vertical_splitter_moved(self, pos, index):
+        # Force update/refresh of all widgets in the editor area and metadata panel
+        if hasattr(self, 'editor_area') and self.editor_area:
+            self.editor_area.updateGeometry()
+            self.editor_area.repaint()
+            for child in self.editor_area.findChildren(QWidget):
+                child.updateGeometry()
+                child.repaint()
+        if hasattr(self, 'metadata_panel') and self.metadata_panel:
+            self.metadata_panel.updateGeometry()
+            self.metadata_panel.repaint()
+            for child in self.metadata_panel.findChildren(QWidget):
+                child.updateGeometry()
+                child.repaint()
