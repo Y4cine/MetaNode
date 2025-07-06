@@ -1,5 +1,20 @@
 ## [Unreleased]
 
+### 2025-07-06 (Keyboard Navigation Refactor & Accessibility)
+- Major keyboard navigation refactor for accessibility and usability:
+    - Central `KeyboardManager` class manages all shortcuts and Tab-rotation logic.
+    - Shortcuts are now defined in `resources/keyboard_shortcuts.json` and can be overridden by user settings.
+    - Robust Tab-rotation and Shift+Tab navigation for all core areas (TreeView, Node-Metadata, ContentPanels).
+    - Focus management: after shortcut navigation, the first relevant UI element is focused automatically.
+    - Visual focus feedback (outline/border) for all key widgets, theme-aware.
+    - Tooltips with keyboard hints for all important UI elements.
+    - Status bar with context-sensitive navigation tips, updated on focus change.
+    - Escape always returns focus to the TreeView.
+    - All navigation logic is robust, user-friendly, and documented.
+    - Overlay for Alt-key navigation was considered but not implemented (see `refactor_navigation.md`).
+    - Tab navigation is flexible; Tab can leave the current area if needed.
+    - ToDo-Liste und Spezifikation in `refactor_navigation.md` aktualisiert.
+
 ### 2025-07-05 (Custom Splitter & UI Modularization)
 - All splitters (main, content, per-panel) now use a custom `CustomSplitter`/`CustomSplitterHandle`:
     - Prevents full collapse, always shows a visible, labeled handle.

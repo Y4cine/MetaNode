@@ -47,7 +47,17 @@ Whether you're documenting software, writing educational materials, or mapping a
   - Keyboard shortcuts: `Ctrl+Z`, `Ctrl+Y`
 
 ## 📦 Example Use Cases
+## ⌨️ Keyboard Navigation & Accessibility
 
+MetaNode features robust, user-friendly keyboard navigation for accessibility and productivity:
+- **Central KeyboardManager**: All shortcuts and Tab-rotation logic are managed centrally.
+- **Configurable Shortcuts**: Defined in `resources/keyboard_shortcuts.json`, overridable by user settings.
+- **Tab-Rotation**: Tab and Shift+Tab rotate focus within TreeView, Node-Metadata, and ContentPanels.
+- **Focus Management**: After shortcut navigation, the first relevant UI element is focused automatically.
+- **Visual Focus Feedback**: All key widgets have a visible focus outline/border (theme-aware).
+- **Tooltips & Status Bar**: Tooltips show keyboard hints; the status bar displays context-sensitive navigation tips.
+- **Escape**: Always returns focus to the TreeView.
+- **Design Decisions**: Overlay for Alt-key navigation was considered but not implemented. Tab can leave the current area if needed.
 - Multilingual documentation with audience-specific content
 - Educational books with POP/SCI/INT tracks
 - World-building tools (chapters, notes, internal lore)

@@ -144,3 +144,65 @@ class ContentPanelStack(QWidget):
         if filter_str and filter_str not in self.global_filters:
             self.global_filters.append(filter_str)
             self.update_all_filter_dropdowns()
+
+    def focus_panel_metadata(self, index):
+        """Setzt den Fokus auf das Metadata-Panel des SingleContentPanels mit gegebenem Index und zeigt Statushinweis."""
+        if 0 <= index < len(self.panel_views):
+            panel = self.panel_views[index]
+            if hasattr(panel, "focus_metadata_panel"):
+                panel.focus_metadata_panel()
+            # Statusleiste aktualisieren
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'show_content_panel_metadata_status'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'show_content_panel_metadata_status'):
+                main_win.show_content_panel_metadata_status(index)
+
+    def focus_panel_editor(self, index):
+        """Setzt den Fokus auf den Editor des SingleContentPanels mit gegebenem Index und zeigt Statushinweis."""
+        if 0 <= index < len(self.panel_views):
+            panel = self.panel_views[index]
+            if hasattr(panel, "focus_content_editor"):
+                panel.focus_content_editor()
+            # Statusleiste aktualisieren
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'show_content_panel_editor_status'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'show_content_panel_editor_status'):
+                main_win.show_content_panel_editor_status(index)
+
+    def keyPressEvent(self, event):
+        """
+        Tab rotiert zwischen allen SingleContentPanels (Panels), Shift+Tab rückwärts. Escape setzt Fokus auf TreeView.
+        """
+        from PyQt5.QtCore import Qt
+        panels = self.panel_views
+        if not panels:
+            super().keyPressEvent(event)
+            return
+        current = self.focusWidget()
+        idx = -1
+        for i, panel in enumerate(panels):
+            if panel is current or panel.isAncestorOf(current):
+                idx = i
+                break
+        if event.key() == Qt.Key_Tab:
+            next_idx = (idx + 1) % len(panels)
+            panels[next_idx].setFocus()
+            event.accept()
+            return
+        elif event.key() == Qt.Key_Backtab:  # Shift+Tab
+            next_idx = (idx - 1) % len(panels)
+            panels[next_idx].setFocus()
+            event.accept()
+            return
+        elif event.key() == Qt.Key_Escape:
+            # Fokus zurück zum TreeView im MainWindow
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'focus_tree_view'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'focus_tree_view'):
+                main_win.focus_tree_view()
+            event.accept()
+            return
+        super().keyPressEvent(event)

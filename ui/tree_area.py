@@ -24,4 +24,8 @@ class TreeArea:
     def select_node_by_id(self, node_id):
         self.node_tree.select_node_by_id(node_id)
 
+    def setFocus(self):
+        """Setzt den Fokus auf den Tree (QTreeWidget)."""
+        self.node_tree.setFocus()
+
     # Add more pass-through methods as needed

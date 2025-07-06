@@ -153,3 +153,44 @@ class NodeEditorPanel(QWidget):
         if hasattr(self.content_stack, 'panel_views'):
             return self.content_stack.panel_views
         return []
+
+    def focus_metadata_panel(self):
+        """Setzt den Fokus auf das Node-Metadata-Panel (oben rechts) und das erste Feld darin."""
+        if hasattr(self, "meta_panel"):
+            self.meta_panel.setFocus()
+            # Versuche, das erste Feld (QTreeWidget) zu fokussieren
+            if hasattr(self.meta_panel, "tree"):
+                self.meta_panel.tree.setFocus()
+                if self.meta_panel.tree.topLevelItemCount() > 0:
+                    self.meta_panel.tree.setCurrentItem(self.meta_panel.tree.topLevelItem(0))
+
+    def keyPressEvent(self, event):
+        """
+        Tab rotiert zwischen NodeMetadataPanel und ContentPanelStack.
+        Shift+Tab rotiert rückwärts. Escape setzt Fokus auf TreeView.
+        """
+        from PyQt5.QtCore import Qt
+        if event.key() == Qt.Key_Tab:
+            if self.meta_panel.hasFocus():
+                self.content_stack.setFocus()
+            else:
+                self.meta_panel.setFocus()
+            event.accept()
+            return
+        elif event.key() == Qt.Key_Backtab:  # Shift+Tab
+            if self.content_stack.hasFocus():
+                self.meta_panel.setFocus()
+            else:
+                self.content_stack.setFocus()
+            event.accept()
+            return
+        elif event.key() == Qt.Key_Escape:
+            # Fokus zurück zum TreeView im MainWindow
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'focus_tree_view'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'focus_tree_view'):
+                main_win.focus_tree_view()
+            event.accept()
+            return
+        super().keyPressEvent(event)

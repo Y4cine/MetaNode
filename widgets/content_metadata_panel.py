@@ -1,4 +1,3 @@
-
 # widgets/content_metadata_panel.py
 # -*- coding: utf-8 -*-
 """content_metadata_panel.py
@@ -23,6 +22,7 @@ class ContentMetadataPanel(QWidget):
         self.tree.setColumnCount(3)
         self.tree.setHeaderLabels(["Feld", "Wert", "Default"])
         self.tree.setAlternatingRowColors(True)
+        self.tree.setToolTip("Metadatenbaum (Tab: zum Editor, Shift+Tab: zum Filter, Ctrl+Nummer: Panel wechseln)")
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)

@@ -11,8 +11,8 @@
           "id": "14e08f03-2201-405f-a8ef-e8f3819cf995",
           "children": [],
           "metadata": {
-            "print": "",
             "status": "",
+            "print": "",
             "test": "ddd"
           },
           "contents": [
@@ -68,8 +68,8 @@
         }
       ],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "",
+        "print": ""
       },
       "contents": [
         {
@@ -787,31 +787,49 @@
       "settings": {
         "splitters": {
           "main": [
-            0.18011894647408666,
-            0.8198810535259133
-          ],
-          "right_panel": [
-            0.13966480446927373,
-            0.8603351955307262
+            0.18010291595197256,
+            0.8198970840480274
           ],
           "content_panels": [
-            0.471875,
-            0.528125
+            0.5,
+            0.5
           ],
           "panel0_splitter": [
-            0.17723880597014927,
-            0.8227611940298507
+            0.21380846325167038,
+            0.7861915367483296
           ],
           "panel1_splitter": [
-            0.27052238805970147,
-            0.7294776119402985
+            0.45879732739420936,
+            0.5412026726057907
+          ],
+          "main_recursive_splitter1": [
+            0.18010291595197256,
+            0.8198970840480274
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.23404255319148937,
+            0.7659574468085106
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            0.5,
+            0.5
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.45879732739420936,
+            0.5412026726057907
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
+            0.21380846325167038,
+            0.7861915367483296
           ]
         },
         "filters": {
           "panel0": "lang=\"DE\"",
           "panel1": ""
         },
-        "global_filters": []
+        "global_filters": [
+          "lang=\"DE\""
+        ]
       },
       "children": []
     }

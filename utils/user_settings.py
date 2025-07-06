@@ -86,3 +86,14 @@ def clean_recent_files():
     if cleaned != recent:
         settings["recent_files"] = cleaned
         save_user_settings(settings)
+
+def get_keyboard_shortcuts():
+    """
+    Gibt benutzerspezifische Tastenkürzel zurück, falls in user_settings.json vorhanden.
+    Sonst None.
+    """
+    settings = load_user_settings()
+    return settings.get("KEYBOARD_SHORTCUTS")
+
+# Optional: Für Import-Kompatibilität mit KeyboardNavigationManager
+KEYBOARD_SHORTCUTS = get_keyboard_shortcuts()

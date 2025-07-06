@@ -23,7 +23,9 @@ class ContentEditorWidget(QWidget):
         self._content = content
 
         self.title_input = QLineEdit(content.title)
+        self.title_input.setToolTip("Titel bearbeiten (Tab: zum Text, Shift+Tab: zu Metadaten, Alt+Nummer: Panel wechseln)")
         self.text_area = QTextEdit()
+        self.text_area.setToolTip("Content-Text bearbeiten (Tab: zu Metadaten, Shift+Tab: zum Titel, Alt+Nummer: Panel wechseln)")
         self.text_area.setPlainText(content.data.get("text", ""))
 
         self.meta_editor = MetadataEditor()

@@ -7,7 +7,7 @@ including the tree view, node editor, and file operations.
 
 from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout,
-    QFileDialog, QMessageBox, QShortcut
+    QFileDialog, QMessageBox, QShortcut, QStatusBar
 )
 from PyQt5.QtCore import Qt
 from ui.tree_area import TreeArea
@@ -19,6 +19,7 @@ import os
 from ui.toolbar_manager import ToolbarManager
 from ui.menu_manager import MenuManager
 from ui.custom_splitter import CustomSplitter
+from core.keyboard_manager import KeyboardNavigationManager
 
 
 class MainWindow(QMainWindow):
@@ -115,6 +116,13 @@ class MainWindow(QMainWindow):
         else:
             self.file_manager.new_file()
 
+        self.keyboard_manager = KeyboardNavigationManager(self)
+        self._setup_keyboard_navigation_shortcuts()
+
+        self.status_bar = QStatusBar()
+        self.setStatusBar(self.status_bar)
+        self.status_bar.showMessage("TreeView: Tab = Suche, Alt+M = Metadaten, Alt+Nummer = Editor")
+
     def set_window_title_with_path(self, path=None):
         if path:
             self.setWindowTitle(f"{os.path.basename(path)} – MetaNode")
@@ -170,6 +178,57 @@ class MainWindow(QMainWindow):
 
         redo_shortcut = QShortcut(QKeySequence("Ctrl+Y"), self)
         redo_shortcut.activated.connect(self.do_combined_redo)
+
+    def _setup_keyboard_navigation_shortcuts(self):
+        """
+        Registriert globale Shortcuts für TreeView, Node-Metadata und Escape.
+        Registriert Panel-Shortcuts für ContentPanels (Ctrl+Nummer, Alt+Nummer).
+        """
+        shortcuts = self.keyboard_manager.shortcuts or {}
+        nav = shortcuts.get("navigation", {})
+        global_nav = nav.get("global", {})
+        actions = shortcuts.get("actions", {})
+        # TreeView-Fokus
+        treeview_seq = global_nav.get("tree_view", "Alt+Q")
+        treeview_shortcut = QShortcut(QKeySequence(treeview_seq), self)
+        treeview_shortcut.activated.connect(self.focus_tree_view)
+        # Node-Metadata-Fokus
+        node_meta_seq = global_nav.get("node_metadata", "Alt+M")
+        node_meta_shortcut = QShortcut(QKeySequence(node_meta_seq), self)
+        node_meta_shortcut.activated.connect(self.focus_node_metadata)
+        # Escape → TreeView
+        escape_seq = actions.get("escape", "Escape")
+        escape_shortcut = QShortcut(QKeySequence(escape_seq), self)
+        escape_shortcut.activated.connect(self.focus_tree_view)
+
+        # Panel-Shortcuts (Ctrl+Nummer für Metadata, Alt+Nummer für Editor)
+        if hasattr(self, "right_area") and hasattr(self.right_area, "content_stack"):
+            content_stack = self.right_area.content_stack
+            for idx in range(9):  # Panels 1-9
+                meta_seq = nav.get("content_panels", {}).get("metadata", "Ctrl+{index}").replace("{index}", str(idx+1))
+                editor_seq = nav.get("content_panels", {}).get("editor", "Alt+{index}").replace("{index}", str(idx+1))
+                meta_shortcut = QShortcut(QKeySequence(meta_seq), self)
+                meta_shortcut.activated.connect(lambda i=idx: content_stack.focus_panel_metadata(i))
+                editor_shortcut = QShortcut(QKeySequence(editor_seq), self)
+                editor_shortcut.activated.connect(lambda i=idx: content_stack.focus_panel_editor(i))
+
+    def focus_tree_view(self):
+        """Setzt den Fokus auf die TreeView (links)."""
+        if hasattr(self, "tree_area"):
+            self.tree_area.setFocus()
+        self.status_bar.showMessage("TreeView: Tab = Suche, Alt+M = Metadaten, Alt+Nummer = Editor")
+
+    def focus_node_metadata(self):
+        """Setzt den Fokus auf das Node-Metadata-Panel (rechts oben)."""
+        if hasattr(self, "right_area") and hasattr(self.right_area, "focus_metadata_panel"):
+            self.right_area.focus_metadata_panel()
+        self.status_bar.showMessage("Metadaten: Tab = Editor, Shift+Tab = Tree, Ctrl+Nummer = Panel")
+
+    def show_content_panel_metadata_status(self, idx):
+        self.status_bar.showMessage(f"Panel {idx+1} Metadaten: Tab = Editor, Shift+Tab = Filter, Ctrl+Nummer = Panel")
+
+    def show_content_panel_editor_status(self, idx):
+        self.status_bar.showMessage(f"Panel {idx+1} Editor: Tab = Metadaten, Shift+Tab = Filter, Alt+Nummer = Panel")
 
     # ----------------------------
     # Menüleiste und Toolbar

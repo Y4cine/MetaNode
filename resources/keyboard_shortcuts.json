@@ -1,0 +1,16 @@
+{
+  "navigation": {
+    "global": {
+      "tree_view": "Alt+Q",
+      "node_metadata": "Alt+M"
+    },
+    "content_panels": {
+      "metadata": "Ctrl+{index}",
+      "editor": "Alt+{index}"
+    }
+  },
+  "actions": {
+    "escape": "focus_tree_view",
+    "enter": "expand_collapsed_panel"
+  }
+}

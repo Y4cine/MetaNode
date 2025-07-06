@@ -1,5 +1,15 @@
 # PROJECT OVERVIEW (Updated 2025-07-05)
 
+## Keyboard Navigation & Accessibility (July 2025)
+- **Central KeyboardManager**: All keyboard shortcuts and Tab-rotation logic are managed by a central class, ensuring robust, user-friendly navigation across the app.
+- **Configurable Shortcuts**: Shortcuts are defined in `resources/keyboard_shortcuts.json` and can be overridden by user settings.
+- **Tab-Rotation & Focus Management**: Tab and Shift+Tab rotate focus within all core areas (TreeView, Node-Metadata, ContentPanels). After shortcut navigation, the first relevant UI element is focused automatically.
+- **Visual Focus Feedback**: All key widgets provide a visible focus outline/border, theme-aware for accessibility.
+- **Tooltips & Status Bar**: All important UI elements have tooltips with keyboard hints. The status bar shows context-sensitive navigation tips and updates on focus change.
+- **Escape**: Always returns focus to the TreeView.
+- **Design Decisions**: Overlay for Alt-key navigation was considered but not implemented. Tab navigation is flexible and can leave the current area if needed.
+- **See also**: `refactor_navigation.md` for specification, ToDo-list, and implementation details.
+
 ## Architecture Summary
 - `CustomSplitter`/`CustomSplitterHandle`: Custom QSplitter subclass used everywhere in the UI. Prevents full collapse, always shows a visible, labeled handle, and is theme-aware. Pane labels are set via addWidget for clarity. Robustly saves/restores layout state as ratios. All splitters (main, content, per-panel) now use this class.
 - `MainWindow`: Thin coordinator. Handles high-level app events, delegates all logic to manager classes and panels.

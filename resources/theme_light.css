@@ -1,3 +1,11 @@
+/* Fokus-Umrandung für zentrale Widgets */
+QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus,
+QPushButton:focus, QComboBox:focus, QTreeView:focus, QListView:focus, QTabBar::tab:focus {
+    outline: 2.5px solid #0078d7;
+    outline-offset: 0px;
+    border: 2px solid #0078d7;
+    /* Keine z-index/box-shadow, da von Qt nicht unterstützt */
+}
 /* theme_light.css - Standard (Light) Theme */
 
 QMainWindow {

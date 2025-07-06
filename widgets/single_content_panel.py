@@ -82,6 +82,7 @@ class SingleContentPanel(QWidget):
         self.filter_input.setEditText(filter_text)
         self.filter_input.setPlaceholderText(
             "z.B. lang = 'DE' AND audience = 'POP'")
+        self.filter_input.setToolTip("Filterfeld (Tab: zum Metadata-Panel, Shift+Tab: zum Editor, Alt+Nummer: Editor, Ctrl+Nummer: Metadata)")
         self.filter_input.lineEdit().editingFinished.connect(self.on_filter_edit_finished)
         self.filter_input.currentIndexChanged.connect(lambda _: self.on_filter_edit_finished())
         self.filter_input.editTextChanged.connect(lambda _: self.apply_filter())
@@ -89,7 +90,9 @@ class SingleContentPanel(QWidget):
         top_row.addWidget(self.filter_input)
 
         btn_add = QPushButton("+")
+        btn_add.setToolTip("Neues Content-Panel öffnen (Tastenkombi: Alt+N)")
         btn_close = QPushButton("×")
+        btn_close.setToolTip("Dieses Content-Panel schließen")
         top_row.addWidget(btn_add)
         top_row.addWidget(btn_close)
 
@@ -111,11 +114,13 @@ class SingleContentPanel(QWidget):
             default_metadata={}  # ← später ersetzen durch Node-Vererbung
         )
         self.metadata_panel.setMinimumWidth(80)  # Allow panel to shrink to 80px (user-requested minimum)
+        self.metadata_panel.setToolTip("Metadaten bearbeiten (Tab: zum Editor, Shift+Tab: zum Filter, Ctrl+Nummer)")
         self.metadata_panel.tree.itemClicked.connect(self.on_tree_item_clicked)
         self.splitter.addWidget(self.metadata_panel, "Metadata")
 
         # Editorbereich
         self.editor_area = QWidget()
+        self.editor_area.setToolTip("Content bearbeiten (Tab: zum Filter, Shift+Tab: zu Metadaten, Alt+Nummer)")
         self.editor_layout = QVBoxLayout(self.editor_area)
         self.editor_layout.setContentsMargins(0, 0, 0, 0)
         self.splitter.addWidget(self.editor_area, "Content")
@@ -364,3 +369,66 @@ class SingleContentPanel(QWidget):
             for child in self.metadata_panel.findChildren(QWidget):
                 child.updateGeometry()
                 child.repaint()
+
+    def focus_metadata_panel(self):
+        """Setzt den Fokus auf das Metadata-Panel dieses Panels und das erste Feld darin. Zeigt Statusleiste."""
+        if hasattr(self, "metadata_panel"):
+            self.metadata_panel.setFocus()
+            if hasattr(self.metadata_panel, "tree"):
+                self.metadata_panel.tree.setFocus()
+                if self.metadata_panel.tree.topLevelItemCount() > 0:
+                    self.metadata_panel.tree.setCurrentItem(self.metadata_panel.tree.topLevelItem(0))
+            # Statusleiste aktualisieren
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'show_content_panel_metadata_status'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'show_content_panel_metadata_status'):
+                main_win.show_content_panel_metadata_status(getattr(self, 'panel_index', 0))
+
+    def focus_content_editor(self):
+        """Setzt den Fokus auf den Content-Editor dieses Panels und das erste Edit-Widget darin. Zeigt Statusleiste."""
+        if hasattr(self, "content_editor"):
+            self.content_editor.setFocus()
+            if hasattr(self.content_editor, "title_input"):
+                self.content_editor.title_input.setFocus()
+            elif hasattr(self.content_editor, "text_area"):
+                self.content_editor.text_area.setFocus()
+            # Statusleiste aktualisieren
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'show_content_panel_editor_status'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'show_content_panel_editor_status'):
+                main_win.show_content_panel_editor_status(getattr(self, 'panel_index', 0))
+
+    def keyPressEvent(self, event):
+        """
+        Tab rotiert zwischen Filter, MetadataPanel und ContentEditor.
+        Shift+Tab rückwärts. Escape setzt Fokus auf TreeView.
+        """
+        from PyQt5.QtCore import Qt
+        focus_chain = [self.filter_input, self.metadata_panel, self.content_editor]
+        current = self.focusWidget()
+        try:
+            idx = focus_chain.index(current)
+        except Exception:
+            idx = -1
+        if event.key() == Qt.Key_Tab:
+            next_idx = (idx + 1) % len(focus_chain)
+            focus_chain[next_idx].setFocus()
+            event.accept()
+            return
+        elif event.key() == Qt.Key_Backtab:  # Shift+Tab
+            next_idx = (idx - 1) % len(focus_chain)
+            focus_chain[next_idx].setFocus()
+            event.accept()
+            return
+        elif event.key() == Qt.Key_Escape:
+            # Fokus zurück zum TreeView im MainWindow
+            main_win = self.parent()
+            while main_win and not hasattr(main_win, 'focus_tree_view'):
+                main_win = main_win.parent()
+            if main_win and hasattr(main_win, 'focus_tree_view'):
+                main_win.focus_tree_view()
+            event.accept()
+            return
+        super().keyPressEvent(event)
