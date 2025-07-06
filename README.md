@@ -16,7 +16,9 @@ MetaNode brings structure into this mess:
 
 Whether you're documenting software, writing educational materials, or mapping a fictional world — MetaNode helps you **manage versions without redundancy**.
 
-![UI](resources/UI_20250623.PNG)
+![UI](screenshots/UI_20250623.PNG)
+
+More screenshots in [screenshots/](screenshots/)
 
 ## 🔧 Key Features
 
