@@ -1,6 +1,6 @@
 """Settings canonical module for in-document project settings."""
 
-from core.project_settings import (
+from app.shared.core.project_settings import (
     get_global_filters,
     get_settings,
     get_settings_node,

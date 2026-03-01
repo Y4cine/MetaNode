@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from core.project_paths import get_path
+from app.shared.core.project_paths import get_path
 
 EXCEL_FILENAME = "file_meta.xlsx"
 

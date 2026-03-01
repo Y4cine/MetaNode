@@ -4,7 +4,7 @@ import uuid
 from typing import Any, Dict, List, Optional
 
 from app.features.document.undo_manager import UndoManager
-from core.project_paths import get_path
+from app.shared.core.project_paths import get_path
 
 
 class TreeNodeWrapper:

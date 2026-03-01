@@ -4,7 +4,7 @@ Phase 1 intentionally keeps behavior unchanged; this module provides a stable
 location for explicit signal/slot composition in later phases.
 """
 
-from models.node_model import Node
+from app.features.document.node_model import Node
 
 from app.features.document import DocumentStore
 from app.shell.main_window import MainWindow

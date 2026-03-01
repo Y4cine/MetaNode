@@ -1,7 +1,7 @@
 import json
 from typing import Dict
 
-from core.project_paths import get_path
+from app.shared.core.project_paths import get_path
 
 
 class SchemaRegistry:

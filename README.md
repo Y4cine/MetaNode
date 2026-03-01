@@ -91,10 +91,12 @@ Expected results:
 
 MetaNode is organized into clear subfolders:
 
-- `models/` – Data classes for nodes, contents, metadata, and tree logic  
-- `ui/` – Main window and layout modules for tree, editor, and panels  
-- `widgets/` – Modular editor widgets for content and metadata  
-- `core/` – Filtering, schema registry, undo, and path utilities  
+- `app/shell/` – Application composition, wiring, and shell UI modules  
+- `app/features/document/` – Document models, persistence, schema, undo, store  
+- `app/features/tree_nav/` – Tree navigation feature boundary  
+- `app/features/inspector/` – Inspector feature boundary and editor widgets  
+- `app/features/settings/` – User/project settings feature boundary  
+- `app/shared/` – Shared cross-feature helpers (paths/core/utils)  
 - `schemas/` – JSON Schemas for metadata structure  
 - `resources/` – Icons, examples, and saved trees  
 - `specs/` – Project specs, todos, and internal documentation

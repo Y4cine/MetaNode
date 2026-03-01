@@ -1,6 +1,6 @@
 """Settings canonical module for user settings I/O."""
 
-from utils.user_settings import (
+from app.shared.utils.user_settings import (
     APP_NAME,
     SETTINGS_FILENAME,
     KEYBOARD_SHORTCUTS,

@@ -93,7 +93,7 @@
           "content_type": "text",
           "title": "Neuer Inhalt",
           "data": {
-            "text": "444"
+            "text": "4444"
           },
           "renderer": "text_blocks",
           "metadata": {
@@ -118,23 +118,23 @@
             1.0
           ],
           "panel0_splitter": [
-            0.3230452674897119,
-            0.676954732510288
+            0.48267326732673266,
+            0.5173267326732673
           ],
           "main_recursive_splitter1": [
             0.2933104631217839,
             0.7066895368782161
           ],
           "main_recursive_splitter1_child0_splitter1": [
-            0.16496350364963502,
-            0.8350364963503649
+            0.24963503649635035,
+            0.7503649635036497
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
             1.0
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
-            0.3230452674897119,
-            0.676954732510288
+            0.48267326732673266,
+            0.5173267326732673
           ]
         },
         "filters": {

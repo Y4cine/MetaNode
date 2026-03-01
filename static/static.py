@@ -1,6 +1,6 @@
 
 import os
-from core.project_paths import resource_path, exists
+from app.shared.core.project_paths import resource_path, exists
 # Nach dem Kernel-Reset: Erneut das Skript zur Ordnerstruktur-Erstellung ausführen
 
 struktur_definition = """

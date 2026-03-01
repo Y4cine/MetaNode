@@ -1,4 +1,4 @@
-from core.project_paths import get_path
+from app.shared.core.project_paths import get_path
 import sys
 import yaml
 import hashlib

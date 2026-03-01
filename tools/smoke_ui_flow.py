@@ -11,7 +11,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from PyQt5.QtWidgets import QApplication
 
-from ui.main_window import MainWindow
+from app.shell.ui.main_window import MainWindow
 
 
 def run() -> int:

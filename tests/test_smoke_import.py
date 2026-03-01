@@ -13,7 +13,7 @@ def test_main_module_imports():
 
 
 def test_minimal_model_roundtrip(tmp_path: Path):
-    from models.tree_data import TreeDataModel
+    from app.features.document.tree_data import TreeDataModel
 
     model = TreeDataModel()
     model.load_from_dict(
