@@ -7,8 +7,8 @@
       "id": "47841cf7-84e9-4c49-a8a6-bf3175829dda",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -48,8 +48,8 @@
       "id": "84ccb9af-b6e1-46dd-a61b-129d355edbd6",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -74,8 +74,8 @@
       "id": "4e0f606f-5ff1-4f96-ae39-3d63f587f56e",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -100,8 +100,8 @@
       "id": "23e34de5-8b2e-4e8c-bf2e-d513c8453e60",
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       },
       "contents": [
         {
@@ -126,19 +126,30 @@
       "settings": {
         "splitters": {
           "main": [
-            0.3874256584536958,
-            0.6125743415463042
-          ],
-          "right_panel": [
-            0.25,
-            0.75
+            0.32075471698113206,
+            0.6792452830188679
           ],
           "content_panels": [
             1.0
           ],
           "panel0_splitter": [
-            0.2735229759299781,
-            0.7264770240700219
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1": [
+            0.32075471698113206,
+            0.6792452830188679
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.0,
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.0,
+            1.0
           ]
         },
         "filters": {
@@ -172,8 +183,8 @@
     }
   ],
   "metadata": {
-    "status": "",
-    "print": ""
+    "print": "",
+    "status": ""
   },
   "contents": [
     {

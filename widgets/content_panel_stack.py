@@ -34,7 +34,7 @@ class ContentPanelStack(QWidget):
         layout.addWidget(self.splitter)
 
         self.panel_views: List[SingleContentPanel] = []
-        self._last_contents: list[Content] = []
+        self._last_contents: List[Content] = []
         self.add_panel(splitter_manager=splitter_manager)  # initial ein Panel
 
     def add_panel(self, filter_text: str = "", splitter_manager=None):
@@ -66,7 +66,7 @@ class ContentPanelStack(QWidget):
             self.panel_views.remove(panel)
             self.splitter.widget(self.splitter.indexOf(panel)).deleteLater()
 
-    def set_contents_for_all(self, contents: list[Content]):
+    def set_contents_for_all(self, contents: List[Content]):
         self._last_contents = contents
         for panel in self.panel_views:
             panel.set_contents(contents)
