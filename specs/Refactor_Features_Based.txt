@@ -1,0 +1,128 @@
+You are an autonomous refactoring agent working on an existing Python/PyQt5 application.
+
+GOAL
+Reorganize the codebase into a feature-based package structure with strong encapsulation (“boxes”) while preserving behavior.
+Hard requirement: the application must still RUN at the end (no regressions). If something breaks, you must fix it before finishing.
+
+NON-GOALS
+- Do NOT redesign the UI.
+- Do NOT change UX behavior, features, or data formats (unless explicitly required to keep it running).
+- Do NOT “improve” logic opportunistically. This is a structural refactor + boundary enforcement only.
+
+OUTPUT LANGUAGE
+- German for explanations and docs.
+- Code in Python.
+
+GUARDRAILS (must follow)
+1) One change-set at a time:
+   - Make small, reversible steps.
+   - After each step: run checks (see “RUN & CHECK”).
+   - If checks fail: stop and repair before proceeding.
+2) Do not introduce new dependencies unless absolutely required.
+3) Keep public interfaces stable:
+   - If you must rename/move, provide compatibility imports/shims until the end.
+4) No silent behavior changes:
+   - If you suspect behavior changes, add a small test or a manual smoke-check instruction.
+5) Traceability:
+   - Every architectural claim must reference file paths/symbols.
+
+RUN & CHECK (after each step)
+- Run unit tests if present: `pytest -q` (or the repo’s test command).
+- Run the application in a minimal smoke mode:
+  - Start the app (main entry point).
+  - Ensure the main window appears without exceptions.
+  - Open an existing sample file (or create a new doc) if the app supports it.
+  - Perform: select a node, edit text, save, close, reopen.
+- If CI scripts exist, run them.
+- If the project has no tests, create a minimal “smoke test script” that imports the app and constructs the main window without crashing (and keep it in `tests/`).
+
+TARGET STRUCTURE (create these packages)
+- `app/` (entry + shell/wiring)
+- `app/shell/` (MainWindow as composer; menus/actions wiring; no business logic)
+- `app/features/document/` (SSOT: model + persistence + undo + dirty; MUST NOT import Qt)
+- `app/features/tree_nav/` (Treeview feature: Qt widgets, DnD, selection; MUST NOT import inspector)
+- `app/features/inspector/` (Right panel feature: node editor, content panels; MUST NOT import tree_nav)
+- `app/features/settings/` (user/project settings I/O and state)
+- `app/shared/` (small cross-cutting utilities only; keep minimal)
+
+ENCAPSULATION RULES (hard)
+- Each feature package must expose a tiny public surface via `__init__.py` (Facade).
+- Cross-feature imports are forbidden (tree_nav must not import inspector, etc.).
+- The ONLY allowed cross-feature dependency is:
+  - `shell/` may import facades of features.
+  - features may import `app/shared/*` and `features/document` (if absolutely necessary; prefer signals/commands instead).
+- Enforce boundaries with an automated check:
+  - Implement `tools/check_import_boundaries.py` (or similar).
+  - Add a quick command in `docs/README.md` to run it.
+
+ARCHITECTURE INTENT
+- Shell wires features together via signals/slots or a tiny command interface.
+- `DocumentStore` (in features/document) is the Single Source of Truth (SSOT).
+- UI features (tree_nav, inspector) do not own persistent state; they request/apply changes through shell -> DocumentStore.
+
+PLAN (mandatory, execute in order)
+PHASE 0 — Baseline
+0.1 Identify entry points and how to run the app.
+0.2 Create a baseline “runs” confirmation:
+    - Document the exact command(s) used to start the app.
+    - Add a `tests/test_smoke_import.py` that imports the main module and constructs the main window (if feasible).
+0.3 Run checks and record baseline status in `docs/REFRACTOR_LOG.md`.
+
+PHASE 1 — Create skeleton & facades (no moves yet)
+1.1 Create the target directories/packages with `__init__.py`.
+1.2 Create minimal facades exporting placeholder names (no behavior change).
+1.3 Add docs:
+    - `docs/ARCHITECTURE_BOXES.md` describing the 4 boxes and their allowed dependencies.
+1.4 Run checks.
+
+PHASE 2 — Move code feature-by-feature with shims
+2.1 Move “document/model/persistence” code first into `features/document/`.
+    - Ensure no Qt imports remain in this package.
+    - Provide temporary compatibility imports from old locations.
+    - Update imports incrementally.
+    - Run checks after each small move.
+2.2 Move “tree view” code into `features/tree_nav/`.
+    - Keep it compiling and running.
+    - Replace direct calls into inspector with signals/requests if found.
+    - Run checks.
+2.3 Move “inspector/right panel” code into `features/inspector/`.
+    - Replace direct calls into tree with signals/requests.
+    - Run checks.
+2.4 Move “settings” logic into `features/settings/`.
+    - Clarify user vs project settings responsibilities.
+    - Run checks.
+2.5 Create `app/shell/wiring.py` (or similar) where the main signal/slot wiring is centralized.
+    - Keep MainWindow thin (composition only).
+    - Run checks.
+
+PHASE 3 — Remove illegal dependencies & enforce boundaries
+3.1 Implement `tools/check_import_boundaries.py`:
+    - Detect forbidden imports across feature packages.
+    - Fail with clear messages.
+3.2 Fix boundary violations by:
+    - moving shared helpers into `app/shared/`, or
+    - routing calls through shell, or
+    - using signals/commands.
+3.3 Run checks.
+
+PHASE 4 — Remove shims & finalize
+4.1 Remove temporary compatibility imports/shims if safe.
+4.2 Ensure documentation is updated:
+    - `docs/README.md` with run/test/boundary-check commands.
+    - `docs/REFRACTOR_LOG.md` with phases completed.
+4.3 Final run checks. The app MUST start and basic flows must work.
+
+DELIVERABLES
+- Feature-based folder structure as above.
+- Facade `__init__.py` for each feature exposing minimal public API.
+- Central wiring in `app/shell/`.
+- Boundary checker script in `tools/`.
+- Minimal smoke test(s) in `tests/`.
+- Updated docs in `docs/`.
+
+STOP CONDITIONS (must obey)
+- If the app fails to run at any point, you must stop and fix it before continuing.
+- If you are uncertain about behavior equivalence, add a test or document a manual smoke check step and perform it.
+
+START
+Begin with PHASE 0. Identify the entry point and create/confirm a reproducible run command. Then add the minimal smoke import test and run it. Only after baseline passes, proceed.

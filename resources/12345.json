@@ -74,8 +74,8 @@
       "id": "4e0f606f-5ff1-4f96-ae39-3d63f587f56e",
       "children": [],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "",
+        "print": ""
       },
       "contents": [
         {
@@ -100,8 +100,8 @@
       "id": "23e34de5-8b2e-4e8c-bf2e-d513c8453e60",
       "children": [],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "",
+        "print": ""
       },
       "contents": [
         {
@@ -126,34 +126,45 @@
       "settings": {
         "splitters": {
           "main": [
-            0.32075471698113206,
-            0.6792452830188679
+            0.2009544008483563,
+            0.7990455991516436
           ],
           "content_panels": [
-            1.0
+            0.5466130114017438,
+            0.4533869885982562
           ],
           "panel0_splitter": [
-            0.0,
-            1.0
+            0.4630404463040446,
+            0.5369595536959554
+          ],
+          "panel1_splitter": [
+            0.2733612273361227,
+            0.7266387726638772
           ],
           "main_recursive_splitter1": [
-            0.32075471698113206,
-            0.6792452830188679
+            0.2009544008483563,
+            0.7990455991516436
           ],
           "main_recursive_splitter1_child0_splitter1": [
-            0.0,
-            1.0
+            0.1017897091722595,
+            0.8982102908277405
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            1.0
+            0.5466130114017438,
+            0.4533869885982562
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
-            0.0,
-            1.0
+            0.2733612273361227,
+            0.7266387726638772
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
+            0.4630404463040446,
+            0.5369595536959554
           ]
         },
         "filters": {
-          "panel0": ""
+          "panel0": "",
+          "panel1": ""
         },
         "global_filters": []
       },
@@ -183,8 +194,8 @@
     }
   ],
   "metadata": {
-    "print": "",
-    "status": ""
+    "status": "",
+    "print": ""
   },
   "contents": [
     {

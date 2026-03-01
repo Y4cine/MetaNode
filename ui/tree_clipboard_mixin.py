@@ -5,6 +5,7 @@ Provides clipboard (copy, cut, paste) functionality for QTreeWidget-based tree v
 
 import json
 import uuid
+from PyQt5.QtCore import Qt
 
 
 class TreeClipboardMixin:
@@ -14,12 +15,12 @@ class TreeClipboardMixin:
             self.assign_new_ids(child)
 
     def copy_item(self, item):
-        node_id = item.data(0, 32)  # Qt.UserRole == 32
+        node_id = item.data(0, Qt.UserRole)
         node = self.model.find_node(node_id)
         self.clipboard_node_dict = node.to_dict()
 
     def cut_item(self, item):
-        node_id = item.data(0, 32)
+        node_id = item.data(0, Qt.UserRole)
         node = self.model.find_node(node_id)
         self.clipboard_node_dict = node.to_dict()
         if node.parent:
@@ -31,7 +32,7 @@ class TreeClipboardMixin:
     def paste_item(self, item):
         if not self.clipboard_node_dict:
             return
-        parent_id = item.data(0, 32)
+        parent_id = item.data(0, Qt.UserRole)
         parent_node = self.model.find_node(parent_id)
         if not parent_node:
             return

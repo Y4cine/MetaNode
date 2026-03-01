@@ -4,7 +4,7 @@ This module defines the NodeEditorPanel class for editing nodes in the applicati
 """
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSplitter
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from typing import Optional
 
 from widgets.node_metadata_panel import NodeMetadataPanel
@@ -14,6 +14,8 @@ from models.content_model import Content
 
 
 class NodeEditorPanel(QWidget):
+    request_apply_patch = pyqtSignal(str, dict)
+
     def switch_node(self, node_obj, model, meta_schema, content_schema):
         # Save current node if needed
         if hasattr(self, '_node') and self._node is not None:
@@ -29,6 +31,13 @@ class NodeEditorPanel(QWidget):
     def on_content_edited(self):
         # Push undo snapshot on every content edit
         self.push_undo_snapshot()
+        if self._node is not None:
+            patch = {
+                "title": self._node.title,
+                "metadata": self.meta_panel.get_metadata().to_dict(),
+                "contents": [content.to_dict() for content in self._node.contents],
+            }
+            self.request_apply_patch.emit(self._node.id, patch)
         # Forward to main window if possible
         main_win = self.parent()
         while main_win and not hasattr(main_win, 'on_content_edited'):

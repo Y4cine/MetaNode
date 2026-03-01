@@ -57,6 +57,12 @@ class NodeTree(QTreeWidget, TreeSearchMixin, TreeContextMenuMixin, TreeClipboard
     # -------------------
     # (drag-and-drop logic moved to TreeDragDropMixin)
     node_selected = pyqtSignal(str)  # signalisiert node_id
+    selected = pyqtSignal(str)
+    request_insert_child = pyqtSignal(str, str)
+    request_insert_sibling_after = pyqtSignal(str, str)
+    request_delete = pyqtSignal(str)
+    request_rename = pyqtSignal(str, str)
+    request_move = pyqtSignal(str, str, int)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -147,6 +153,7 @@ class NodeTree(QTreeWidget, TreeSearchMixin, TreeContextMenuMixin, TreeClipboard
             node_id = items[0].data(0, Qt.UserRole)
             if node_id:
                 self.node_selected.emit(node_id)
+                self.selected.emit(node_id)
 
     # -------------------
     # Kontextmenü + Edit
@@ -201,14 +208,7 @@ class NodeTree(QTreeWidget, TreeSearchMixin, TreeContextMenuMixin, TreeClipboard
         index = parent.children.index(node)
         if index <= 0:
             return
-        self.model.push_undo_snapshot()
-        parent.children[index], parent.children[index - 1] = parent.children[index - 1], parent.children[index]
-        parent.node["children"][index], parent.node["children"][index - 1] = (
-            parent.node["children"][index - 1], parent.node["children"][index]
-        )
-        self.model.mark_dirty()
-        self.load_model(self.model)
-        self.select_node_by_id(node_id)
+        self.request_move.emit(node_id, parent.id, index - 1)
 
     def move_down(self, item):
         node_id = item.data(0, Qt.UserRole)
@@ -219,11 +219,4 @@ class NodeTree(QTreeWidget, TreeSearchMixin, TreeContextMenuMixin, TreeClipboard
         index = parent.children.index(node)
         if index >= len(parent.children) - 1:
             return
-        self.model.push_undo_snapshot()
-        parent.children[index], parent.children[index + 1] = parent.children[index + 1], parent.children[index]
-        parent.node["children"][index], parent.node["children"][index + 1] = (
-            parent.node["children"][index + 1], parent.node["children"][index]
-        )
-        self.model.mark_dirty()
-        self.load_model(self.model)
-        self.select_node_by_id(node_id)
+        self.request_move.emit(node_id, parent.id, index + 1)

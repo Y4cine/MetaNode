@@ -27,3 +27,9 @@ Hinweis: Für `.md`-Dateien mit mehreren Diagrammen ggf. Diagrammblock in `.mmd`
 ## Traceability-Regeln
 - Jede wesentliche Architekturbehauptung muss mindestens eine konkrete Referenz enthalten (Datei + Symbol).
 - Bei Unsicherheit als Unsicherheit markieren und Verifikationsweg dokumentieren.
+
+## Refactor-Checks ausführen
+- Tests: `pytest -q`
+- Import-Boundaries: `/bin/python3 tools/check_import_boundaries.py`
+- Headless Startup-Smoke: `QT_QPA_PLATFORM=offscreen /bin/python3 - <<'PY'\nfrom PyQt5.QtWidgets import QApplication\nfrom PyQt5.QtCore import QTimer\nfrom app.shell.wiring import create_main_window\napp = QApplication([])\nwindow = create_main_window()\nwindow.show()\nQTimer.singleShot(200, app.quit)\napp.exec_()\nprint("SMOKE_APP_MAIN_OK")\nPY`
+- Headless Edit/Save/Reopen-Smoke: `QT_QPA_PLATFORM=offscreen /bin/python3 tools/smoke_ui_flow.py`

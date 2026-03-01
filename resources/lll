@@ -1,0 +1,143 @@
+{
+  "id": "root",
+  "title": "Neue Struktur",
+  "children": [
+    {
+      "id": "ef98e906-3c69-45e1-808a-8a672e5bf15d",
+      "title": "lll",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "lll\nlll"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "811c99b6-e8c7-48ce-a23c-a28cea8f2b2a",
+      "title": "kkk",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "kkk"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "1e08e54f-2a66-4c2d-8408-4efc24ecb137",
+      "title": "ooo",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "ooo"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "_settings",
+      "settings": {
+        "splitters": {
+          "main": [
+            0.3524871355060034,
+            0.6475128644939966
+          ],
+          "content_panels": [
+            1.0
+          ],
+          "panel0_splitter": [
+            0.27292110874200426,
+            0.7270788912579957
+          ],
+          "main_recursive_splitter1": [
+            0.3524871355060034,
+            0.6475128644939966
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.24963503649635035,
+            0.7503649635036497
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.27292110874200426,
+            0.7270788912579957
+          ]
+        },
+        "filters": {
+          "panel0": ""
+        },
+        "global_filters": []
+      },
+      "children": []
+    }
+  ],
+  "metadata": {
+    "status": "",
+    "print": ""
+  },
+  "contents": [
+    {
+      "content_type": "text",
+      "title": "Neuer Inhalt",
+      "data": {
+        "text": ""
+      },
+      "renderer": "text_blocks",
+      "metadata": {
+        "audience": "",
+        "lang": "",
+        "main": "",
+        "status": "",
+        "version": ""
+      }
+    }
+  ]
+}

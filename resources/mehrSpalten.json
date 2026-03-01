@@ -2,8 +2,8 @@
   "id": "root",
   "title": "Baum",
   "metadata": {
-    "status": "",
-    "print": ""
+    "print": "",
+    "status": ""
   },
   "contents": [
     {
@@ -54,8 +54,8 @@
       "id": "c06918c3-e1fe-4b1a-bc9d-27d27aee5a3a",
       "children": [],
       "metadata": {
-        "status": "a",
-        "print": ""
+        "print": "",
+        "status": "a"
       },
       "contents": [
         {
@@ -80,45 +80,34 @@
       "settings": {
         "splitters": {
           "main": [
-            0.30756159728122345,
-            0.6924384027187765
+            0.3078902229845626,
+            0.6921097770154374
           ],
           "content_panels": [
-            0.5,
-            0.5
+            1.0
           ],
           "panel0_splitter": [
-            0.2732793522267207,
-            0.7267206477732794
-          ],
-          "panel1_splitter": [
-            0.2735229759299781,
-            0.7264770240700219
-          ],
-          "main_recursive_splitter1": [
-            0.30756159728122345,
-            0.6924384027187765
-          ],
-          "main_recursive_splitter1_child0_splitter1": [
             0.25,
             0.75
           ],
+          "main_recursive_splitter1": [
+            0.3078902229845626,
+            0.6921097770154374
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.24963503649635035,
+            0.7503649635036497
+          ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            0.5,
-            0.5
+            1.0
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
-            0.2735229759299781,
-            0.7264770240700219
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
-            0.2732793522267207,
-            0.7267206477732794
+            0.25,
+            0.75
           ]
         },
         "filters": {
-          "panel0": "",
-          "panel1": ""
+          "panel0": ""
         },
         "global_filters": []
       },
@@ -138,6 +127,32 @@
           "title": "b",
           "data": {
             "text": "b b b b b"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "02343293-ed76-4c2c-b5a3-a18a840f53a1",
+      "title": "d",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "dddd"
           },
           "renderer": "text_blocks",
           "metadata": {

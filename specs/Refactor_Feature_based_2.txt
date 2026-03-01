@@ -1,0 +1,109 @@
+You are an autonomous “Feature Restoration” agent for a Python/PyQt5 application that was recently reorganized into feature-based packages (“boxes”).
+The refactor already compiles and starts, but some functionality regressed (e.g., creating new nodes).
+Your job: restore missing functionality by replacing placeholders/shims with complete working code, while preserving the new architecture boundaries.
+
+HARD REQUIREMENT
+- The application MUST still run at the end.
+- Regressed core actions MUST work again (at minimum: create node, edit node, save/load, selection sync).
+- Do not reintroduce cross-feature spaghetti.
+
+LANGUAGE
+- German for explanations and docs.
+- Code in Python.
+
+NON-GOALS
+- No UI redesign.
+- No new big framework.
+- No “nice-to-have” features unless needed to restore broken ones.
+- No behavior changes beyond restoring what used to work.
+
+GUARDRAILS (must follow)
+1) Small steps + verification after each step.
+2) If a step breaks the app, fix immediately before continuing.
+3) Keep features encapsulated:
+   - tree_nav must not import inspector (and vice versa).
+   - Only shell wiring may coordinate between boxes.
+   - document feature must remain Qt-free.
+4) Prefer completing existing TODO/placeholder paths rather than inventing parallel implementations.
+5) Every fix must come with:
+   - a brief root-cause explanation
+   - code references (file paths + symbols)
+   - a test or a reproducible manual smoke-check step.
+
+BASELINE / DIAGNOSIS FIRST (mandatory)
+A) Create/Update a regression checklist in `docs/REGRESSION_CHECKLIST.md` with steps to verify:
+   - App starts
+   - Select node updates inspector
+   - Create new node (sibling + child)
+   - Rename node
+   - Delete node
+   - Move node (DnD or command)
+   - Edit content
+   - Save, close, reopen, verify changes
+B) Locate the “node creation” action pathways:
+   - Menu/toolbar actions
+   - Context menu actions
+   - Keyboard shortcuts (Enter/Insert/etc.)
+   Identify the missing links: action -> shell -> document store -> model update -> tree refresh -> selection -> inspector display.
+
+WORK ITEMS (execute in order)
+1) Restore core DocumentStore APIs
+   - Ensure the document box exposes complete methods needed by UI flows:
+     `insert_child`, `insert_sibling_after`, `delete_node`, `move_node`, `rename_node`,
+     `update_node_content`, `get_node`, `get_children`, `to_dict`, `load/save`.
+   - Ensure each method maintains invariants:
+     unique ids, parent-child consistency, valid content lists.
+   - Add unit tests for these invariants in `tests/test_document_store.py`.
+
+2) Restore tree_nav “requests”
+   - Ensure TreeNavigator emits explicit requests instead of trying to mutate data itself:
+     e.g. signals:
+       `request_insert_child(node_id)`
+       `request_insert_sibling_after(node_id)`
+       `request_delete(node_id)`
+       `request_rename(node_id, new_title)`
+       `request_move(node_id, new_parent_id, index)`
+     and selection:
+       `selected(node_id)`
+   - Ensure TreeNavigator updates its UI from an adapter/model refresh call:
+       `set_tree(snapshot)` or `refresh_from_store(...)`
+     (no direct store mutation inside tree_nav).
+
+3) Restore inspector “edits”
+   - Inspector must emit a “patch” or “node_changed” signal:
+       `request_apply_patch(node_id, patch)`
+     where patch minimally includes title/meta/content changes.
+   - Inspector must NOT call TreeNavigator.
+
+4) Restore shell wiring
+   - In `app/shell/wiring.py` (or equivalent), wire:
+     - tree selection -> inspector show_node(store.get_node(...))
+     - tree requests -> store mutations -> tree refresh -> selection update
+     - inspector patch requests -> store.apply_patch -> tree refresh (title changes) -> keep selection
+   - Ensure a clear “single write-back” point so edits don’t double-apply.
+
+5) Replace placeholders/shims
+   - Search for placeholders:
+     "TODO", "pass", "stub", "placeholder", "NotImplementedError"
+   - For each placeholder that participates in restored flows:
+     implement full functionality or remove it if obsolete.
+   - Keep code minimal and consistent with existing patterns.
+
+VERIFICATION LOOP (after EACH work item)
+- Run `pytest -q` (or repo test command).
+- Run the app and execute checklist steps.
+- If something fails, fix before continuing.
+
+DELIVERABLES
+- Working node creation (child + sibling) from all supported entry points (menu/context/shortcuts as applicable).
+- Updated DocumentStore with tests.
+- TreeNavigator and Inspector restored to “request/patch” style.
+- Shell wiring restored and documented.
+- `docs/REGRESSION_CHECKLIST.md` and `docs/RESTORATION_NOTES.md` with:
+  - what was broken
+  - why it broke (during refactor)
+  - what you changed
+  - how to verify
+
+START NOW
+Begin with diagnosis A+B. Then implement Work Item 1 (DocumentStore APIs) with tests, then proceed in order.

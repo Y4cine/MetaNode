@@ -4,6 +4,7 @@ Provides search and filter functionality for QTreeWidget-based tree views.
 """
 
 from PyQt5.QtWidgets import QTreeWidgetItem
+from PyQt5.QtCore import Qt
 
 
 class TreeSearchMixin:
@@ -14,7 +15,7 @@ class TreeSearchMixin:
 
     def filter_tree(self, query: str, deep: bool):
         def recurse_filter(item: QTreeWidgetItem) -> bool:
-            node_id = item.data(0, 32)  # Qt.UserRole == 32
+            node_id = item.data(0, Qt.UserRole)
             node = self.model.find_node(node_id)
             matched = self.node_matches(node, query, deep)
             visible_child = any(recurse_filter(item.child(i))

@@ -58,14 +58,67 @@
       ],
       "children": [],
       "metadata": {
-        "status": "",
-        "print": ""
+        "print": "",
+        "status": ""
       }
     },
     {
       "title": "2",
       "id": "30d4be25-4c65-4217-bc8b-aa45ead48f57",
-      "children": [],
+      "children": [
+        {
+          "id": "78ebd888-ecce-4f48-8b70-fb4a4d4a812f",
+          "title": "lll",
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": ""
+          },
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Neuer Inhalt",
+              "data": {
+                "text": ""
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": "187f384f-2016-47d2-9c67-d2848e29208b",
+          "title": "kkk",
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": ""
+          },
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Neuer Inhalt",
+              "data": {
+                "text": ""
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ]
+        }
+      ],
       "metadata": {
         "print": "",
         "status": ""
@@ -94,56 +147,34 @@
       "settings": {
         "splitters": {
           "main": [
-            0.08721934369602763,
-            0.9127806563039723
+            0.08747855917667238,
+            0.9125214408233276
           ],
           "content_panels": [
-            0.3330029732408325,
-            0.3330029732408325,
-            0.333994053518335
+            1.0
           ],
           "panel0_splitter": [
-            0.7900943396226415,
-            0.2099056603773585
-          ],
-          "panel1_splitter": [
-            0.0,
-            1.0
-          ],
-          "panel2_splitter": [
-            0.7900943396226415,
-            0.2099056603773585
+            0.25,
+            0.75
           ],
           "main_recursive_splitter1": [
-            0.08721934369602763,
-            0.9127806563039723
+            0.08747855917667238,
+            0.9125214408233276
           ],
           "main_recursive_splitter1_child0_splitter1": [
-            0.24964131994261118,
-            0.7503586800573888
+            0.24963503649635035,
+            0.7503649635036497
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            0.3330029732408325,
-            0.3330029732408325,
-            0.333994053518335
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
-            0.7900943396226415,
-            0.2099056603773585
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
-            0.0,
             1.0
           ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child2_splitter12": [
-            0.7900943396226415,
-            0.2099056603773585
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.25,
+            0.75
           ]
         },
         "filters": {
-          "panel0": "",
-          "panel1": "",
-          "panel2": ""
+          "panel0": ""
         },
         "global_filters": []
       },

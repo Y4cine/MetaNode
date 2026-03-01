@@ -72,6 +72,21 @@ pip install PyQt5
 python main.py
 ```
 
+## ✅ Final Verification (2026-03-01)
+
+```bash
+QT_QPA_PLATFORM=offscreen /bin/python3 tools/smoke_restore_core_actions.py
+QT_QPA_PLATFORM=offscreen /bin/python3 tools/smoke_ui_flow.py
+QT_QPA_PLATFORM=offscreen /bin/python3 tools/smoke_save_e2e.py
+pytest -q
+```
+
+Expected results:
+- `SMOKE_RESTORE_CORE_ACTIONS_OK`
+- `SMOKE_UI_FLOW_OK`
+- `SMOKE_SAVE_E2E_OK`
+- `5 passed`
+
 ## 📁 Project Structure
 
 MetaNode is organized into clear subfolders:

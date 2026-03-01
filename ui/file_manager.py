@@ -153,7 +153,10 @@ class FileManager:
     def new_file(self):
         if not self.maybe_save_before_exit():
             return
-        self.main_window.model = TreeDataModel()
+        model = self.main_window.model
+        if model is None or model.__class__.__name__ != "DocumentStore":
+            model = TreeDataModel()
+            self.main_window.model = model
         self.main_window.model.load_from_dict({
             "id": "root",
             "title": "Neue Struktur",

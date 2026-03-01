@@ -7,36 +7,21 @@
       "id": "47841cf7-84e9-4c49-a8a6-bf3175829dda",
       "children": [],
       "metadata": {
-        "print": "",
-        "status": ""
+        "status": "",
+        "print": ""
       },
       "contents": [
         {
           "content_type": "text",
           "title": "Neuer Inhalt",
           "data": {
-            "text": ""
+            "text": "1111"
           },
           "renderer": "text_blocks",
           "metadata": {
             "audience": "",
             "lang": "",
             "main": "",
-            "status": "",
-            "version": ""
-          }
-        },
-        {
-          "content_type": "text",
-          "title": "1",
-          "data": {
-            "text": "1"
-          },
-          "renderer": "text_blocks",
-          "metadata": {
-            "lang": "DE",
-            "audience": "",
-            "main": "1",
             "status": "",
             "version": ""
           }
@@ -56,7 +41,7 @@
           "content_type": "text",
           "title": "2",
           "data": {
-            "text": "2"
+            "text": "222"
           },
           "renderer": "text_blocks",
           "metadata": {
@@ -96,60 +81,64 @@
       ]
     },
     {
+      "id": "2a7cbf5c-5696-4051-bbbb-e49d9045df5d",
+      "title": "viertens",
+      "children": [],
+      "metadata": {
+        "status": "",
+        "print": ""
+      },
+      "contents": [
+        {
+          "content_type": "text",
+          "title": "Neuer Inhalt",
+          "data": {
+            "text": "444"
+          },
+          "renderer": "text_blocks",
+          "metadata": {
+            "audience": "DE",
+            "lang": "",
+            "main": "",
+            "status": "",
+            "version": ""
+          }
+        }
+      ]
+    },
+    {
       "id": "_settings",
       "settings": {
         "splitters": {
           "main": [
-            0.19628836545324768,
-            0.8037116345467523
+            0.2933104631217839,
+            0.7066895368782161
           ],
           "content_panels": [
-            0.2782931354359926,
-            0.26716141001855287,
-            0.45454545454545453
+            1.0
           ],
           "panel0_splitter": [
-            0.3218390804597701,
-            0.6781609195402298
-          ],
-          "panel1_splitter": [
-            0.2735632183908046,
-            0.7264367816091954
-          ],
-          "panel2_splitter": [
-            0.0,
-            1.0
+            0.3230452674897119,
+            0.676954732510288
           ],
           "main_recursive_splitter1": [
-            0.19628836545324768,
-            0.8037116345467523
+            0.2933104631217839,
+            0.7066895368782161
           ],
           "main_recursive_splitter1_child0_splitter1": [
-            0.23385939741750358,
-            0.7661406025824964
+            0.16496350364963502,
+            0.8350364963503649
           ],
           "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
-            0.2782931354359926,
-            0.26716141001855287,
-            0.45454545454545453
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
-            0.0,
             1.0
           ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child1_splitter12": [
-            0.2735632183908046,
-            0.7264367816091954
-          ],
-          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child2_splitter12": [
-            0.3218390804597701,
-            0.6781609195402298
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.3230452674897119,
+            0.676954732510288
           ]
         },
         "filters": {
-          "panel0": "",
-          "panel1": "",
-          "panel2": ""
+          "panel0": ""
         },
         "global_filters": []
       },
