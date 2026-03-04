@@ -93,6 +93,11 @@ class NodeEditorPanel(QWidget):
         # Metadaten aus TreeView holen
         self._node.metadata = self.meta_panel.get_metadata()
 
+        if not self.content_stack.panel_views:
+            self._node.contents = list(getattr(self.content_stack, '_last_contents', []))
+            self.push_undo_snapshot()
+            return self._node
+
         # --- NEW: Flush all content editors before collecting contents ---
         for panel in self.content_stack.panel_views:
             if hasattr(panel, '_write_back_current'):

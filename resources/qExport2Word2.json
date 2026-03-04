@@ -1,0 +1,2275 @@
+{
+  "id": "root",
+  "title": "Imported Access Export",
+  "contents": [
+    {
+      "content_type": "text",
+      "title": "Import Info",
+      "data": {
+        "text": "Imported from Access CSV export."
+      },
+      "renderer": "text_blocks",
+      "metadata": {
+        "audience": "",
+        "lang": "",
+        "main": "",
+        "status": "",
+        "version": ""
+      }
+    }
+  ],
+  "children": [
+    {
+      "id": "1",
+      "title": "Functional specification",
+      "contents": [],
+      "children": [
+        {
+          "id": "751A5AB7220B492DA39D73B2F873CD9F",
+          "title": "Purpose of the document",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "This document is the Functional Specification (FS) for the scope of the project.\n\nIt is based on the piping and instrumentation diagram.\n\nIt defines how the projected process equipment complies with the requirements for the system."
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.001.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "F19405AE27FA44F9BF34D846842C73FB",
+          "title": "References",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "Project: Enrobing Line\nClient: FBC2 - Fox's Burton's Companies  \nOrder Number: 611392 / 7000 007 465  \nFlowsheet: FS611392-06  \nP&IDs:\n  - 8-210-025-283: Coating Mass Kitchen\n  - 8-210-025-177: Enrober and Cooling Tunnel"
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.002.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "D6DEA50B96E049239C390841364C8559",
+          "title": "Production line",
+          "contents": [],
+          "children": [
+            {
+              "id": "27BD5FDB5BF940D2BB69348453CBA5A4",
+              "title": "Purpose of the line",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "Main purpose of the line is:\n- Enrobing baked products with chocolate or CBR (cocoa butter replacement) and removing loose good that have been sprinkled on the enrobed products.\n\nThis process consists of the following sub-processes:\n- Enrobing\n- Sprinkling (customer side equipment)\n- Cooling\n- Removing loose sprinkling good\n\nThe CBR handling included the reception of the melted mass in a sieve, buffering in a day tank, tempering, use in the enrober, de-tempering and return to the sieve."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "id": "C08B78433103418D8B6AC1849CD80FDA",
+                  "title": "Components",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The production components of the line are:\n- One day tank of 3000 l, with filter\n- One Temperer TMT 1000\n- One enrobing machine UT\n  - with 2 mass hoppers for Raffaello mass \n  - and 1 for chocolate mass\n- One decrystallizer\n- One cooling tunnel\n- One blow-off unit\n\nThe cleaning components consist of\n- 2 cleaning oil (palm fat) containers\n- one pigging system"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.003.001.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                },
+                {
+                  "id": "31D6804B28AE4AB3AF8C3C41D693DD19",
+                  "title": "CBR production mode",
+                  "contents": [],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.003.001.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "1002341"
+                  }
+                },
+                {
+                  "id": "E8803D5CBFED4663A10685970250B107",
+                  "title": "Chocolate production mode",
+                  "contents": [],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.003.001.003.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "916555"
+                  }
+                },
+                {
+                  "id": "BF6DA002837644D9BAB9781F6E892363",
+                  "title": "Controls and electrical cabinets",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "Controls & Machines:\nDC.1\n    Day tank\n    sieve\n    de-crystallizer\nTMT.1\n    Temperer TMT 1000\nUX.1\n    Enrober UT\n    Cooling tunnel CKV\n    Blow-off unit\n\nAttention:  \nThe 2 separate tempering units require separate electrical connections."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.003.001.004.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.003.001.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            },
+            {
+              "id": "F23F8BB0630A4780B068533296BB95D4",
+              "title": "Interfaces",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The P&ID provides as attached report an extensive list of all mains and product connections to the client's facility.\n\nEach interface is described by:\n- a tag in the form Machinecode-I-Fluidcode-Running number\n- a short descriptive name to facilitate its localisation on the equipment\n- the x and y coordinates on the P&ID\n- the peak and the mean consumption\n- the size and the type (norm)\n- local requirements when they differ from the general ones\n\nDrain connections are put at the lowest points of pipelines. They are defined during the detailing phase of the project."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.003.002.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            }
+          ],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.003.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "4357B7614D414EF6B7CE80A4F9767434",
+          "title": "General descriptions",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "In this chapter we describe equipment solutions that are repeated over the project."
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [
+            {
+              "id": "6BD0DC53C2CE4749B7C9676C24A7006B",
+              "title": "Transportbelt",
+              "contents": [],
+              "children": [
+                {
+                  "id": "7FD868852C3B4DA0A8FFCA5140704B82",
+                  "title": "Belt tracking",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "Belttracking is a function to keep the transportbelt centered.\n\nIf the belts in not centered the side of the belt will activate the first belt position query sensor. \nThis will activate the valve of the belt tracking cylinder. Through this the belt trackingroller is not perpedicular to the belt anymore and the belt traverses back into the center.\n\nIf this is not sufficient and the belt traverses further the second sensor gets activated and the belt stops after an adjustable time.\n\nThe operation presuure of the belt tensioning can be regulated"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "UT1.800B01 - End position inlet side\nUT1.800B02 - Query conveyor belt\nUT1.800B03 - Query conveyor belt\nUT1.800B04 - End position inlet side\nUT1.800Y[MP]02 - Drive control roller\nUT1.800Y[MP]03 - Drive control roller"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.004.001.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "139447"
+                  }
+                },
+                {
+                  "id": "7BD9869F08DD4EABA4AB85EC8856D8C9",
+                  "title": "Belt tensioning",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The belt tensioning will tension the belt\n\nThe belt will be tensioned by pneumatic cylinders.\nOnly when the belt is tensioned it is allowed to run.\nThe belt tensioning pressure can be regulated."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "UT1.800Y[MP]52 - Drive tension roller\nUT1.800Y[MP]53 - Drive tension roller"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.004.001.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "138965"
+                  }
+                },
+                {
+                  "id": "18B7026F0A3944378514CFB37719B24F",
+                  "title": "Belt drive",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The belt drive  is a frequency controlled drive that controlles the belt speed."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "UT1.800M01 - discharge belt"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.004.001.003.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "51561"
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.004.001.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "779953"
+              }
+            },
+            {
+              "id": "F9ECA6CFE30748578FE88B8736B59F6D",
+              "title": "Thermo-Unit",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The Thermo-Unit supplies temperature-controlled process water to the consumer (TM T1-WC2 / WC1) with an adjustable supply temperature (typical range 15…90 °C).\nMain Components\n\nStorage tank with integrated electric heating cartridge (E10, on/off control with hysteresis)\nCirculation pump (M[PF]10)\nPlate heat exchanger for cooling (primary side: chilled water CW ? CWr)\nWarm water distribution valve / bypass valve (K[VM]70, 3-way diverting valve, electrically actuated)\nChilled water distribution valve (K[VM]71, 3-way diverting valve, electrically actuated)\nTemperature sensor PT100 (B10, located immediately downstream of the plate heat exchanger)\nMake-up / refill valve (K[VE]10)\nDrain valve (K[VE]80)\nLevel switch (B01)\n\nHydraulic Flow Path\nTank ? Pump ? Plate heat exchanger (cooling side) ? Warm water distribution valve (K[VM]70) ?\neither ? Consumer (VKS_V / VKS_R)\nor ? Bypass line back to tank\nOperating Modes and Control Behavior\n\nHeating Mode (setpoint > actual value)\nChilled water distribution valve (K[VM]71) fully diverted to bypass / closed ? no cooling\nWarm water distribution valve (K[VM]70) modulates the bypass flow\n? higher bypass flow = more hot tank water returned ? temperature increases\n? Active control can only raise the temperature.\n? Decreasing the temperature is only possible passively (heat dissipation to consumer, natural losses, waiting).\n\nCooling Mode (setpoint < actual value)\nWarm water distribution valve (K[VM]70) fully open to consumer ? no bypass\nChilled water distribution valve (K[VM]71) modulates the chilled water flow through the plate heat exchanger\n? higher chilled water flow = increased cooling capacity ? temperature decreases\n? Active control can only lower the temperature.\n? Increasing the temperature is only possible passively (waiting).\n\n\nAdditional Functions\n\nUpon activation of the level switch (B01 – low level) the make-up valve (K[VE]10) opens automatically.\nManual / system-initiated tank draining is performed via the drain valve (K[VE]80) at the bottom of the tank."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                },
+                {
+                  "content_type": "text",
+                  "title": "Sensoren/Aktoren",
+                  "data": {
+                    "text": "K[VM]71 - Verteilventil Kaltwasser Thermo-Unit \nM[PF]10 - Warmwasserpumpe Thermo-Unit \nE10 - Heizelement Thermo-Unit \nB10 - Temperatur Thermo-Unit \nK[VM]70 - Verteilventil Warmwasser Thermo-Unit \nK[VE]80 - Drainageventil Thermo-Unit \nK[VE]10 - Nachfüllventil Thermo-Unit \nB01 - Niveauschalter Thermo-Unit"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.004.002.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "497233"
+              }
+            },
+            {
+              "id": "E98D5ED6E8274C7B8678718D14C11F5F",
+              "title": "Tempering unit  up to 90°C",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "Tempering of jacketed containers and product pipes is realised by means of tempering devices.\n\nThe tempering devices are autonomous with their own electrical supply. They are switched on individually at the device itself.\n\nThe outlet temperature can be adjusted up to 90°C.\n\nThey have a fill-up connection to be connected to Water and an overflow outlet that compensates for thermic dilatation.\n\nThe outlet and return connections to the equipment to be tempered are equipped with thermo-manometersto show both the outlet temperature and the temperature loss of the water after having traversed the respective loop."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.004.003.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "1199883"
+              }
+            },
+            {
+              "id": "95620FD83D51484CA0B438FA2C2BD400",
+              "title": "Pump block",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "Throughout the line, the product pumps follow an identical installation scheme.\n\nThey operate on the lobe pump principle, are manufactured by IPP, and feature infinitely adjustable speed via a frequency converter.\n\nThe pump head lid is equipped with a double-acting pneumatic cylinder that can retract to connect the suction and discharge sides of the pump head. \nThis feature serves as a safety measure against overpressure. Compressed air is applied to the closing side of the cylinder at a controlled pressure, acting as a spring. If overpressure occurs on the discharge side, the product pressure works against this \"spring,\" retracting the cylinder and connecting the suction and discharge sides, thereby stopping the pumping effect (internal bypass).\n\nThe cylinder can also be actively opened to make the pump fully permeable when circulating cleaning fluid (oil)."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                },
+                {
+                  "content_type": "text",
+                  "title": "Sensoren/Aktoren",
+                  "data": {
+                    "text": "DC1.810Y[VP]xx - Pump lid drive  \nDC1.810M[PF]10 - Day tank pump \nDC1.810B50 - Over-pressure probe Sieve-Day Tank pump \nDC1.810SP10 - Manometer Pressure of pump lid\nDC1.810VK70 - Drain pre day tank \nDC1.810B10 - Mass temperature post sieve pump \nDC1.810B70 - Level switch oiling system\nDC1.810VC40 - Pressure reducer pump lid\nDC1.810VK50 - discharge valve glycerine container"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "id": "C0718ED9B73C412B8B3415038608E1FD",
+                  "title": "Compressed air for glycerin lubrication of the pumps",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "In this system, the pneumatic springs of the pump lids must withstand high pressures of 10 bars or more due to the high viscosity of the mass. Therefore, the sealing and lubricating glycerine used for the mechanical seals of the product pumps must correspond to the pressure on the product side.\nAs the available pneumatic pressure is normally around 6–7 bars, a pressure booster is used to increase the pressure sufficiently.\nAs the consumption is negligible, the relatively loud pressure booster will not need to work permanently.\nIt is used centrally to distribute compressed air to the individual production pumps."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "DC1.810VC20 - Pressure booster Gylcerine \nDC1.xxxY[VE] - Compressed air valve for glycerine"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.004.004.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "563215"
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.004.004.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "979255"
+              }
+            },
+            {
+              "id": "AA01094A48114CCC847A1F559D847BD2",
+              "title": "Emergency Stops",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The Emergency stop buttons are located close to the machines to ensure an safe stop of the machine in case of an emergency"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.004.005.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            }
+          ],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.004.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "87A98A9E470F4BB4B25F2FC0E46E168D",
+          "title": "Machines",
+          "contents": [],
+          "children": [
+            {
+              "id": "825E4FD7F1114FF084A1975EB4A48C5C",
+              "title": "Sieve",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The sieve filters out particles from both the fresh material supplied to the system and the material returned from it.\n\nConsisting of a wire mesh disc, the sieve is put into vibration by an eccentric vibrator driven by a motor.\n\nThe machine has an outlet through which the filtered material leaves the system. This flows into a funnel and is then pumped downstream.\n\nThe filter residues leave the machine via a separate outlet.\n\nA reflective light sensor detects whether there is a constant flow at the residues outlet. If there is a constant flow, this indicates that the sieve is blocked, prompting the operator to switch on the sieve bypass and clean the sieve manually.\n\nThe bottom is jacketed and heatable."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                },
+                {
+                  "content_type": "text",
+                  "title": "Sensoren/Aktoren",
+                  "data": {
+                    "text": "DC1.708M[FM]30 - Vibratory sieve\nDC1.708B10 - Overflow filter residue"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.001.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "856543"
+              }
+            },
+            {
+              "id": "6CE5DF1233D442F9B03F8B7A519BFB28",
+              "title": "Day tank",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The day tank has a capacity of 3.000 litres.\nIt has its own control box.\nA slow stirrer prevents the contents from settling, and the walls are jacketed and heated by water.\nElectrical heating cartridges heat the tempering water.\nA water pump circulates the tempering water.\nA PT100 thermometer monitors the mass temperature, is involved in the heating system, and forwards its value to the kitchen control (DC1).\nA continuous level probe sends its reading to the kitchen control, which then requests fresh mass from the customer-side melting system."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                },
+                {
+                  "content_type": "text",
+                  "title": "Sensoren/Aktoren",
+                  "data": {
+                    "text": "DC1.xxxB01 - Temperature day tank\nDC1.xxxB01 - Container level"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.002.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "625855"
+              }
+            },
+            {
+              "id": "B3607BA680DD4E1F94E687E3F297A27D",
+              "title": "Temperer TMT1000",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The TMT 1000 temperer is a chocolate tempering machine.\n\nIts nominal capacity is 1000 kg/h, but this varies greatly depending on the mass to be tempered, with differences of several hundred kg/h being common.\n\nIt is a screw tempering machine, meaning it has a rotor/stator system with screw-like structures on a cylindrical core. This acts as a propulsion system with a high-shear effect (which is necessary for tempering) and a low-volume cross-section that ensures good temperature transmission.\n\nThe system consists of two screws through which the mass passes consecutively. The first screw is divided into de-crystallisation and pre-cooling stages (AS and VKS). The second screw is divided into the cooling/crystallisation (KS) stage, where crystall seeds are formed, and the reheating section, where less stable and unwanted crystall forms are melted, leaving only the stable ones.\n\nFor the TMT 1000, two of these setups are united in one system. Each having a capacity of roughly 500 kg/h."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "id": "63F8BE8CFAE94634BF115543E0777E16",
+                  "title": "Connecting parts",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The connecting parts divide the incoming flow of detempered mass into two identical streams. These streams are then directed through the tempering sections and reunited into one main flow before exiting the machine.\nThis is achieved by diverting half of the main flow using a dosing pump.\n\nEach tempering section can be isolated using pneumatically operated butterfly valves. These valves are used for cleaning and draining the system.\n\nOn the outlet line, there is a valve with a dual function:\n1) sampling to test the tempering index of the mass. A button near the valve opens it.\n2) When the machine is drained, the valve acts as a venting valve."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "DC1.708B20 - Level switch  oiling system UT discharge pump\nTMT1.708Y[VP]40 - Inlet valve Temper 1 \nTMT1.708Y[VP]50 - Inlet valve Temper 2 \nTMT1.708Y[VP]xx - Pump lid drive  \nTMT1.708M[PF]10 - Temper pump  \nDC1.708SP10 - Manometer Pressure of pump lid\nDC1.708VC20 - Pressure reducer pump lid\nDC1.708VK20 - discharge valve glycerine container\nTMT1.708Y[VP]10 - Branching valve 2 Temper 2 to temper 2 \nTMT1.708VK80 - Temper heel removal  \nTMT1.708Y[VP]20 - Discharge valve Temper 1 \nTMT1.708Y[VP]30 - Discharge valve Temper 2 \nTMT1.708VP10 - Venting valve temper \nTMT1.708_20 - Manually open sampling valve"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.003.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "966097"
+                  }
+                },
+                {
+                  "id": "CD972F8EEC0E4056B655F1C50FE660E0",
+                  "title": "TMT500",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The first stage is the decrystallisation stage (DC stage), in which the mass is heated to melt the remaining crystals. The next stage is the pre-cooling stage, in which the mass is cooled to prepare for crystallisation. The next stage is crystallisation (KS stage), in which the crystals are formed in the mass. The final stage is the reheating stage (AS stage), in which the mass is reheated to melt the unstable crystals in the mass. From here, the mass is then fed into the enrobing machine."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.003.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "1081289"
+                  }
+                },
+                {
+                  "id": "97878BA9E8D04C7EA2CCD7CBFB9CB19A",
+                  "title": "Correction procedures",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "Some materials are more likely to freeze inside the tempering machine.\nAn increase in viscosity indicates that crystallisation may occur soon. Viscosity is related to the electrical current of the screw drives.\nThis current is monitored, and once it reaches a predefined value, different strategies are employed to prevent freezing. These strategies are applied consecutively in order of efficiency and time loss.¹\n\nThe first strategy is to increase the speed of the screws to the maximum (an empirical value of up to 90 Hz, limited by the drives' current).  Maintain this speed for a period of time t, then gradually return to the regular speed.\n(The feeding pump speed must be adjusted to match the speed of the screws.)\nIf the current is now within the normal range, the problem is solved.\nDuring this process, the line remains in regular production mode.\n\nIf the problem has not been resolved after the speed-up procedure, the control system will suggest de-crystallising the temperer.\nThe line will switch the enrober to bypass mode to prevent it from using the mass from the temperer.\nThe thermo-units of the screws will switch to de-crystallising/de-tempering at 50°C. All thermo-unit bypasses will be closed, reaching the maximum heating capacity.\nOnce the thermometers on the screws indicate that the target temperature has been reached, two options are available:\nEither the temperer will restart the tempering control loops automatically, or it will ask the operator if the parameters need to be changed in advance.\n\nThe control then starts tempering. Once the set values have been reached, the operator is notified to sample the mass and resume production by switching the enrober into production mode.\n\nStep 3: if even step 2 fails, then the line is stopped and the screws need to be disassembled and cleaned manually."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.003.003.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.003.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            },
+            {
+              "id": "8EF7DB359CF448B4A17B480166C8F74B",
+              "title": "Enrober UT",
+              "contents": [],
+              "children": [
+                {
+                  "id": "CC68470E8949482FBD34298F1F99726E",
+                  "title": "Mass flow",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The chocolate mass is fed to the enrober chocolate trough. From there it is pumped to a diverting system of three branches.\n- a return flow to the external detempering/tempering installation.\n- the enrobing station\n- the bottoming station\n\nAt the enrobing and bottoming stations the chocolate is applied to the products to enrobe. Residual chocolate drips either directly back into the chocolate trough or on its way along the wire belt, the return plate and back to the trough.\n\nIn the trough the retruned chocolate and fresh chocolate get mixed and pumped back into the system."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.004.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                },
+                {
+                  "id": "F4DDAADBA4384B33AAC3F16111836A7F",
+                  "title": "Enrober - fix part",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The enrober consists of fix and mobile parts.\nThe fix parts are mounted in the frame of the machine. They are described hereafter."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "id": "5417A14FAC154FECB883CD49BD2FFE27",
+                      "title": "Enrober station",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The enrober station creates an even flow of chocolate  over the product.\n\nThe chocolate is pumped through holes in a feeding pipe on to a distributor. The holes in the feeding pipe are cleaned via an pneumatic actuator.\n\nThe distributer is heated. The degree of heating can be adjusted.\n\nThe enrober station can be moved in two axis.\n\nIt can be moved with two drives up/down and down-/upstream."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "UX1.200B01 - Stroke position\nUX1.200B02 - Motor position\nUX1.200B02 - Pressure switch CA\nUX1.200E11 - Heater Enrobing station\nUX1.200M01 - Horizontal stroke drive\nUX1.200M02 - Lifting / lowering drive\nUX1.800Y02 - Rotary valve pipe cleaning"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.002.001.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "878515"
+                      }
+                    },
+                    {
+                      "id": "F2C3D197F3F04FFF82AC3EE1981CA07F",
+                      "title": "Blower station",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "An even flow of air is blown over the products to reduce the enrobing thickness. The unit consists of a fan and a nozzle that spreads over the width of the products flow.\n\nSpeed and quantity of air are adjusted via the fan speed and its frequency converter.\n\nThe height of the nozzle is adjusted via a motor, the adjustment in working direction is done manually.\n\nA temperature probe indicates the temperature of the blowing air on the HMI."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "UX1.200B04 - Motor position\nUX1.200B51 - Blower  temperature\nUX1.200M[PV]03 - Fan\nUX1.200M04 - Fan lifter motor"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.002.002.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "744505"
+                      }
+                    },
+                    {
+                      "id": "BE7A9CB6A6F34E0A90CEE4FBD54186AD",
+                      "title": "Room heating",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "To prevent chocolate built-up the air in the enrobing chamber is heated.\nThis task is performed by a fan that blows air through electrically heated heat exchangers.\n\nThe heaters are controlled by a temperature probe that measures the air in the enrobing chamber.\n\nAn additional temperature probe acts as maximum limiter to switch off the heaters for a pre-defined temperature.\n\nThe air speed is controlled via the frequency converter of the fan.\n\nThe air is filtered prior to being processed."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "UX1.700B01 - Room temperature\nUX1.700B02 - Temperature limiter\nUX1.700E01 - Room air heating\nUX1.700M[PV]01 - fan"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.002.003.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "796543"
+                      }
+                    },
+                    {
+                      "id": "65DC7CC09115434AB5D58D3CD50DBA16",
+                      "title": "Emergency Stops",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The enrober is equipped with an emergency shut-off button at each corner."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.002.004.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "677367"
+                      }
+                    }
+                  ],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.004.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                },
+                {
+                  "id": "6F8B9868778B45A4938A78F3937E69B3",
+                  "title": "Wire belt System",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The wire belt system is a wire belt conveyor that transports the products to enrobe through the enrober.\n\nIt can be moved out of the actual enrober to allow for instance a fast product change (different chocolate) by using another wire belt table.\n\nIt is designed to:\n- allow the chocolate to drip trough the table to get re-circulated\n- remove in a controlled manner eccess chocolate from the sides and the bottom, as well as the chocolate tail when transfering to the attached cooling tunnel.\n- avoid chocolate built-up"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "id": "6DE716AD25EE4E5291C9BB74DCE6DD88",
+                      "title": "Belt drive and heating",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The belt is driven by an electrical motor. Its speed is infinetely adjustable via a frequency converter.\n\nThe inlet and the outlet bar, as well as the side bars are heated by means of electrical heating elements."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "UX1.800M01 - Wire belt drive\nUX1.807E01 - Heating inlet plate\nUX1.807E03 - Bars heating\nUX1.807E08 - Heating discharge bar"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.003.001.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "401655"
+                      }
+                    },
+                    {
+                      "id": "EB018CBA81D54D6AA473BE2F3929A22E",
+                      "title": "Bottoming station",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The bottoming station consists of roller, half immersed in a trough filled with chocolate. The motor driven roller lifts the chocolate by friction.\nThe so lifted chocolate is a wall whose height is adjustable."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.003.002.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "211903"
+                      }
+                    },
+                    {
+                      "id": "D5AB6B7905B848F880C1E53B4F75E4C5",
+                      "title": "Bottom support bars, vibrator, licking rollers and belt lifter",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "A pair of undriven bars underneath the belt supports the wire mesh belt and \"lick\" amount of chocolate off the products bottoms. The bars are heated.\n\nThe belt vibration unit, is heatable and the virbation is manually adjustable with an excentric roller. \nIt is a system of 3 bars - equuipped with heaters - wich are integraded in a frame which is moving over one wheel with two profiled wheels. The wheel is driven by an electric motor. The speed of the motor is infinetely adjustable via frequency converter.\nThe belt vibrator wheel is equipped with an water tempering system, fed by the wire system.\n\nThe vibration unit ist follws by two electrical driven licking rollers. This rollers \"lick\" the excess chocolate off the products bottoms. The efficiency of these licking rollers can be regulated via the speed - using a frequency converter - and via the adjustable distance to the wire mesh belt.\n\n \nThe wire mesh belt lift is manually adjustable and electrically heated.\n\nUnder the licking rollers are electrically heated scrapers which remove the excess chocolate from the licking rollers."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "UX1.800M03 - Vibration device\nUX1.807E04 - Heating bottom licking roller\nUX1.807E04 - Heating bottom licking roller\nUX1.807E05 - Heating vibr. Station Width adjustment\nUX1.807E06 - Heating excenter belt lifter\nUX1.807E07 - Heating belt lifter\nUX1.xxxE0x - Heating excenter vibration station"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.003.003.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "286509"
+                      }
+                    },
+                    {
+                      "id": "1F1D0FB9B96747E5B6F97CEFDA343989",
+                      "title": "Node 1F1D0FB9B96747E5B6F97CEFDA343989",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "For additional removing of chocolate from the bottom of the products, the machine is equipped with a three driven rollers, two of then runs againts the product flow (one in running dicrection) and scrape off the chocolate.\nThe rollers are indirect electrically heated."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.003.004.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "160055"
+                      }
+                    },
+                    {
+                      "id": "A487BE7E229745258FEA31AD132C002A",
+                      "title": "Return plate",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The chocolate dripping through the wire mesh belt falls onto the return plate, from which it is led to the chocolate through.\nThe plate is equipped with individual electric heating elements as well as water tempering system - installed in the trough installation."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "UX1.807E11 - Side heating\nUX1.807E12 - Side heating\n\nUX1.707E11 - Heating of decristallisation water\nUX1.P - Water circulation pump\nUX1.SP - Manometer\nUX1.V10 - Mixing valve tempering water"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "id": "0537AE47964D481F8B11431320582650",
+                          "title": "Water tempering return plate",
+                          "contents": [
+                            {
+                              "content_type": "text",
+                              "title": "Content 1",
+                              "data": {
+                                "text": "The water tempering system is built in the trough trolley. It supplies tempered water to the return plate via hoses and fast couplers.\n\nIt consists of:\n- a water tank, filled by the tempering system of the trough trolley.\n- a heating element in the tank\n- a water circulation pump\n- a pressure compensation tank\n- a venting installation with manometer\n- a drain"
+                              },
+                              "renderer": "text_blocks",
+                              "metadata": {
+                                "audience": "",
+                                "lang": "",
+                                "main": "",
+                                "status": "",
+                                "version": ""
+                              }
+                            }
+                          ],
+                          "children": [],
+                          "metadata": {
+                            "print": "",
+                            "status": "",
+                            "source_pathPos": "001.005.004.003.005.001.",
+                            "source_depth": 6,
+                            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                            "source_len_img": "319295"
+                          }
+                        }
+                      ],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.003.005.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "133665"
+                      }
+                    },
+                    {
+                      "id": "64FDFBD36DBE434B801A277ED844ECB9",
+                      "title": "De-tailing shaft",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The de-tailing shaft is placed at the gap between wire mesh conveyor and the infeed to the following cooling tunnel.\nTurning at high speed it tears off the chocolate tail that the transfer between the belts would create.\nThe excess chocolate is lead to the return plate.\n\nThe de-tailing shaft is electrically heated."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.004.003.006.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "398455"
+                      }
+                    }
+                  ],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.004.003.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "716551"
+                  }
+                },
+                {
+                  "id": "8B00751C52A644F8ADBBB3876A3DB9E6",
+                  "title": "UT mass through",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The chocolate trough is machine part that receives the chocolate from outside, circulates it to the enrobing station(s) and the bottoming station(s) and collects the surplus mass that has not coated the products. This latter backflow is pumped back into the system.\nA part of it is pumped back to the chocolate tempering installation.\nThe ratio recirculation to retempering is defined by the speed of the return pump.\n\nThe chocolate trough is executed as trolley. It can be moved out of the enrober, specially for quick mass change-over.\n\nThe chocolate trough consists mainly of a trough with a mixing and transport screw (with frequency converter drive), a circulation pump that extracts the mass from the trough, the circulation pipe work to the enrobing and bottoming stations, the chocolate return pump and two water tempering circuits."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "UX1.707B11 - Water temperature\nUX1.707B12 - Mass temperature\nUX1.707B31 - Water temperature\nUX1.707E11 - Heating of decristallisation water\nUX1.707E31 - Heating of tempering water\nUX1.707M[P]10 - Water pump DC\nUX1.707M[P]30 - Water pump trough\nUX1.707M[VM]31 - Mixing valve cooling water\nUX1.708M[P]20 - Return pump\nUX1.708M10 - Mixer and curtain pump drive\nUX1.P - Curtain pump\nUX1.V1 - Throttle CW\nUX1.V10 - Switch to: only bottomin/bottoming + enrobing\nUX1.V11 - Shut-off valve for 2n curtain\nUX1.V11 - Shut-off valve for 2n curtain"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.004.004.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "2030467"
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.004.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            },
+            {
+              "id": "35488BAAFCB6456E929E96B2EB15188A",
+              "title": "Decrystalizer",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "The decrystallizer reheats the mass coming from the process (the enrober) to melt all the crystals and allow for a clean re-tempering."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "id": "5B64DB0D82594AE29D3361EE4D6DC69F",
+                  "title": "Description",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The de-crystalliser consists of a piggable jacketed pipe arranged in loops. This loop arrangement makes it possible to fit the required heat exchanger length into a compact, manageable frame. The frame is divided into four sections:\n\nthe room containing the straight jacketed pipes\ntwo rooms at the ends of the pipe cluster, housing the non-jacketed bends\na utility room underneath the others, containing the thermo-units\n\nThe bends are not jacketed to allow easy dismantling in case the product mass freezes. To heat these bends, the straight-pipe room is equipped with a ventilation system consisting of a fan that blows air over electrical heating cartridges. This heated air is directed from the bottom into the bend rooms, exits them at the top towards the straight-pipe room, and returns in a closed loop to the fan.\n\nTemperature is controlled using measurements from thermometers located in the side rooms (bend rooms). The lowest measured temperature determines the set point. If this lowest temperature cannot be reached within a predefined time (for example, because doors were left open), the control system raises an alarm (indicating that the product could freeze in the bends).\n\nThe temperature control is a 2-point (on/off) controller with hysteresis. An additional thermometer in the fan housing prevents overheating of the heating cartridges.\n\nNominal size: DN65\nEffective length: xx m\nLoops: 4"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "DC1.707B10 - Left room temperature\nDC1.707B11 - Right room temperature\nDC1.707B12 - Outgoing temperature\n\nDC1.707E11 - Room air heater\nDC1.707E13 - Room air heater\nDC1.707E14 - Room air heater\nDC1.707E12 - Room air heater\n\nDC1.707M[PV]10 - fan"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.005.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "1406039"
+                  }
+                },
+                {
+                  "id": "1AD03CF1E5CB4A6196B91DDA4E1EF59F",
+                  "title": "Thermo-units",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The utility room houses 4 thermo-units\n\n1) for the downstream pipe\n2) for tempering the 2 bottom loops\n3) for tempering the 2 top loops\n4) for the upstream pipe"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "DC1_tu.117K[VE]10 - Refill valve Thermo-Unit D1\nDC1_tu.117B01 - Level switch Thermo-unit D1\nDC1_tu.117K[VM]70 - Hot water mixing valve Thermo-Unit D1\nDC1_tu.117B10 - Temperature Thermo-Unit D1\nDC1_tu.117M[PF]10 - hot water pump Thermo-Unit D1\nDC1_tu.117E10 - Heating element Thermo-Unit D1\nDC1_tu.117K[VE]80 - Drain valve Thermo-Unit D1\nDC1_tu.717M[PF]10 - hot water pump Thermo-Unit D2\nDC1_tu.717K[VE]10 - Refill valve Thermo-Unit D2\nDC1_tu.717E10 - Heating element Thermo-Unit D2\nDC1_tu.717B01 - Level switch Thermo-unit D2\nDC1_tu.717K[VM]70 - Hot water mixing valve Thermo-Unit D2\nDC1_tu.717B10 - Temperature Thermo-Unit D2\nDC1_tu.717K[VE]80 - Drain valve Thermo-Unit D2\nDC1_tu.727K[VE]10 - Refill valve Thermo-Unit D3\nDC1_tu.727B01 - Level switch Thermo-unit D3\nDC1_tu.727K[VM]70 - Hot water mixing valve Thermo-Unit D3\nDC1_tu.727B10 - Temperature Thermo-Unit D3\nDC1_tu.727M[PF]10 - hot water pump Thermo-Unit D3\nDC1_tu.727E10 - Heating element Thermo-Unit D3\nDC1_tu.727K[VE]80 - Drain valve Thermo-Unit D3\nDC1_tu.817B10 - Temperature Thermo-Unit D4\nDC1_tu.817M[PF]10 - hot water pump Thermo-Unit D4\nDC1_tu.817K[VE]10 - Refill valve Thermo-Unit D4\nDC1_tu.817E10 - Heating element Thermo-Unit D4\nDC1_tu.817B01 - Level switch Thermo-unit D4\nDC1_tu.817K[VM]70 - Hot water mixing valve Thermo-Unit D4\nDC1_tu.817K[VE]80 - Drain valve Thermo-Unit D4"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.005.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "658141"
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.005.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            },
+            {
+              "id": "BA7924A60ABF4ABC8E81E0653BBB226B",
+              "title": "Cleaning Oil Tanks",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "There are two tanks for storing the oil used to clean the system.\n\nThe tanks are identical.\n- 550 litres\n- jacketed and heatable by water up to 3 bar\nThey have slow anchor-type agitators with frequency converter control.\nDischarge is via a double-actuated butterfly valve.\n\nTank #1 handles fresh, melted palm oil. Tank #2 is the working tank, or the 'dirty' tank.\nThe idea behind the two tanks is that, at the end of the cleaning procedure, the used oil is kept in the dirty tank (#2) for the next cleaning. The fresh oil tank provides fresh oil for cleaning and never receives contaminated oil. All returns from the system go to the dirty tank.\nTherefore, the cleaning procedure always starts with dirty oil. This oil is then discarded into an appropriate external tank. Fresh oil is then pumped through the system and lands in the dirty tank. This oil is used for the final cleaning and flushing.\nOnce the procedure is complete, the fresh oil tank can be refilled.\n\nThe oil is pumped through the system by a lobe pump. Unlike product pumps, it does not require dedicated lubrication for its mechanical seal. The pumped fat is sufficient for the task.\n\nManual drain valves before and after the pump help to empty the pipes after use.\nA dedicated drain can be connected either to a fixed pipe or, as required, to a hose to discard the used oil.\n\nPressure and temperature probes help to monitor conditions after the pump. Any deviations are signalled to the operator via the HMI. Overpressure (value to be defined), stops the pump."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                },
+                {
+                  "content_type": "text",
+                  "title": "Sensoren/Aktoren",
+                  "data": {
+                    "text": "DC1.910M[PF]10 - Oil pump  \nDC1.910B40 - Over-pressure probe Oil pump \nDC1.910VK81 - Drain post oil pump \nDC1.910VK82 - Drain dirty oil \nDC1.910VK80 - Drain pre oil pump \nDC1.910B10 - Mass temperature post oil pump \nDC1.910AT10 - Tempering device oil containers \nDC1.910SU40 - Thermomanometer tempering device \nDC1.910SU30 - Thermomanometer tempering device \nDC1.910M[RW]30 - Agitator oil container 2\nDC1.910Y[VP]20 - Discharge valve oil container  2\nDC1.910B20 - Level control oil container 2\nDC1.910VS10 - Over-pressure protection valve   \nDC1.910B30 - Level control oil container 1\nDC1.910Y[VP]10 - Discharge valve oil container  1\nDC1.910M[RW]20 - Agitator oil container 1\nDC1.910SU10 - Thermomanometer left oil tank \nDC1.910SU20 - Thermomanometer right oil tank \nDC1.910Y[VP]40 - Refill oil container 1"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.006.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "1122235"
+              }
+            },
+            {
+              "id": "02925D2D8DBA4A3FAB3048DE5E1BD77E",
+              "title": "Pigging system",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "A pigging system has been added to the line because the CBR mass it handles has a tendency to solidify, requiring an enhanced cleaning system. Furthermore, a large proportion of residues in the pipework can be recovered.\n\nThe system comprises a pig launching station, a receiving station and special valves that enable the pig to pass through. There are also seat valves that divert the mass flow to inaccessible machinery and sensors that indicate the pig's position.\n\nThe cleaning sequence is described in the separate document, 'Paths and Circuits'."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "id": "950EDF0655A34827AFB5E8D297A7A0B6",
+                  "title": "Launch station",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The pig launch station is connected to the product line via a seat valve.\n\nIt has a funnel from which the pig can be removed. The funnel is equipped with a sensed cover that prevents the pigging system from operating when the cover is open.\n\nWhen not in use, the launch station is disconnected from the product line by means of a ball valve.\n\nA pneumatic cylinder pushes the pig into position before it is pushed through the product line by the propellant (in this case oil).\n\nVarious position switches report the pig's location to the system so that the cleaning sequence can be automated.\n\nA pressure sensor is used to protect the system against overpressure.\n\nA venting container is used to remove air from the system and separate it from the cleaning oil when the pig returns to the launch station.\n\nA maximum level switch signals to the control system that the container is full of oil and needs to be emptied."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "DC1.929B14 - Pressure probe  \nDC1.929B13 - Position switch  \nDC1.929Y[VP]02 - full-bore pigging valve  \nDC1.929Y[VP]03 - Product inlet in piggable line  \nDC1.929B20 - Level switch aerating station \nDC1.929Y[VP]11 - Drain aerating station  \nDC1.929Y[VP]04 - Oil inlet in sending station  \nDC1.929Y[VP]01 - Pig pusher  \nDC1.929B10 - Position switch pig removal station \nDC1.929Y[VP]10 - Drain sending station  \nDC1.929B11 - Position switch  \nDC1.929B12 - Position switch"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.007.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "435655"
+                  }
+                },
+                {
+                  "id": "1976701C13AA458EBA00DF0E18A8E1F2",
+                  "title": "Receiving station",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "During pigging, the pig propels the residual product through the pipeline.\nThe displaced product is routed via the seat valve to the day tank.\n\nWhen the pig approaches the receiving station and is detected by the sensor, the butterfly valve opens to allow the pig to enter its designated parking position.\n\nOnce the pig has reached the parking position, it is mechanically stopped by the butterfly valve. The butterfly valve then closes the pipeline outlet, isolating the receiving section.\n\nAfter closure of the butterfly valve, the oil phase entering the system is diverted at the seat valve into the product line. To prevent contamination of the product stored in the day tank, the switching valve above the day tank changes over to the oil tank.\n\nAt the end of the cleaning sequence, compressed air is applied from the receiving side to return the pig to the launch station."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    },
+                    {
+                      "content_type": "text",
+                      "title": "Sensoren/Aktoren",
+                      "data": {
+                        "text": "DC1.919Y[VP]10 - Oil return after sieve  \nDC1.919Y[VP]30 - Branch valve to filter  \nDC1.919B20 - Pig detection pre reception \nDC1.919B30 - Pig detection pre reception \nDC1.919B10 - Pig detection sieve \nDC1.919VR10 - Check valve  \nDC1.919Y[VP]20 - Ball valve  \nDC1.919VK10 - Throttle Pig Air"
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.007.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "238927"
+                  }
+                },
+                {
+                  "id": "A09C2D007C774A9797D052C67C5B05E8",
+                  "title": "Piggable line",
+                  "contents": [
+                    {
+                      "content_type": "text",
+                      "title": "Content 1",
+                      "data": {
+                        "text": "The piggable product line is designed as a closed circuit.\nIt runs from the day tank through the tempering machine, the coating machine and the decrystalliser, and returns to the screen.\n\nDuring pigging, equipment that cannot be traversed by the pig is hydraulically bypassed.\nThis applies to:\n\nthe tempering machine\n\nthe coating machine\n\nthe screen\n\nEach bypass line reconnects to the main pipeline downstream of the respective machine.\n\nThe bypasses are equipped with seat valves at the feed and return connection points to the main line.\nBetween these two connection points, the bypass line is isolated by ball valves."
+                      },
+                      "renderer": "text_blocks",
+                      "metadata": {
+                        "audience": "",
+                        "lang": "",
+                        "main": "",
+                        "status": "",
+                        "version": ""
+                      }
+                    }
+                  ],
+                  "children": [],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.007.003.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": "1203475"
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.007.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            },
+            {
+              "id": "84DE135D49B54747AFB9D8C3F8CB2A29",
+              "title": "Cooling tunnel CKV",
+              "contents": [],
+              "children": [
+                {
+                  "id": "00FF7CAC37784F51B85CD68A8930229E",
+                  "title": "Main functions",
+                  "contents": [],
+                  "children": [
+                    {
+                      "id": "18FABDF2388E4ED0A9892B11FE9D7E4C",
+                      "title": "Transportbelt",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The transport belt transport the Product\n\nIt has an manualy retractable edge on the infeed.\n\nThe infeed of the belt is equiped with two and the out feed with one belttracking. \nSee General descriptions/Transportbelt/Belttracking\n\nThe belt is equiped with an pneumatic belt tensioning. \nSee General descriptions/Transportbelt/Belttensioning\n\nThe belt tensioning is also equiped with two Reed-Contacts to detect the Position of the cylinder.\n\nThe belt is equiped with an belt drive. \nSee General descriptions/Transportbelt/Beltdrive\n\nThe belt drive is equiped with LOTO. See See General descriptions/LOTO"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "CKV1.B52.1 - Belt tensioner 1st pt.\nCKV1.B52.2 - Belt tensioner 2nd pt.\nCKV1.02S02 - Emergency stop left\nCKV1.02S03 - Emergency stop right\nCKV1.02S12 - Emergency stop left\nCKV1.02S13 - Emergency stop right\nCKV1.800B01 - Limit switch-off left 1\nCKV1.800B02 - Belt Edge Control Left 1\nCKV1.800B03 - Belt Edge Control Right 1\nCKV1.800B04 - Limit switch off right 1\nCKV1.800B11 - Limit switch-off left 2\nCKV1.800B12 - Belt Edge Control Left 2\nCKV1.800B13 - Belt Edge Control Right 2\nCKV1.800B14 - Limit switch-off right 2\nCKV1.800B31 - Limit switch-off left 3\nCKV1.800B32 - Belt Edge Control Left 3\nCKV1.800B33 - Belt Edge Control Right 3\nCKV1.800B34 - Limit switch off right 3\nCKV1.800M01 - Belt drive cooling tunnel\nCKV1.800Y[MP]02 - Belt Edge Control Left 1\nCKV1.800Y[MP]03 - Belt Edge Control Right 1\nCKV1.800Y[MP]12 - Belt Edge Control Left 2\nCKV1.800Y[MP]13 - Belt Edge Control Right 2\nCKV1.800Y[MP]32 - Belt Edge Control Left 3\nCKV1.800Y[MP]33 - Belt Edge Control Right 3\nCKV1.800Y[MP]52/53 - Belt tensioner: ON / OFF\nCKV1.800Y[MP]52/53 - Belt tensioner: ON / OFF"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.008.001.001.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "1972483"
+                      }
+                    },
+                    {
+                      "id": "B97AA763282E4FE4B224050B9C04259E",
+                      "title": "Cooling 1",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The cooling conditions the product so that it has the rigth temperatur.\n\nThe main chilled water supply is equipet with an shutoff valve to prevent water flow through the cooling circuit when the cabinet is switched off.\n\nThen the chilled water is split in to the bottom and air cooling cirquit.\n\nUnder the Pump unit is an chilled water leak sensor."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "WRC1.710Y[VE]10 - Cooling water inlet\nWRC1.710B40 - Signal water leak"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "id": "9983A2D16E0E47128C2798E4D46AD1D8",
+                          "title": "Air cooling",
+                          "contents": [
+                            {
+                              "content_type": "text",
+                              "title": "Content 1",
+                              "data": {
+                                "text": "The air cooling regulates the temperature of the air over the product\n\nThe water cirquit has it own water pump.\n\nThe temperatur is measured with an temperature sensor.\n\nIf no cooling is needed all the water flows through an check valve.\n\nIf cooling is needed the three way valve will open the flow in the direction of the cooling cirquit.\n\nThe water flows through a water/air heatexchanger\n\nThe process air flows through a filter.\n\nAn pressure differential sensor messures the pressure drop over the filter is a trashhold is exeeded a warning is given to change the filter.\n\nThen the airs passes the heatexchanger and flows through an mist eliminator.\n\nOptional the air is reheated to reduce the relative humidity.\n\nThe air passes the ventilators, the speed of the ventilator can be regulated.\n\nBefore the air enters the cooling hoods the tempertur and humidity is measured."
+                              },
+                              "renderer": "text_blocks",
+                              "metadata": {
+                                "audience": "",
+                                "lang": "",
+                                "main": "",
+                                "status": "",
+                                "version": ""
+                              }
+                            },
+                            {
+                              "content_type": "text",
+                              "title": "Sensoren/Aktoren",
+                              "data": {
+                                "text": "WRC1.700M[PV]01 - fan\nWRC1.710B01 - Pressure switch Air filter\nWRC1.710B20 - Temperature air cooling\nWRC1.710B23 - Humidity measurement 2\nWRC1.710E50 - Reheater 1\nWRC1.710E51 - Reheater 2\nWRC1.710E52 - Reheater 3\nWRC1.710M[P]21 - Circulation pump air cooling\nWRC1.710M[PV]02 - fan\nWRC1.710M[VM]20 - Mixing valve air cooling"
+                              },
+                              "renderer": "text_blocks",
+                              "metadata": {
+                                "audience": "",
+                                "lang": "",
+                                "main": "",
+                                "status": "",
+                                "version": ""
+                              }
+                            }
+                          ],
+                          "children": [],
+                          "metadata": {
+                            "print": "",
+                            "status": "",
+                            "source_pathPos": "001.005.008.001.002.001.",
+                            "source_depth": 6,
+                            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                            "source_len_img": "797287"
+                          }
+                        },
+                        {
+                          "id": "593CAF05C1E04A839D2937BED72F1057",
+                          "title": "Bottom cooling",
+                          "contents": [
+                            {
+                              "content_type": "text",
+                              "title": "Content 1",
+                              "data": {
+                                "text": "The bottom cooling regulates the temperature of the bottom plates under the transport belt.\n\nThe water cirquit has it own water pump.\nThe temperatur is measured with an temperature sensor.\nIf no cooling is needed all the water flows through an check valve.\nIf cooling is needed the three way valve will open the flow in the direction of the bottom cooling cirquit.\nThe water is flows through parralel bottom cooling plates"
+                              },
+                              "renderer": "text_blocks",
+                              "metadata": {
+                                "audience": "",
+                                "lang": "",
+                                "main": "",
+                                "status": "",
+                                "version": ""
+                              }
+                            },
+                            {
+                              "content_type": "text",
+                              "title": "Sensoren/Aktoren",
+                              "data": {
+                                "text": "WRC1.710B10 - Temperature floor cooling flow\nWRC1.710M[P]11 - Circulation pump floor cooling\nWRC1.710M[VM]10 - Mixing valve for floor cooling"
+                              },
+                              "renderer": "text_blocks",
+                              "metadata": {
+                                "audience": "",
+                                "lang": "",
+                                "main": "",
+                                "status": "",
+                                "version": ""
+                              }
+                            }
+                          ],
+                          "children": [],
+                          "metadata": {
+                            "print": "",
+                            "status": "",
+                            "source_pathPos": "001.005.008.001.002.002.",
+                            "source_depth": 6,
+                            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                            "source_len_img": "788755"
+                          }
+                        }
+                      ],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.008.001.002.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "1418671"
+                      }
+                    },
+                    {
+                      "id": "481CB1B7FABA42898C5B24CB588188F8",
+                      "title": "Cooling 2",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "This cooling tunnel is equipped with a second cooling section due the cooling tunnel length.\n\nIt is identical to the cooling section 1."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.008.001.003.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": ""
+                      }
+                    }
+                  ],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.008.001.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                },
+                {
+                  "id": "5E6F6E0DE0EB4D58BFE01E901DC8F588",
+                  "title": "Auxiliary functions",
+                  "contents": [],
+                  "children": [
+                    {
+                      "id": "93599623F4A84BA8800781DA172B7582",
+                      "title": "Additional dehumidifyer",
+                      "contents": [
+                        {
+                          "content_type": "text",
+                          "title": "Content 1",
+                          "data": {
+                            "text": "The dehumidifyer additionally drys the process air."
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        },
+                        {
+                          "content_type": "text",
+                          "title": "Sensoren/Aktoren",
+                          "data": {
+                            "text": "WRC1.710E70 - Drive of Munters"
+                          },
+                          "renderer": "text_blocks",
+                          "metadata": {
+                            "audience": "",
+                            "lang": "",
+                            "main": "",
+                            "status": "",
+                            "version": ""
+                          }
+                        }
+                      ],
+                      "children": [],
+                      "metadata": {
+                        "print": "",
+                        "status": "",
+                        "source_pathPos": "001.005.008.002.001.",
+                        "source_depth": 5,
+                        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                        "source_len_img": "174647"
+                      }
+                    }
+                  ],
+                  "metadata": {
+                    "print": "",
+                    "status": "",
+                    "source_pathPos": "001.005.008.002.",
+                    "source_depth": 4,
+                    "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                    "source_len_img": ""
+                  }
+                }
+              ],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.008.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": ""
+              }
+            },
+            {
+              "id": "6988C5811F6249B487F15FD6D0C26C9A",
+              "title": "Blow-off station",
+              "contents": [
+                {
+                  "content_type": "text",
+                  "title": "Content 1",
+                  "data": {
+                    "text": "Grid belt table GT\nGrid belt table GT (approx. 1.1 m long) for separating excess product\n\nBlower station\nBlower unit with adjustable slot nozzle for blowing off the products."
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                },
+                {
+                  "content_type": "text",
+                  "title": "Sensoren/Aktoren",
+                  "data": {
+                    "text": "GT1.X10 - Plug Blower GT1 @ GT1\nGT1.710M[P]02 - fan\nTSQ-U1.S10 - Button forward run TSQ-U1\nCT1.V120 - Junction box Connection GT1/TSU @ CT1 Outfeed\nTSQ-U1.S11 - Button backward run TSQ-U1\nGT1.810MP33 - Pneumatic virbrator manual control\nGT1.X10 - Plug GT1 @ Tunnel discharge\nGT1.02S12 - Emergency stop GT-HY left \nGT1.02S13 - Emergency stop GT-HY right\nGT1.800M01 - Drive Wiremeshbelt\nGT1.V64 - Junction box Connection GT1/TSU @ TSQ-U1\nTSQ-U1.800M01 - Drive Crossbelt bottom\nTSQ-U1.X10 - Plug TSQ-U1 @ GT1"
+                  },
+                  "renderer": "text_blocks",
+                  "metadata": {
+                    "audience": "",
+                    "lang": "",
+                    "main": "",
+                    "status": "",
+                    "version": ""
+                  }
+                }
+              ],
+              "children": [],
+              "metadata": {
+                "print": "",
+                "status": "",
+                "source_pathPos": "001.005.009.",
+                "source_depth": 3,
+                "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+                "source_len_img": "1149775"
+              }
+            }
+          ],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.005.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "B0962FAC527442449D312C658B39EF5C",
+          "title": "Production mode",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "Preparation steps:\n\n- The line is heated up to the decrystallisation temperature of 47°C by means of the thermo units and tempering devices.\nThe day tank is filled to a predefined level and its contents are completely melted.\n- The cleaning oil tanks are filled and their contents are completely melted.\n- The cold water supply is available at the required flow rate and temperature.\n- The glycerine lubrication containers are filled.\nProtective covers are closed.\nAll C.O.P. (clean out place) parts are mounted.\n\nStart circulation of the CBR mass. \nThe temperer is not bypassed.\nThe enrober is not bypassed, but the return pump is at maximum speed.\n\nTempering\nAfter a predefined time, tempering in the tempering machine switches to the actual tempering values.\nOnce the temperatures have stabilised, the mass can be sampled to determine its tempering index. If the result is valid, products can be fed into the line for coating."
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.006.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "A59851DE345741669A5D9863E0CCD9CD",
+          "title": "Cleaning mode",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "We define as cleaning mode. The operations perfomed at the end of production.\nCleaning of individual line parts during production or during small interruptions are described in the failure management section.\n\nThe sequence of cleaning steps is described in the document paths and circuits."
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.007.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": "564805"
+          }
+        },
+        {
+          "id": "D9A6117913FC4291AA1857B7C158A364",
+          "title": "Risk assessment",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "As per now only the lid of the pig funnel at the launching station is a crtitical place. Protection is realised by means of a position switch with sufficient performance level.\n\nPressures are otherwise monitored all over the system and pumps are equipped with spring loaded lids to prevent any over pressure."
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.008.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "04B68D65B81043FD8B58BF091F76D10B",
+          "title": "Error management",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "**CBR feed**\n\nThe temperature of the CBR falls below the value.\nThe mass is not introduced. A signal is sent to the operator. The system uses the volume of the day tank.\n\n**De-Crystallizer**\n\nThe pressure sensor of the enrober's discharge pump exceeds the value.\n\nPipeline or de-crystallizer is frozen.\nFind the location! How?\n–> Not possible\nPigging?\nIf the pressure is sufficient for pigging, then pig with CBR. To do this, briefly close the sampling points and open the passages.\nIf the pressure is not sufficient for this, production can be stopped and cleaning started.\n\n**Sieve**\n\nThe light reflector sensor at the outlet for filter residues continuously emits a signal. The filter will freeze shortly.\n\nThe signal alerts the operator that the filter needs to be removed for manual cleaning.\n\n**Pipe work**\n\nsee decyrstalliser\n\n**Temperer**\n\nThe current of the screw drives exceeds a certain value.\n\n1) Heat up the corresponding TMT half without circulation! Block off the path accordingly.\nIs this even possible from a process engineering point of view?\n\n2) ‘Decrystallise’ the entire temper current. The temper is bypassed. The branch pump continues to run. Nothing changes at the path switches. A circuit is created. Set the thermo units to the decrystallisation temperature and wait until all ‘TICs’ of the screws report this temperature and the current consumption of the screw drives has decreased accordingly.\nThen initiate temperature control and ask the operator to take a sample. The operator resumes temperature control in the production cycle.\nUT is monitored throughout the entire process. \nThere are two options:\n1) Close the feed and minimise discharge.\n2) Close the feed and discharge. The discharge pump receives the CBR flow and passes it on.\n\nQuestion: What happens to the residual mass in the temperature bypass when production restarts? The temperature is at DC level, but the sharpness is missing.\n\nOne of the TICs reports that it is not reaching its setpoint. –> Alarm\n\n**Enrober**\n\n\"Motor current rises – alarm.\nVisual inspection – decision to replace the grounding tray.\"\n\nThe large bypass is switched on, everything else continues as before.\n‘Check the mesh belt, replace the tray, restart.’\n\n**Oil containers**\n\nThe palm fat in the containers has not melted.\nThe slow-starting agitator drives are reporting excessive current.\nThe oil system must not be started up if any of the above conditions apply.\n\n**Pigging system**\n\nNo indications possible yet."
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.009.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        },
+        {
+          "id": "251742DAAA13479FBD4A3B50A13ABBE5",
+          "title": "Glossary",
+          "contents": [
+            {
+              "content_type": "text",
+              "title": "Content 1",
+              "data": {
+                "text": "P&ID - piping and instrumentation diagram\n\nAbbreviations of parts codes and abbreviations of interfaces are explained in the legend of the P&ID.\n\nConvention:\nThe full tag of a part has the form [machine code].[function group][electrical / mechanical part type code][number].\nFor better readability, in the descriptions we may omit the machine codes when they are clearly defined by the context. E.g., \"313Y[VP]80.1\" instead of \"BKK1.313Y[VP]80.1\".\n\n---\n\n\n## General Engineering & Documentation\n\n**Functional Specification (FS)**\nDocument describing how the equipment fulfills the project requirements based on the P&ID.\n\n**P&ID (Piping and Instrumentation Diagram)**\nDiagram showing process piping, valves, instruments and control elements.\n\n**Flowsheet**\nProcess overview diagram describing material flow.\n\n**Interface**\nDefined physical connection point between supplier equipment and client facility.\n\n**Tag**\nStructured identifier of equipment according to internal coding system\nFormat: `[MachineCode].[FunctionGroup][TypeCode][Number]`.\n\n**COP (Clean Out of Place)**\nRemovable components that are cleaned separately from the machine.\n\n**LOTO (Lock Out Tag Out)**\nSafety procedure preventing accidental startup during maintenance.\n\n---\n\n## Process & Product Terms\n\n**CBR (Cocoa Butter Replacement)**\nVegetable fat-based chocolate substitute processed in the line.\n\n**Mass**\nLiquid chocolate or CBR product circulating in the system.\n\n**Tempering**\nControlled heating/cooling process to generate stable cocoa butter crystals.\n\n**De-crystallisation**\nHeating step to melt existing crystal structures before re-tempering.\n\n**Re-tempering**\nReintroduction of correctly crystallised mass into production.\n\n**Tempering Index**\nQuality indicator measuring the crystallisation state of the chocolate.\n\n**Bottoming**\nApplication of chocolate to the underside of products.\n\n**Enrobing**\nCoating of products with chocolate via curtain flow.\n\n**Detempering**\nReheating tempered mass to remove crystal structure.\n\n---\n\n## Mechanical & Process Design Concepts\n\n**Piggable Line**\nPipeline designed to allow mechanical cleaning using a pig.\n\n**Pig**\nMechanical cleaning projectile pushed through pipelines to displace product or cleaning media.\n\n**Pigging**\nCleaning/recovery method using a pig to push residual product through the line.\n\n**Launch Station**\nStation where pig is inserted into the pipeline.\n\n**Receiving Station**\nStation where pig is captured after travelling through the pipeline.\n\n**Pig Detection Sensor**\nSensor detecting pig position in the pipeline.\n\n**Bypass Line**\nAlternative flow path used when a machine cannot be traversed by the pig.\n\n**Full-bore Pigging Valve**\nValve with unrestricted internal diameter allowing pig passage.\n\n**Spring-loaded Pump Lid**\nOverpressure safety design where pump head opens internally when pressure exceeds set value.\n\n**Internal Bypass (Pump)**\nConnection between suction and discharge inside pump during overpressure.\n\n**Double-acting Pneumatic Cylinder**\nCylinder with controlled force in both directions.\n\n**Lobe Pump**\nPositive displacement pump using rotating lobes.\n\n**Wire Mesh Belt**\nConveyor allowing chocolate to drip through.\n\n**Belt Tracking**\nAutomatic system keeping conveyor belt centered.\n\n**Belt Tensioning**\nPneumatic system maintaining belt tension.\n\n**Detaining Shaft (De-tailing shaft)**\nHigh-speed shaft removing chocolate tails at belt transfer.\n\n---\n\n## Thermal & Utility Systems\n\n**Thermo-Unit**\nSelf-contained hot water system for temperature control.\n\n**2-Point Control with Hysteresis**\nOn/off temperature control with defined switching differential.\n\n**Mixing Valve (3-way diverting valve)**\nValve mixing or diverting water flow to regulate temperature.\n\n**Reheater**\nHeating element used after cooling to control relative humidity.\n\n**Plate Heat Exchanger**\nHeat exchanger using plates for efficient thermal transfer.\n\n**Water Tempering System**\nClosed water loop for heating mechanical components.\n\n**Room Heating (Enrobing Chamber)**\nHeated air system preventing chocolate buildup.\n\n---\n\n## Cleaning System\n\n**Cleaning Oil (Palm Fat)**\nHeated fat used as cleaning medium for chocolate system.\n\n**Dirty Oil Tank**\nTank storing used cleaning oil for next cleaning cycle.\n\n**Fresh Oil Tank**\nTank storing unused cleaning oil.\n\n**Aerating Station**\nVent container separating air from oil during pig return.\n\n**Pressure Booster (Glycerine System)**\nDevice increasing pneumatic pressure for pump seal lubrication.\n\n**Glycerine Lubrication System**\nPressurised sealing system for mechanical pump seals.\n\n---\n\n## Cooling Tunnel\n\n**Air Cooling Circuit**\nConditioned air system regulating product temperature.\n\n**Bottom Cooling Circuit**\nCooling plates under belt for underside temperature control.\n\n**Mist Eliminator**\nDevice removing moisture droplets from process air.\n\n**Differential Pressure Sensor (Filter)**\nSensor detecting clogging of air filter.\n\n---\n\n## Risk & Safety\n\n**Emergency Stop (E-Stop)**\nEmergency shutdown button stopping machine immediately.\n\n**Performance Level (PL)**\nSafety integrity classification according to machinery directive.\n\n**Overpressure Probe**\nSensor detecting pressure above defined limit.\n\n---\n\n# Abbreviations\n\n* DC – Day tank / Decrystallizer control section\n* TMT – Tempering machine\n* UT – Enrober\n* CKV – Cooling tunnel\n* KS – Crystallisation stage\n* AS – Reheating stage\n* VKS – Pre-cooling stage\n* DN – Nominal pipe diameter\n* TIC – Temperature Indicating Controller"
+              },
+              "renderer": "text_blocks",
+              "metadata": {
+                "audience": "",
+                "lang": "",
+                "main": "",
+                "status": "",
+                "version": ""
+              }
+            }
+          ],
+          "children": [],
+          "metadata": {
+            "print": "",
+            "status": "",
+            "source_pathPos": "001.010.",
+            "source_depth": 2,
+            "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+            "source_len_img": ""
+          }
+        }
+      ],
+      "metadata": {
+        "print": "",
+        "status": "",
+        "source_pathPos": "001.",
+        "source_depth": 1,
+        "source_db": "Z:\\060_PORTFOLIO\\000_Übergreifend\\Funktionsbeschreibungen\\FS_FBC2_611392.accdb",
+        "source_len_img": ""
+      }
+    },
+    {
+      "id": "_settings",
+      "settings": {},
+      "children": []
+    }
+  ],
+  "metadata": {
+    "print": "",
+    "status": ""
+  }
+}

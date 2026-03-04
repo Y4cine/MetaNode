@@ -64,7 +64,7 @@ def restore_layout_from_settings(settings, right_area, main_window):
         right_area.content_stack.clear_panels()
     # Panels gemäß Filter-Settings anlegen
     filters = settings.get('filters', {})
-    num_panels = len(filters)
+    num_panels = max(1, len(filters))
     if hasattr(right_area.content_stack, 'ensure_panel_count'):
         right_area.content_stack.ensure_panel_count(num_panels)
     panels = right_area.get_all_content_panels() if hasattr(
