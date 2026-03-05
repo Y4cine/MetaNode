@@ -1,0 +1,65 @@
+{
+  "id": "root",
+  "title": "Neue Struktur",
+  "children": [
+    {
+      "id": "_settings",
+      "settings": {
+        "splitters": {
+          "main": [
+            0.38850771869639794,
+            0.611492281303602
+          ],
+          "content_panels": [
+            1.0
+          ],
+          "panel0_splitter": [
+            0.2719298245614035,
+            0.7280701754385965
+          ],
+          "main_recursive_splitter1": [
+            0.38850771869639794,
+            0.611492281303602
+          ],
+          "main_recursive_splitter1_child0_splitter1": [
+            0.25,
+            0.75
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1": [
+            1.0
+          ],
+          "main_recursive_splitter1_child0_splitter1_child0_splitter1_child0_splitter12": [
+            0.2719298245614035,
+            0.7280701754385965
+          ]
+        },
+        "filters": {
+          "panel0": ""
+        },
+        "global_filters": []
+      },
+      "children": []
+    }
+  ],
+  "metadata": {
+    "status": "",
+    "print": ""
+  },
+  "contents": [
+    {
+      "content_type": "text",
+      "title": "Neuer Inhalt",
+      "data": {
+        "text": ""
+      },
+      "renderer": "text_blocks",
+      "metadata": {
+        "audience": "",
+        "lang": "",
+        "main": "",
+        "status": "",
+        "version": ""
+      }
+    }
+  ]
+}
